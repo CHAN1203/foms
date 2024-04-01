@@ -1,18 +1,6 @@
 package view;
 
 public abstract class MainView {
-<<<<<<< HEAD
-	
-	protected abstract void printAction();
-	
-	public abstract void viewApp();
-	
-	public MainView() {
-		
-	}
-	
-	protected void printBreadCrumbs(String breadcrumb) {
-=======
     /**
      * Abstract method for view menu
      */
@@ -35,7 +23,6 @@ public abstract class MainView {
      * @param breadcrumb breadcumbs description
      */
     protected void printBreadCrumbs(String breadcrumb) {
->>>>>>> 4d30621f56df80bf895e8dc787741f37b7fbd288
         String spaces = String.format("%" + (105 - breadcrumb.length()) + "s", "");
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
@@ -43,9 +30,5 @@ public abstract class MainView {
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
-<<<<<<< HEAD
-}
-=======
     
 }
->>>>>>> 4d30621f56df80bf895e8dc787741f37b7fbd288
