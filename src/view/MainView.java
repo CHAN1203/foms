@@ -1,5 +1,5 @@
 package view;
 
-public class MainView {
-
+public abstract class MainView {
+	abstract public void printView();
 }
