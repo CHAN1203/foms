@@ -9,7 +9,7 @@ public class StaffLoginView extends MainView{
 	}
 	
 	@Override
-	protected void printAction() {
+	protected void printActions() {
 		// TODO Auto-generated method stub
 		printBreadCrumbs("Fast Food App View > Login View");
 	}
@@ -19,7 +19,7 @@ public class StaffLoginView extends MainView{
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		printAction();
+		printActions();
 		
 		
 	}

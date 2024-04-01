@@ -7,7 +7,7 @@ public class CustomerView extends MainView{
 	}
 
 	@Override
-	protected void printAction() {
+	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View");
 		System.out.println("What would you like to do ?");
         System.out.println("(1) Create a Guest");

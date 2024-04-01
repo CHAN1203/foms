@@ -14,7 +14,7 @@ public class FastFoodAppView extends MainView{
 		staffLoginView = new StaffLoginView();
 	}
 	@Override
-	protected void printAction() {
+	protected void printActions() {
 		printBreadCrumbs("Fast Food App View");
         System.out.println("Who you like to cotinue as?");
         System.out.println("(1) Customer");
@@ -26,10 +26,10 @@ public class FastFoodAppView extends MainView{
 	public void viewApp() {
 		Scanner sc = new Scanner(System.in);
 		
-		printAction();
+		printActions();
 		int choice = sc.nextInt();
 		do {
-			printAction();
+			printActions();
 			choice = sc.nextInt();
 			switch(choice) {
 				case 1:
