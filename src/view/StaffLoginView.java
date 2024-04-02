@@ -21,7 +21,6 @@ public class StaffLoginView extends MainView{
 		
 		printActions();
 		
-		
 	}
 	
 }

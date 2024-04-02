@@ -2,6 +2,8 @@ package view;
 
 import java.util.*;
 
+import helper.Helper;
+
 public class FastFoodAppView extends MainView{
 
 	protected CustomerView customerView;
@@ -24,13 +26,10 @@ public class FastFoodAppView extends MainView{
 
 	@Override
 	public void viewApp() {
-		Scanner sc = new Scanner(System.in);
-		
-		printActions();
-		int choice = sc.nextInt();
+		int choice;
 		do {
 			printActions();
-			choice = sc.nextInt();
+			choice = Helper.readInt();
 			switch(choice) {
 				case 1:
 					customerView.viewApp();
@@ -41,9 +40,10 @@ public class FastFoodAppView extends MainView{
 				case 3:
 					break;
 				default:
+					System.out.println("Invalid input! Please try again.");
 					break;
 			}
-		} while (choice != 6);
+		} while (choice != 3);
 		
 	}
 	
