@@ -1,22 +1,20 @@
 package view;
 
-import java.util.*;
-
+import helper.Helper;
 public class FastFoodAppView extends MainView{
 
 	protected CustomerView customerView;
-	
-	protected StaffLoginView staffLoginView;
+	protected LoginView loginView;
 	
 	public FastFoodAppView() {
 		super();
 		customerView = new CustomerView();
-		staffLoginView = new StaffLoginView();
+		loginView = new LoginView();
 	}
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View");
-        System.out.println("Who you like to cotinue as?");
+        System.out.println("Who would you like to continue as?");
         System.out.println("(1) Customer");
         System.out.println("(2) Staff");
         System.out.println("(3) Quit Fast Food App");
@@ -24,26 +22,23 @@ public class FastFoodAppView extends MainView{
 
 	@Override
 	public void viewApp() {
-		Scanner sc = new Scanner(System.in);
-		
-		printActions();
-		int choice = sc.nextInt();
+		int choice;
 		do {
 			printActions();
-			choice = sc.nextInt();
+			choice = Helper.readInt();
 			switch(choice) {
 				case 1:
 					customerView.viewApp();
 					break;
 				case 2:
-					staffLoginView.viewApp();
+					loginView.viewApp();
 					break;
 				case 3:
-					break;
+					System.exit(0);
 				default:
 					break;
 			}
-		} while (choice != 6);
+		} while (choice != 3);
 		
 	}
 	

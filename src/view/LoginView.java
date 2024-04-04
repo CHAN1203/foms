@@ -10,46 +10,21 @@ import model.Employee;
 
 public class LoginView extends MainView {
 
-	CategoryView categoryView = new CategoryView();// do we need to create an instance everytime? or should we just make the methods static?
-	CustomerView customerView = new CustomerView();
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View");
-        System.out.println("Who you like to login as?");
-		System.out.println("1. Customer Login");
-		System.out.println("2. Staff Login");
-		System.out.println("3. Exit App");
+		printBreadCrumbs("Fast Food App View > Login View");
+		System.out.println("\nChoose employee type:");
+		System.out.println("1. Admin");
+		System.out.println("2. Manager");
+		System.out.println("3. Staff");
 	}
 
 	@Override
 	public void viewApp() {
 		printActions();
-		int opt;
-		do {
-			opt = Helper.readInt();
-			switch (opt) {
-			case 1:
-				customerView.viewApp();
-				break;
-			case 2:
-				loginEmployee();
-				break;
-			}
-
-			
-		} while (opt != 3);
-		
-	}
-	
-	private void loginEmployee() {
-		// optional can clear screen
-		System.out.println("\nChoose employee type:");
-		System.out.println("1. Admin");
-		System.out.println("2. Manager");
-		System.out.println("3. Staff");
 		
 		int empPos;
-		EmployeePosition employeePosition;
+		EmployeePosition employeePosition = null;
 		
 		empPos = Helper.readInt();
 		
@@ -65,7 +40,6 @@ public class LoginView extends MainView {
 			employeePosition = EmployeePosition.STAFF;
 			break;
 		}
-		
 		String username;
 		String password;
 		
@@ -79,13 +53,13 @@ public class LoginView extends MainView {
 		if (loginSuccess) {
 			System.out.println("Login successful, welcome " + username);
 			if(employeePosition == EmployeePosition.ADMIN) {
-				AdminView.viewApp();
+//				AdminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
-				ManagerView.viewApp();
+//				ManagerView.viewApp();
 			}
 			else {
-				StaffView.viewApp();
+//				StaffView.viewApp();
 			}
 			// goto next view, use employeePosition to decide 
 			// if (employeePosition == EmployeePosition.ADMIN) {
@@ -95,5 +69,4 @@ public class LoginView extends MainView {
 			System.out.println("Invalid username or password");
 		}
 	}
-
 }
