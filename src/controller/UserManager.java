@@ -11,7 +11,7 @@ public class UserManager {
 			return false;
 		}
 		
-		if (emp.getPassword() != password) {
+		if (!emp.getPassword().equals(password)) {
 			return false;
 		}
 		

@@ -14,6 +14,9 @@ public class Employee implements Serializable {
 	
 	protected EmployeePosition position;
 	
+	public Employee() {
+	}
+	
 	public String getName() {
 		return this.name;
 	}
