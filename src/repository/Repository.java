@@ -1,7 +1,7 @@
 package repository;
 import java.util.HashMap;
 
-import model.Employee;
+import model. *;
 
 import java.io.IOException;
 import java.io.EOFException;
@@ -14,8 +14,10 @@ import java.io.ObjectOutputStream;
 public class Repository {
     private static final String folder = "data";
     
-    public static HashMap<String, Employee> Employee = new HashMap<String, Employee>();
-    
+    public static HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
+    public static HashMap<String, Category> CATEGORY = new HashMap<String, Category>();
+    public static HashMap<String, MenuItems> MENU_ITEMS = new HashMap<String, MenuItems>();
+    public static HashMap<String, Orders> ORDERS = new HashMap<String, Orders>();
     /**
      * Constructor that reads all the data from the data file during initialization of program.
      */
@@ -37,7 +39,10 @@ public class Repository {
      * A method to save all files into database.
      */
     public static void saveAllFiles() {
-
+    	persistData(FileType.EMPLOYEE);
+    	persistData(FileType.CATEGORY);
+    	persistData(FileType.MENU_ITEMS);
+    	persistData(FileType.ORDERS);
     }
 
 	private static boolean readSerializedObject(FileType fileType) {
@@ -56,18 +61,22 @@ public class Repository {
             
             // Read into database
             if (fileType == FileType.EMPLOYEE) {
-                Employee = (HashMap<String, Employee>) object;
-            } else {
-            	
+                EMPLOYEE = (HashMap<String, Employee>) object;
+            } else if(fileType == FileType.CATEGORY) {
+            	CATEGORY = (HashMap<String, Category>) object;
+            } else if(fileType == FileType.ORDERS){
+            	ORDERS = (HashMap<String, Orders>) object; 
+            } else if(fileType == FileType.MENU_ITEMS) {
+            	MENU_ITEMS = (HashMap<String, MenuItems>) object;//can add any further fileType enums when we make them!!!
             }
 
             objectInputStream.close();
             fileInputStream.close();
             
         } catch (EOFException err) {
-            System.out.println("Warning: " + err.getMessage());
+            System.out.println("Warning: " + err.getMessage()); //error exception check later with Aarons code
             if (fileType == FileType.EMPLOYEE) {
-                Employee = new HashMap<String, Employee>();
+                EMPLOYEE = new HashMap<String, Employee>();
             } else {
             	
             }
@@ -91,9 +100,13 @@ public class Repository {
             FileOutputStream fileOutputStream = new FileOutputStream(filePath);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             if (fileType == FileType.EMPLOYEE) {
-                objectOutputStream.writeObject(Employee);
-            } else {
-            	// objectOutputStream.writeObject(Food);
+                objectOutputStream.writeObject(EMPLOYEE);
+            } else if (fileType == FileType.CATEGORY){
+            	objectOutputStream.writeObject(CATEGORY);
+            } else if(fileType == FileType.ORDERS){
+            	objectOutputStream.writeObject(ORDERS);
+            } else if(fileType == FileType.MENU_ITEMS) {
+            	objectOutputStream.writeObject(MENU_ITEMS);//can add any further fileType enums when we make them!!!
             }
             objectOutputStream.close();
             fileOutputStream.close();
@@ -110,7 +123,7 @@ public class Repository {
      */
     public static boolean clearDatabase() {
         // Initialize empty data
-        Employee = new HashMap<String, Employee>();
+        EMPLOYEE = new HashMap<String, Employee>();
         writeSerializedObject(FileType.EMPLOYEE);
         return true;
     }

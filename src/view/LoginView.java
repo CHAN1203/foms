@@ -1,7 +1,7 @@
 package view;
 
 import enums.EmployeePosition;
-import controller.UserManager;
+import controller.UserController;
 import helper.Helper;
 import repository.Repository;
 import view.CategoryView;
@@ -49,7 +49,7 @@ public class LoginView extends MainView {
 		password = Helper.readString();
 		
 		
-		boolean loginSuccess = UserManager.authenticate(username, password);
+		boolean loginSuccess = UserController.authenticate(username, password);
 		if (loginSuccess) {
 			System.out.println("Login successful, welcome " + username);
 			if(employeePosition == EmployeePosition.ADMIN) {
