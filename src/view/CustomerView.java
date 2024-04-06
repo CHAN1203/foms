@@ -1,6 +1,12 @@
 package view;
 
+import helper.Helper;
+import view.CustomerView;
+import view.CategoryView;
+
 public class CustomerView extends MainView{
+	
+	CategoryView categoryView = new CategoryView();
 	
 	public CustomerView() {
 		super();
@@ -10,18 +16,40 @@ public class CustomerView extends MainView{
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View");
 		System.out.println("What would you like to do ?");
-        System.out.println("(1) Create a Guest");
-        System.out.println("(2) Update a Guest detail");
-        System.out.println("(3) Remove a Guest");
-        System.out.println("(4) Search a Guest");
-        System.out.println("(5) Print all Guests");
-        System.out.println("(6) Exit Guest View");
+        System.out.println("(1) Place a new order");
+        System.out.println("(2) Check order status");
+        System.out.println("(3) Exit App");
 	}
 
 	@Override
 	public void viewApp() {
-		// TODO Auto-generated method stub
+		printActions();
+		int opt;
+		do {
+			opt = Helper.readInt();
+			switch (opt) {
+			case 1:
+				placeOrder();
+				break;
+			case 2:
+				checkOrderStatus();
+				break;
+			case 3:
+				System.out.println("Exiting App...");
+				System.exit(0);
+			
+			}
+		} while (opt != 3);
 		
+		
+	}
+	
+	public void placeOrder() {
+		categoryView.viewApp();
+	}
+	
+	public void checkOrderStatus() {
+		OrderManager.checkOrderStatus(orderID);//how to implement orderID and how do we retrieve? Repository.Orders.get(OrderID)?
 	}
 	
 	
