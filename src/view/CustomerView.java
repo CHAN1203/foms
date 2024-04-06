@@ -4,7 +4,7 @@ import helper.Helper;
 import view.CustomerView;
 import view.CategoryView;
 
-public class CustomerView extends MainView{
+public class CustomerView extends MainView{// choose branch first
 	
 	CategoryView categoryView = new CategoryView();
 	
@@ -16,7 +16,7 @@ public class CustomerView extends MainView{
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View");
 		System.out.println("What would you like to do ?");
-        System.out.println("(1) Place a new order");
+        System.out.println("(1) Place a new order");//under NTU branch
         System.out.println("(2) Check order status");
         System.out.println("(3) Exit App");
 	}
@@ -33,6 +33,7 @@ public class CustomerView extends MainView{
 				break;
 			case 2:
 				checkOrderStatus();
+				
 				break;
 			case 3:
 				System.out.println("Exiting App...");
@@ -49,7 +50,12 @@ public class CustomerView extends MainView{
 	}
 	
 	public void checkOrderStatus() {
-		OrderManager.checkOrderStatus(orderID);//how to implement orderID and how do we retrieve? Repository.Orders.get(OrderID)?
+		if(OrderManager.checkOrderStatus(orderID)) {
+			
+		}
+		else {
+			System.out.println("Order does not exist");
+		}//how to implement orderID and how do we retrieve? Repository.Orders.get(OrderID)?
 	}
 	
 	

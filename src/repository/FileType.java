@@ -5,7 +5,8 @@ public enum FileType {
 	EMPLOYEE("Employee"),
 	CATEGORY("Category"),
 	ORDERS("Orders"),
-	MENU_ITEMS("MenuItems");
+	MENU_ITEMS("MenuItems"),
+	BRANCH("Branch");
 	
 	public final String fileName;
 	

@@ -1,6 +1,6 @@
 package model;
 
-import enums.EmployeePosition;
+import enums. *;
 
 import java.io.Serializable;
 
@@ -11,6 +11,8 @@ public class Employee implements Serializable {
 	protected String name;
 	
 	protected String password;
+	
+	private String branch;
 	
 	protected EmployeePosition position;
 	
@@ -29,12 +31,16 @@ public class Employee implements Serializable {
 		return this.position;
 	}
 	
+	public String getBranch() {
+		return this.branch;
+	}
+	
 	public Employee(String name, EmployeePosition position) {
 		this.name = name;
 		this.password = "password";
 	}
 
-	public Employee(String name, String password, EmployeePosition position) {
+	public Employee(String name, String password, String branch, EmployeePosition position) {
 		this.name = name;
 		this.password = password;
 		this.position = position;
