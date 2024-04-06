@@ -7,13 +7,13 @@ import model. *;
 
 public class AdminController {
 	
+
 	public static void addStaffAccount(String name, String password, String branch, EmployeePosition employeePosition) {
 		Employee emp = new Employee(name, password, branch, employeePosition);
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getName(),emp);
-	}
 	
 	public static void updateStaffAccount() {
-		
+
 	}
 	
 	public static void removeStaffAccount() {
