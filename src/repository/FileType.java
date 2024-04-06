@@ -2,7 +2,10 @@ package repository;
 
 public enum FileType {
 	
-	EMPLOYEE("Employee");
+	EMPLOYEE("Employee"),
+	CATEGORY("Category"),
+	ORDERS("Orders"),
+	MENU_ITEMS("MenuItems");
 	
 	public final String fileName;
 	
