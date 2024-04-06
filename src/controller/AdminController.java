@@ -7,7 +7,7 @@ import repository.FileType;
 public class AdminController {
 	
 	public static void addStaffAccount() {
-		testing123;
+		
 	}
 	
 	public static void updateStaffAccount() {
