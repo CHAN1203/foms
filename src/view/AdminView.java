@@ -4,6 +4,7 @@ import controller.AdminController;
 import helper.Helper;
 
 public class AdminView extends MainView{
+	
 	public void printActions() {
 		Helper.clearScreen();
 		//!!need to change the headline
@@ -28,12 +29,12 @@ public class AdminView extends MainView{
                 case 1:
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Add menu items");
-                    ManageStaffAccountView.viewApp();
+                    ManageStaffAccount();
                     break;
                 case 2:
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
-                    AdminController.displayStaffList();
+                    AdminController.displayStaffList(); 
                     break;
                 case 3:
                     Helper.clearScreen();
@@ -68,7 +69,13 @@ public class AdminView extends MainView{
             }
         } while (opt != 7);
 	}
-	
-	
-	
+
+	public boolean ManageStaffAccount() {
+			if(ManageStaffAccountView.viewApp)
+
+			else
+	}
+
 }
+	
+

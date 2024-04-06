@@ -53,13 +53,13 @@ public class LoginView extends MainView {
 		if (loginSuccess) {
 			System.out.println("Login successful, welcome " + username);
 			if(employeePosition == EmployeePosition.ADMIN) {
-//				AdminView.viewApp();
+				AdminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
-//				ManagerView.viewApp();
+				ManagerView.viewApp();
 			}
 			else {
-//				StaffView.viewApp();
+				StaffView.viewApp();
 			}
 			// goto next view, use employeePosition to decide 
 			// if (employeePosition == EmployeePosition.ADMIN) {

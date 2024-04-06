@@ -70,7 +70,4 @@ public class ManagerController extends StaffController{
 	/**
      * Initializer for dummy menu items in the hotel. 
      */
-    public static void initializeDummyMenuItems() {
-    	
-    }
 }

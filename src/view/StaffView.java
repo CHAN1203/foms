@@ -1,5 +1,6 @@
 package view;
 import helper.Helper;
+import controller. *;
 
 public class StaffView extends MainView{
 	//constructor
@@ -21,15 +22,15 @@ public class StaffView extends MainView{
 			opt = Helper.readInt(1,6);
 			switch(opt) {
 				case 1:
-					OrderController.displayNewOrder();
+					StaffController.displayNewOrder();
 					break;
 				case 2:
 					System.out.println("which order do you want to know the details? Please enter an order ID");
 					int orderId = Helper.readInt();
-					OrderController.viewParticularOrderDetails(orderId);
+					StaffController.viewParticularOrderDetails(orderId);
 					break;
 				case 3:
-					OrderController.processOrder(orderId);
+					StaffController.processOrder(orderId);
 					break;
 			}
 		}while(opt != 6);

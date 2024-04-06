@@ -1,14 +1,12 @@
 package model;
 import java.io.Serializable;
 import repository.FileType;
+import enums. *;
 
 public class MenuItems implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
 	private static final long serialVersionUID = 4L;
 
-    /**
-     * Id of the menu item
-     */
-    private String menuItemId;
+
     /**
      * Name of the menu item
      */
@@ -21,10 +19,11 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * Price of the menu item
      */
     private double price;
-    /**
-     * category of the menu item
-     */
-    private FileType category;
+    
+    
+    private FoodCategory foodCategory;
+    
+    private Branch restaurantBranch
 
     /**
      * Constructs and initialises the Id, name, description and price of the menu item respectively.

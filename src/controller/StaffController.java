@@ -6,15 +6,17 @@ import repository.FileType;
 
 public class StaffController {
 
-	public static void displayNewOrder(int orderId) {
+	public static void displayNewOrder(int orderId) {// retrieve hashmap (order) printf
 		
 	}
 	
-	public static void viewOrderDetails(int orderId) {
+	public static void viewParticularOrderDetails(int orderId) {//retrieve the order of a specific OrderID print
 		
 	}
 	
-	public static void processOrder(int orderId) {
+	public static void processOrder(int orderId) {// change from Preparing to Ready to Pickup
+		//(Model Order should include:1)  Order ID = Customer ID, 2) multiple food name + quantity, 3) enum orderStatus (add this enum in the enum package),  
+		//
 		
 	}
 	
