@@ -1,6 +1,10 @@
 package view;
 
+FastFoodAppView
+import java.util.*;
 import helper.Helper;
+
+main
 public class FastFoodAppView extends MainView{
 
 	protected CustomerView customerView;
@@ -36,6 +40,7 @@ public class FastFoodAppView extends MainView{
 				case 3:
 					System.exit(0);
 				default:
+					System.out.println("Invalid input! Please try again.");
 					break;
 			}
 		} while (choice != 3);
