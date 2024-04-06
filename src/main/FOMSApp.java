@@ -15,6 +15,10 @@ public class FOMSApp {
 		//Repository.Employee.put("HS Yap", employee);
 		//Repository.persistData(FileType.EMPLOYEE);
 		
+		Employee employee = new Employee("HS Yap", "iamgay", EmployeePosition.ADMIN);
+		Repository.Employee.put("HS Yap", employee);
+		Repository.persistData(FileType.EMPLOYEE);
+		
 		Repository.readData(FileType.EMPLOYEE);
 		//System.out.println(Repository.Employee.get("HS Yap").getName());
 		//System.out.println(Repository.Employee.get("HS Yap").getPassword());
