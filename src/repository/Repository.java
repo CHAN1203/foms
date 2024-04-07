@@ -1,8 +1,10 @@
 package repository;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import model. *;
-
+import controller. *;
 import java.io.IOException;
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -16,6 +18,9 @@ public class Repository {
     
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
     public static HashMap<String, Branch> BRANCH = new HashMap<String, Branch>();
+    //haven't written any serialization part
+    public static Set<String> BRANCHES = new HashSet<>();
+    public static Set<String> PAYMENT_METHODS = new HashSet<>();
     /**
      * Constructor that reads all the data from the data file during initialization of program.
      */
@@ -120,7 +125,7 @@ public class Repository {
         if (BRANCH.size() != 0) {
             return false;
         }
-        BranchController.initializeDummyBranchInfo();
+        AdminController.initializeDummyBranchInfo();
         return true;
     }
     
