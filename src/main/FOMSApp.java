@@ -1,11 +1,9 @@
 package main;
-
 import repository.FileType;
 import repository.Repository;
 import enums.EmployeePosition;
 import model.Employee;
-import view.FastFoodAppView;
-import view.LoginView;
+import view. *;
 
 public class FOMSApp {
 

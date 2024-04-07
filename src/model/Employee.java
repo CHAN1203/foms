@@ -48,7 +48,11 @@ public class Employee implements Serializable {
 	public void setGender(EmployeeGender gender) {
 		this.gender = gender;
 	}
-
+	
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -71,6 +75,10 @@ public class Employee implements Serializable {
 	
 	public EmployeeGender getGender() {
 		return this.gender;
+	}
+	
+	public String getLoginId() {
+		return this.loginId;
 	}
 	
 	public Employee(String name, EmployeePosition position) {
