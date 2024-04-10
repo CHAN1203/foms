@@ -3,6 +3,9 @@ package controller;
 import repository.Repository;
 import repository.FileType;
 import model.MenuItems;
+
+import java.util.HashMap;
+
 import enums.FoodAvailability;
 import helper.Helper;
 
@@ -97,13 +100,31 @@ public class MenuController {
      */
     public static String getMenuIdFromName(String branch,String name) {
         for (MenuItems currentMenuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
-            if (currentMenuItem.getName().equals(name)) {
+            if (currentMenuItem.getName().equalsIgnoreCase(name)) {
                 return currentMenuItem.getMenuItemId();
             }
         }
         return "";
     }
 
+    /**
+     * Filter the menu items of a specific branch by food category
+     * @param menuItems Hash map of menu items, branch Branch of menu item, foodCategory Food category of menu item
+     * @return Hash Map of filtered menu items by food category
+     */
+    public static HashMap<String, MenuItems> filterMenuItemsByCategory(HashMap<String, MenuItems> menuItems, String foodCategory) {
+        HashMap<String, MenuItems> filteredMenuItems = new HashMap<>();
+
+        for (HashMap.Entry<String, MenuItems> entry : menuItems.entrySet()) {
+            MenuItems menuItem = entry.getValue();
+            if (menuItem.getFoodCategory().equalsIgnoreCase(foodCategory)) {
+                filteredMenuItems.put(entry.getKey(), menuItem);
+            }
+        }
+        
+        return filteredMenuItems;
+    }
+    
     /**
      * Initializer for dummy menu items in the hotel. 
      */
@@ -148,7 +169,7 @@ public class MenuController {
     public static void printMenuByFoodCategory(String branch, String foodCategory) {
         int num = 1;
     	for (MenuItems menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
-            if (menuItem.getFoodCategory().equals(foodCategory)) {
+            if (menuItem.getFoodCategory().equalsIgnoreCase(foodCategory)) {
 	        	System.out.println("Item " + num++);
             	System.out.println("Item name: " + menuItem.getName());
 	            System.out.println("Description: " + menuItem.getDescription());
@@ -185,5 +206,9 @@ public class MenuController {
            	System.out.println();
         }
     }
+    
+   
+    
+
 
 }
