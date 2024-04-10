@@ -62,6 +62,10 @@ public class Branch implements Serializable{
 		return this.ORDERS;
 	}
 	
+	public List<String> getFoodCategoryList() {
+		return foodCategoryList;
+	}
+	
 }
 
 //FOMS APP NTU JE JP HASHMAP<BRANCH>
