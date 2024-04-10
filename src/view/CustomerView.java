@@ -2,11 +2,11 @@ package view;
 
 import helper.Helper;
 import view.CustomerView;
-import view.CategoryView;
+import view.MenuView;
 
 public class CustomerView extends MainView{// choose branch first
 	
-	CategoryView categoryView = new CategoryView();
+	MenuView menuView = new MenuView();
 	
 	public CustomerView() {
 		super();
@@ -46,7 +46,7 @@ public class CustomerView extends MainView{// choose branch first
 	}
 	
 	public void placeOrder() {
-		categoryView.viewApp();
+		menuView.viewApp();
 	}
 	
 	public void checkOrderStatus() {

@@ -2,9 +2,9 @@ package view;
 
 import helper.Helper;
 
-public class CategoryView extends MainView{
+public class MenuView extends MainView{
 	
-	public CategoryView() {
+	public MenuView() {
 		super();
 	}
 	
