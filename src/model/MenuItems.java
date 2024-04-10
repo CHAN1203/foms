@@ -1,16 +1,29 @@
 package model;
+
 import java.io.Serializable;
-import repository.FileType;
-import enums. *;
+import enums.FoodAvailability;
 
 public class MenuItems implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
-	private static final long serialVersionUID = 4L;
-
-
+	 /**
+     * For Java Serializable
+     */
+    private static final long serialVersionUID = 4L;
+    /**
+     * 
+     */
+    private String branch;
+    /**
+     * Id of the menu item
+     */
+    private String menuItemId;
     /**
      * Name of the menu item
      */
     private String name;
+    /**
+     * Food Category of menu item
+     */
+    private String foodCategory;
     /**
      * Description of the preparation methods of the menu item
      */
@@ -19,26 +32,49 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * Price of the menu item
      */
     private double price;
-    
-    
-    private FoodCategory foodCategory;
-    
-    private Branch restaurantBranch
-
     /**
-     * Constructs and initialises the Id, name, description and price of the menu item respectively.
+     * Availability of the menu item
+     */
+    private FoodAvailability  foodAvailability;
+    
+    /**
+     * Constructs and initializes the Id, name, description and price of the menu item respectively.
      * 
      * @param menuItemId Id of the menu item.
      * @param name Name of the menu item
      * @param description Description of the preparation methods of the menu item
      * @param price Price of the menu item
      */
-    public MenuItems(String menuItemId, String name, String description, double price, FileType category) {
-        setMenuItemId(menuItemId);
+    public MenuItems(String branch, String menuItemId, String name, String foodCategory, String description, double price, FoodAvailability  foodAvailability) {
+        setBranch(branch);
+    	setMenuItemId(menuItemId);
         setName(name);
+        setFoodCategory(foodCategory);
         setDescription(description);
         setPrice(price);
-        setMenuCategory(category); 
+        setFoodAvailability(foodAvailability);
+    }
+    
+    /**
+     * Sets the Branch of the menu item
+     * 
+     * @param branch Branch of the menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setBranch(String branch) {
+        this.branch = branch;
+        return true;
+    } 
+    
+    /**
+     * Sets the Id of the menu item
+     * 
+     * @param menuItemId Id of the menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setMenuItemId(String menuItemId) {
+        this.menuItemId = menuItemId;
+        return true;
     }
     
     /**
@@ -49,6 +85,17 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      */
     public boolean setName(String name) {
         this.name = name;
+        return true;
+    }
+    
+    /**
+     * Sets the Food Category of the menu item
+     * 
+     * @param foodCategory Food Category of menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setFoodCategory(String foodCategory) {
+        this.foodCategory = foodCategory;
         return true;
     }
 
@@ -76,30 +123,52 @@ public class MenuItems implements Serializable{// this is just a copy paste from
         this.price = price;
         return true;
     }
-
+    
     /**
-     * Sets the Id of the menu item
+     * Sets the Food Availability of the menu item
      * 
-     * @param menuItemId Id of the menu item
+     * @param foodAvailability Food Availability of menu item
      * @return {@code true} if sets successfully
      */
-    public boolean setMenuItemId(String menuItemId) {
-        this.menuItemId = menuItemId;
-        return true;
-    }
-    
-    public boolean setMenuCategory(FileType category) {
-    	this.category = category;
+    public boolean setFoodAvailability(FoodAvailability foodAvailability) {
+    	this.foodAvailability = foodAvailability;
     	return true;
-    }
+    };
 
     /**
-     * Gets the name of the menu item
+     * Gets the Branch of the menu item
      * 
-     * @return Mame of the menu item
+     * @return Branch of the menu item
+     */
+    public String getBranch() {
+        return branch;
+    }
+    
+    /**
+     * Gets the Id of the menu item
+     * 
+     * @return Id of the menu item
+     */
+    public String getMenuItemId() {
+        return menuItemId;
+    }
+    
+    /**
+     * Gets the Name of the menu item
+     * 
+     * @return Name of the menu item
      */
     public String getName() {
         return name;
+    }
+    
+    /**
+     * Gets the Food Category of the menu item
+     * 
+     * @return Food Category of the menu item
+     */
+    public String getFoodCategory() {
+        return foodCategory;
     }
 
     /**
@@ -119,15 +188,17 @@ public class MenuItems implements Serializable{// this is just a copy paste from
     public double getPrice() {
         return price;
     }
-
+    
     /**
-     * Gets the Id of the menu item
+     * Gets the food availability of the menu item
      * 
-     * @return Id of the menu item
+     * @return Food Availability of the menu item
      */
-    public String getMenuItemId() {
-        return menuItemId;
-    }
+    public FoodAvailability getFoodAvailability() {
+    	return foodAvailability;
+    };
+
+    
     
     
 }

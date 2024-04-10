@@ -241,17 +241,10 @@ public class AdminController {
         }
     }
     
-    
-
 	public static void assignManager() {
 		
 	}
 	
-	
-	
-	
-	
-    
     public static void initializeDummyBranchInfo() {
     	openBranch("NTU", "North Spine Plaza", 8);
     	openBranch("JE", "Jurong East", 11);

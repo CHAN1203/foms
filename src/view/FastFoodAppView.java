@@ -1,18 +1,15 @@
 package view;
 
-FastFoodAppView
-import java.util.*;
 import helper.Helper;
 
-main
 public class FastFoodAppView extends MainView{
 
-	protected CustomerView customerView;
+	protected BranchView branchView;
 	protected LoginView loginView;
 	
 	public FastFoodAppView() {
 		super();
-		customerView = new CustomerView();
+		branchView = new BranchView();
 		loginView = new LoginView();
 	}
 	@Override
@@ -32,7 +29,7 @@ public class FastFoodAppView extends MainView{
 			choice = Helper.readInt();
 			switch(choice) {
 				case 1:
-					customerView.viewApp();
+					branchView.viewApp();
 					break;
 				case 2:
 					loginView.viewApp();
