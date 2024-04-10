@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import enums.FoodAvailability;
 
 public class MenuItems implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
 	 /**
@@ -31,6 +32,10 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * Price of the menu item
      */
     private double price;
+    /**
+     * Availability of the menu item
+     */
+    private FoodAvailability  foodAvailability;
     
     /**
      * Constructs and initializes the Id, name, description and price of the menu item respectively.
@@ -40,19 +45,20 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * @param description Description of the preparation methods of the menu item
      * @param price Price of the menu item
      */
-    public MenuItems(String branch, String menuItemId, String name, String foodCategory, String description, double price) {
+    public MenuItems(String branch, String menuItemId, String name, String foodCategory, String description, double price, FoodAvailability  foodAvailability) {
         setBranch(branch);
     	setMenuItemId(menuItemId);
         setName(name);
         setFoodCategory(foodCategory);
         setDescription(description);
         setPrice(price);
+        setFoodAvailability(foodAvailability);
     }
     
     /**
      * Sets the Branch of the menu item
      * 
-     * @param Branch of the menu item
+     * @param branch Branch of the menu item
      * @return {@code true} if sets successfully
      */
     public boolean setBranch(String branch) {
@@ -83,9 +89,9 @@ public class MenuItems implements Serializable{// this is just a copy paste from
     }
     
     /**
-     * Sets the name of the menu item
+     * Sets the Food Category of the menu item
      * 
-     * @param name Name of menu item
+     * @param foodCategory Food Category of menu item
      * @return {@code true} if sets successfully
      */
     public boolean setFoodCategory(String foodCategory) {
@@ -117,6 +123,17 @@ public class MenuItems implements Serializable{// this is just a copy paste from
         this.price = price;
         return true;
     }
+    
+    /**
+     * Sets the Food Availability of the menu item
+     * 
+     * @param foodAvailability Food Availability of menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setFoodAvailability(FoodAvailability foodAvailability) {
+    	this.foodAvailability = foodAvailability;
+    	return true;
+    };
 
     /**
      * Gets the Branch of the menu item
@@ -171,6 +188,15 @@ public class MenuItems implements Serializable{// this is just a copy paste from
     public double getPrice() {
         return price;
     }
+    
+    /**
+     * Gets the food availability of the menu item
+     * 
+     * @return Food Availability of the menu item
+     */
+    public FoodAvailability getFoodAvailability() {
+    	return foodAvailability;
+    };
 
     
     
