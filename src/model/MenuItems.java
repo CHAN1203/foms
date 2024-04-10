@@ -1,12 +1,20 @@
 package model;
+
 import java.io.Serializable;
-import repository.FileType;
-import enums. *;
 
 public class MenuItems implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
-	private static final long serialVersionUID = 4L;
-
-
+	 /**
+     * For Java Serializable
+     */
+    private static final long serialVersionUID = 4L;
+    /**
+     * 
+     */
+    private String branch;
+    /**
+     * Id of the menu item
+     */
+    private String menuItemId;
     /**
      * Name of the menu item
      */
@@ -20,25 +28,20 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      */
     private double price;
     
-    
-    private FoodCategory foodCategory;
-    
-    private Branch restaurantBranch
-
     /**
-     * Constructs and initialises the Id, name, description and price of the menu item respectively.
+     * Constructs and initializes the Id, name, description and price of the menu item respectively.
      * 
      * @param menuItemId Id of the menu item.
      * @param name Name of the menu item
      * @param description Description of the preparation methods of the menu item
      * @param price Price of the menu item
      */
-    public MenuItems(String menuItemId, String name, String description, double price, FileType category) {
-        setMenuItemId(menuItemId);
+    public MenuItems(String branch, String menuItemId, String name, String description, double price) {
+        setBranch(branch);
+    	setMenuItemId(menuItemId);
         setName(name);
         setDescription(description);
         setPrice(price);
-        setMenuCategory(category); 
     }
     
     /**
@@ -88,15 +91,21 @@ public class MenuItems implements Serializable{// this is just a copy paste from
         return true;
     }
     
-    public boolean setMenuCategory(FileType category) {
-    	this.category = category;
-    	return true;
+    /**
+     * Sets the Branch of the menu item
+     * 
+     * @param Branch of the menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setBranch(String branch) {
+        this.branch = branch;
+        return true;
     }
 
     /**
      * Gets the name of the menu item
      * 
-     * @return Mame of the menu item
+     * @return Name of the menu item
      */
     public String getName() {
         return name;
@@ -129,5 +138,12 @@ public class MenuItems implements Serializable{// this is just a copy paste from
         return menuItemId;
     }
     
-    
+    /**
+     * Gets the Branch of the menu item
+     * 
+     * @return Branch of the menu item
+     */
+    public String getBranch() {
+        return branch;
+    }
 }
