@@ -20,6 +20,10 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      */
     private String name;
     /**
+     * Food Category of menu item
+     */
+    private String foodCategory;
+    /**
      * Description of the preparation methods of the menu item
      */
     private String description;
@@ -36,12 +40,35 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * @param description Description of the preparation methods of the menu item
      * @param price Price of the menu item
      */
-    public MenuItems(String branch, String menuItemId, String name, String description, double price) {
+    public MenuItems(String branch, String menuItemId, String name, String foodCategory, String description, double price) {
         setBranch(branch);
     	setMenuItemId(menuItemId);
         setName(name);
+        setFoodCategory(foodCategory);
         setDescription(description);
         setPrice(price);
+    }
+    
+    /**
+     * Sets the Branch of the menu item
+     * 
+     * @param Branch of the menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setBranch(String branch) {
+        this.branch = branch;
+        return true;
+    } 
+    
+    /**
+     * Sets the Id of the menu item
+     * 
+     * @param menuItemId Id of the menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setMenuItemId(String menuItemId) {
+        this.menuItemId = menuItemId;
+        return true;
     }
     
     /**
@@ -52,6 +79,17 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      */
     public boolean setName(String name) {
         this.name = name;
+        return true;
+    }
+    
+    /**
+     * Sets the name of the menu item
+     * 
+     * @param name Name of menu item
+     * @return {@code true} if sets successfully
+     */
+    public boolean setFoodCategory(String foodCategory) {
+        this.foodCategory = foodCategory;
         return true;
     }
 
@@ -81,34 +119,39 @@ public class MenuItems implements Serializable{// this is just a copy paste from
     }
 
     /**
-     * Sets the Id of the menu item
+     * Gets the Branch of the menu item
      * 
-     * @param menuItemId Id of the menu item
-     * @return {@code true} if sets successfully
+     * @return Branch of the menu item
      */
-    public boolean setMenuItemId(String menuItemId) {
-        this.menuItemId = menuItemId;
-        return true;
+    public String getBranch() {
+        return branch;
     }
     
     /**
-     * Sets the Branch of the menu item
+     * Gets the Id of the menu item
      * 
-     * @param Branch of the menu item
-     * @return {@code true} if sets successfully
+     * @return Id of the menu item
      */
-    public boolean setBranch(String branch) {
-        this.branch = branch;
-        return true;
+    public String getMenuItemId() {
+        return menuItemId;
     }
-
+    
     /**
-     * Gets the name of the menu item
+     * Gets the Name of the menu item
      * 
      * @return Name of the menu item
      */
     public String getName() {
         return name;
+    }
+    
+    /**
+     * Gets the Food Category of the menu item
+     * 
+     * @return Food Category of the menu item
+     */
+    public String getFoodCategory() {
+        return foodCategory;
     }
 
     /**
@@ -129,21 +172,7 @@ public class MenuItems implements Serializable{// this is just a copy paste from
         return price;
     }
 
-    /**
-     * Gets the Id of the menu item
-     * 
-     * @return Id of the menu item
-     */
-    public String getMenuItemId() {
-        return menuItemId;
-    }
     
-    /**
-     * Gets the Branch of the menu item
-     * 
-     * @return Branch of the menu item
-     */
-    public String getBranch() {
-        return branch;
-    }
+    
+    
 }
