@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public class Branch implements Serializable{
 	
@@ -14,6 +15,7 @@ public class Branch implements Serializable{
 	private int staffQuota;
 	
 	//somewhere need to put branch into <branch, employee> hash map
+	private List<String> foodCategoryList;
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
 	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<String, MenuItems>();
 	private HashMap<String, Orders> ORDERS = new HashMap<String, Orders>();
