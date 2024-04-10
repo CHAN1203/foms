@@ -18,17 +18,10 @@ public class Branch implements Serializable{
 	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<String, MenuItems>();
 	private HashMap<String, Orders> ORDERS = new HashMap<String, Orders>();
 	
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public String getLocation() {
-		return this.location;
-	}
-	
-	public int getstaffQuota() {
-		return this.staffQuota;
+	public Branch(String name, String location, int staffQuota) {
+		this.name = name;
+		this.location = location;
+		this.staffQuota = staffQuota;
 	}
 	
 	public void setName(String name) {
@@ -43,16 +36,28 @@ public class Branch implements Serializable{
 		this.staffQuota = quota;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
 	
+	public String getLocation() {
+		return this.location;
+	}
 	
-	public Branch(String name, String location, int staffQuota) {
-		this.name = name;
-		this.location = location;
-		this.staffQuota = staffQuota;
+	public int getstaffQuota() {
+		return this.staffQuota;
 	}
 	
 	public HashMap<String, Employee> getEmployee() {
 		return this.EMPLOYEE;
+	}
+	
+	public HashMap<String, MenuItems> getMenuItems() {
+		return this.MENU_ITEMS;
+	}
+	
+	public HashMap<String, Orders> getOrders() {
+		return this.ORDERS;
 	}
 	
 }
