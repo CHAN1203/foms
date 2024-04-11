@@ -9,7 +9,7 @@ import enums.*;
 
 public class Orders implements Serializable, Comparable<Orders>{
 	
-	String orderId;
+	private String orderId;
 	
 	private String dateTime;
 	

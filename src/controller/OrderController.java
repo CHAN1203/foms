@@ -74,7 +74,7 @@ public class OrderController {
             return false;
         }
         String formattedName = name.toUpperCase();
-        String menuIdOfOrder = MenuController.getMenuIdFromName(formattedName);
+        String menuIdOfOrder = MenuController.getMenuIdFromName(branch, formattedName);
         if (menuIdOfOrder.equals("")) {
             // no menu item found
             return false;
@@ -115,9 +115,13 @@ public class OrderController {
      * @param remarks Remarks for the order
      * @param orderId Order Id of the order
      */
-    public static void setRemarks(String remarks, String orderId, String branch){
+    public static boolean setRemarks(String remarks, String orderId, String branch){
+    	if (orderId.equals("")) {
+            return false;
+        }
         Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         currentOrder.setRemarks(remarks);
+        return true;
     }
 
     /**
