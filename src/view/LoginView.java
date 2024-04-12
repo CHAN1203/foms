@@ -4,11 +4,15 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
-import view.CategoryView;
+import view.MenuView;
 import view.CustomerView;
 import model.Employee;
 
 public class LoginView extends MainView {
+	
+	AdminView adminView = new AdminView();
+	ManagerView managerView = new ManagerView();
+	StaffView staffView = new StaffView();
 
 	@Override
 	protected void printActions() {
@@ -53,13 +57,13 @@ public class LoginView extends MainView {
 		if (loginSuccess) {
 			System.out.println("Login successful, welcome " + username);
 			if(employeePosition == EmployeePosition.ADMIN) {
-//				AdminView.viewApp();
+				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
-//				ManagerView.viewApp();
+				managerView.viewApp();
 			}
 			else {
-//				StaffView.viewApp();
+				staffView.viewApp();
 			}
 			// goto next view, use employeePosition to decide 
 			// if (employeePosition == EmployeePosition.ADMIN) {

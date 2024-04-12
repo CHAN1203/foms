@@ -1,8 +1,10 @@
 package repository;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import model. *;
-
+import controller. *;
 import java.io.IOException;
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -15,9 +17,10 @@ public class Repository {
     private static final String folder = "data";
     
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
-    public static HashMap<String, Category> CATEGORY = new HashMap<String, Category>();
-    public static HashMap<String, MenuItems> MENU_ITEMS = new HashMap<String, MenuItems>();
-    public static HashMap<String, Orders> ORDERS = new HashMap<String, Orders>();
+    public static HashMap<String, Branch> BRANCH = new HashMap<String, Branch>();
+    //haven't written any serialization part
+    public static Set<String> BRANCHES = new HashSet<>();
+    public static Set<String> PAYMENT_METHODS = new HashSet<>();
     /**
      * Constructor that reads all the data from the data file during initialization of program.
      */
@@ -40,9 +43,7 @@ public class Repository {
      */
     public static void saveAllFiles() {
     	persistData(FileType.EMPLOYEE);
-    	persistData(FileType.CATEGORY);
-    	persistData(FileType.MENU_ITEMS);
-    	persistData(FileType.ORDERS);
+    	persistData(FileType.BRANCH);
     }
 
 	private static boolean readSerializedObject(FileType fileType) {
@@ -62,12 +63,8 @@ public class Repository {
             // Read into database
             if (fileType == FileType.EMPLOYEE) {
                 EMPLOYEE = (HashMap<String, Employee>) object;
-            } else if(fileType == FileType.CATEGORY) {
-            	CATEGORY = (HashMap<String, Category>) object;
-            } else if(fileType == FileType.ORDERS){
-            	ORDERS = (HashMap<String, Orders>) object; 
-            } else if(fileType == FileType.MENU_ITEMS) {
-            	MENU_ITEMS = (HashMap<String, MenuItems>) object;//can add any further fileType enums when we make them!!!
+            } else if(fileType == FileType.BRANCH) {
+            	BRANCH = (HashMap<String, Branch>) object;
             }
 
             objectInputStream.close();
@@ -101,13 +98,9 @@ public class Repository {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             if (fileType == FileType.EMPLOYEE) {
                 objectOutputStream.writeObject(EMPLOYEE);
-            } else if (fileType == FileType.CATEGORY){
-            	objectOutputStream.writeObject(CATEGORY);
-            } else if(fileType == FileType.ORDERS){
-            	objectOutputStream.writeObject(ORDERS);
-            } else if(fileType == FileType.MENU_ITEMS) {
-            	objectOutputStream.writeObject(MENU_ITEMS);//can add any further fileType enums when we make them!!!
-            }
+            } else if (fileType == FileType.BRANCH){
+            	objectOutputStream.writeObject(BRANCH);
+            } 
             objectOutputStream.close();
             fileOutputStream.close();
             return true;
@@ -127,4 +120,13 @@ public class Repository {
         writeSerializedObject(FileType.EMPLOYEE);
         return true;
     }
+    
+    public static boolean initializeDummyBranch() {
+        if (BRANCH.size() != 0) {
+            return false;
+        }
+        AdminController.initializeDummyBranchInfo();
+        return true;
+    }
+    
 }

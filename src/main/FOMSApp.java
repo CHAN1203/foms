@@ -1,11 +1,9 @@
 package main;
-
 import repository.FileType;
 import repository.Repository;
 import enums.EmployeePosition;
 import model.Employee;
-import view.FastFoodAppView;
-import view.LoginView;
+import view. *;
 
 public class FOMSApp {
 
@@ -15,9 +13,9 @@ public class FOMSApp {
 		//Repository.Employee.put("HS Yap", employee);
 		//Repository.persistData(FileType.EMPLOYEE);
 		
-		Employee employee = new Employee("HS Yap", "iamgay", EmployeePosition.ADMIN);
-		Repository.Employee.put("HS Yap", employee);
-		Repository.persistData(FileType.EMPLOYEE);
+		Repository.initializeDummyMenu();
+		Repository.initializeDummyEmployee();
+		
 		
 		Repository.readData(FileType.EMPLOYEE);
 		//System.out.println(Repository.Employee.get("HS Yap").getName());

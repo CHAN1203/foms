@@ -2,15 +2,15 @@ package view;
 
 import helper.Helper;
 
-public class CategoryView extends MainView{
+public class MenuView extends MainView{
 	
-	public CategoryView() {
+	public MenuView() {
 		super();
 	}
 	
 	@Override
 	public void printActions() {
-		printBreadCrumbs("Fast Food App View > Customer View > Category View");
+		printBreadCrumbs("Fast Food App View > Customer View > NTU > Category View");// printing uses for loop
 		System.out.println("Which food category would you like to browse today?");
 		System.out.println("1. Set Meal");
 		System.out.println("2. Burger");
