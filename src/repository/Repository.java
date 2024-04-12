@@ -16,8 +16,10 @@ import java.io.ObjectOutputStream;
 public class Repository {
     private static final String folder = "data";
     
-    public static HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
-    public static HashMap<String, Branch> BRANCH = new HashMap<String, Branch>();
+    public static HashMap<String, Employee> EMPLOYEE = new HashMap<>();
+    public static HashMap<String, Branch> BRANCH = new HashMap<>();
+    public static HashMap<Integer, Order> ORDER = new HashMap<>(); // <orderID, Order>
+    
     //haven't written any serialization part
     public static Set<String> BRANCHES = new HashSet<>();
     public static Set<String> PAYMENT_METHODS = new HashSet<>();
