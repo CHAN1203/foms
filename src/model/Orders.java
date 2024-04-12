@@ -4,25 +4,33 @@ public class Orders {
 	private int orderID;
 	private String status;
 
-	public void vOrders(int orderID, String status){
+	
+	// constructors
+	
+	public Orders(int orderID, String status){
 		this.orderID = orderID;
 		this.status = status;
 	}
+	
+	// set methods
 
-	public bool setOrderID(int orderID){
-		
-		if (orderID > 0) {
-			this.orderID = orderID;
-			return True;
-		}
-
-		else {
-			return False;
-		}
+	public boolean setOrderID(int orderID){
+		this.orderID = orderID;
+		return true;
 	}
 
-	public bool setStatus(String status){
+	public boolean setStatus(String status){
 		this.status = status;
-		return True;
+		return true;
+	}
+	
+	// get methods
+	
+	public int getOrderID() {
+		return this.orderID;
+	}
+	
+	public String getStatus() {
+		return this.status;
 	}
 }
