@@ -85,19 +85,6 @@ public class StaffController {
     	}
     }
     
-    ///////////////////////////////////// processOrderMethod /////////////////////////////////////////////
-
-    
-    public static void processOrderMethod(int orderID) {
-    	
-
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
- 
-    
     public static Order getOrderByID(int orderID){
     	
     	if (Repository.ORDER.containsKey(orderID)) {
@@ -111,7 +98,7 @@ public class StaffController {
     	}
     }
     
-    
+}
     
     
     
