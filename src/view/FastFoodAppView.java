@@ -1,5 +1,4 @@
 package view;
-
 import helper.Helper;
 
 public class FastFoodAppView extends MainView{
