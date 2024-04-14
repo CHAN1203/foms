@@ -17,7 +17,7 @@ public class LoginView extends MainView {
 
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Login View");x
+		printBreadCrumbs("Fast Food App View > Login View");
 		System.out.println("\nChoose employee type:");
 		System.out.println("1. Admin");
 		System.out.println("2. Manager");
@@ -64,10 +64,10 @@ public class LoginView extends MainView {
 				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
-				managerView.viewApp(branch);
+				managerView.viewApp();
 			}
 			else {
-				staffView.viewApp(branch);
+				staffView.viewApp();
 			}
 			// goto next view, use employeePosition to decide 
 			// if (employeePosition == EmployeePosition.ADMIN) {

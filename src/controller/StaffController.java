@@ -71,7 +71,7 @@ public class StaffController {
     	System.out.println("--------------------------------");
     	
     	// initialize the variable keySet for readibility
-    	HashMap<MenuItem, Integer> itemsInOrder = order.getItemsInOrder();
+    	HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders();
     	Set<MenuItem> keySet = itemsInOrder.keySet();
     	Set<String> itemNames = null;
     	
@@ -82,7 +82,7 @@ public class StaffController {
     	// Iterate through the HashMap and print each key value pair, read as follows "for each items in the set of keys in the HashMap"
     	for (String items: itemNames) {
     		
-    		Integer quantity = order.getItemsInOrder().get(items);
+    		Integer quantity = order.getCurrentOrders().get(items);
     		
     		System.out.println(items + "		" + quantity);
     	}

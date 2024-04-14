@@ -10,6 +10,8 @@ import enums.*;
 
 public class Order implements Serializable, Comparable<Order>{
 	
+	private static final long serialVersionUID = 1L;
+
 	private String orderId;
 	
 	private String dateTime;
