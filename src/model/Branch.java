@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,12 +14,13 @@ public class Branch implements Serializable{
 	private String location;
 	
 	private int staffQuota;
-	
+		
 	//somewhere need to put branch into <branch, employee> hash map
 	private List<String> foodCategoryList;
-	private HashMap<String, Employee> EMPLOYEE = new HashMap<String, Employee>();
-	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<String, MenuItems>();
-	private HashMap<String, Orders> ORDERS = new HashMap<String, Orders>();
+	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
+	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<>();
+	
+	private ArrayList<Order> ORDERS = new ArrayList<>(); 
 	
 	public Branch(String name, String location, int staffQuota) {
 		this.name = name;
@@ -58,7 +60,7 @@ public class Branch implements Serializable{
 		return this.MENU_ITEMS;
 	}
 	
-	public HashMap<String, Orders> getOrders() {
+	public ArrayList<Order> getOrders() {
 		return this.ORDERS;
 	}
 	
