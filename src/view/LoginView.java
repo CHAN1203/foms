@@ -6,6 +6,7 @@ import helper.Helper;
 import repository.Repository;
 import view.MenuView;
 import view.CustomerView;
+import model.Branch;
 import model.Employee;
 
 public class LoginView extends MainView {
@@ -16,7 +17,7 @@ public class LoginView extends MainView {
 
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Login View");
+		printBreadCrumbs("Fast Food App View > Login View");x
 		System.out.println("\nChoose employee type:");
 		System.out.println("1. Admin");
 		System.out.println("2. Manager");
@@ -56,14 +57,17 @@ public class LoginView extends MainView {
 		boolean loginSuccess = UserController.authenticate(username, password);
 		if (loginSuccess) {
 			System.out.println("Login successful, welcome " + username);
+			
+			Branch branch = Repository.BRANCH.get(username); // get the current branch object
+			
 			if(employeePosition == EmployeePosition.ADMIN) {
 				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
-				managerView.viewApp();
+				managerView.viewApp(branch);
 			}
 			else {
-				staffView.viewApp();
+				staffView.viewApp(branch);
 			}
 			// goto next view, use employeePosition to decide 
 			// if (employeePosition == EmployeePosition.ADMIN) {

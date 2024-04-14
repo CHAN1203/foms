@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import enums.FoodAvailability;
 
-public class MenuItems implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
+public class MenuItem implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
 	 /**
      * For Java Serializable
      */
@@ -45,7 +45,7 @@ public class MenuItems implements Serializable{// this is just a copy paste from
      * @param description Description of the preparation methods of the menu item
      * @param price Price of the menu item
      */
-    public MenuItems(String branch, String menuItemId, String name, String foodCategory, String description, double price, FoodAvailability  foodAvailability) {
+    public MenuItem(String branch, String menuItemId, String name, String foodCategory, String description, double price, FoodAvailability  foodAvailability) {
         setBranch(branch);
     	setMenuItemId(menuItemId);
         setName(name);

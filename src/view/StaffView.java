@@ -22,7 +22,7 @@ public class StaffView extends MainView{
 			opt = Helper.readInt(1,6);
 			switch(opt) {
 				case 1:
-					StaffController.displayProcessingOrders();
+					StaffController.displayProcessingOrders(branchName);
 					break;
 				case 2:
 					System.out.println("which order do you want to know the details? Please enter an order ID");
@@ -30,6 +30,8 @@ public class StaffView extends MainView{
 					StaffController.viewParticularOrderDetails(orderId);
 					break;
 				case 3:
+					System.out.println("which order do you want to process?");
+					int orderID = Helper.readInt();
 					StaffController.processOrder(orderId);
 					break;
 			}
