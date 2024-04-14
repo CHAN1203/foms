@@ -18,7 +18,6 @@ public class Repository {
     
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<>();
     public static HashMap<String, Branch> BRANCH = new HashMap<>();
-    public static HashMap<Integer, Order> ORDER = new HashMap<>(); // <orderID, Order>
     
     //haven't written any serialization part
     public static Set<String> BRANCHES = new HashSet<>();
