@@ -38,7 +38,7 @@ public class CustomerView extends MainView{
         do { // error handling to ensure user keys in a valid option for number of branches
         	branchView.viewApp();
         	chosenBranch = Helper.readInt();
-	        if(chosenBranch < size && chosenBranch > 0) {
+	        if(chosenBranch <= size && chosenBranch > 0) {
 	        	break;
 	        }
 	        else {
@@ -118,7 +118,7 @@ public class CustomerView extends MainView{
 	        Helper.clearScreen();
 	        printBreadCrumbs("Hotel App View > Order View > Create order for OrderId " + orderId);
 	        String category = promptSelectCategory(branch);
-	        HashMap<String, MenuItems> filteredMenu = MenuController.filterMenuItemsByCategory(Repository.BRANCH.get(branch).getMenuItems(), category);
+	        HashMap<String, MenuItem> filteredMenu = MenuController.filterMenuItemsByCategory(Repository.BRANCH.get(branch).getMenuItems(), category);
 	        
 	        int size = filteredMenu.size(); 
 	        do {// error handling to ensure user keys in valid option for certain food in a specific category
@@ -272,38 +272,39 @@ public class CustomerView extends MainView{
 		}
 	}
 	
-	private String promptBranch(int opt) {
+	public String promptBranch(int opt) {
 		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
-		int i = 0;
-		for(i=0; i<opt; i++) {
+		int i = 1;
+		for(i = 1; i<opt; i++) {
 			iteratedBranch.next();
 		}
 		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
 		Branch chosenBranch = SelectedBranch.getValue();
 		String branch = chosenBranch.getName();
+		System.out.println(branch);
 		return branch;
 	}
 	
-	private String promptFoodOption(HashMap<String, MenuItems> menuItems, int opt) {
-		Iterator<Entry<String, MenuItems>> iteratedFood= menuItems.entrySet().iterator();
+	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {
+		Iterator<Entry<String, MenuItem>> iteratedFood= menuItems.entrySet().iterator();
 		int i = 0;
 		for(i=0; i<opt; i++) {
 			iteratedFood.next();
 		}
-		Entry<String, MenuItems> SelectedFood = iteratedFood.next();
-		MenuItems chosenFood = SelectedFood.getValue();
+		Entry<String, MenuItem> SelectedFood = iteratedFood.next();
+		MenuItem chosenFood = SelectedFood.getValue();
 		String itemName = chosenFood.getName();
 		return itemName;
 	}
 	
-	private String promptRemoveFood(HashMap<MenuItems, Integer> currentOrders, int opt) {
-		Iterator<Entry<MenuItems, Integer>> iteratedRemove = currentOrders.entrySet().iterator();
+	private String promptRemoveFood(HashMap<MenuItem, Integer> currentOrders, int opt) {
+		Iterator<Entry<MenuItem, Integer>> iteratedRemove = currentOrders.entrySet().iterator();
 		int i = 0;
 		for(i=0; i<opt; i++) {
 			iteratedRemove.next();
 		}
-		Entry<MenuItems, Integer> toBeRemovedFood = iteratedRemove.next();
-		MenuItems chosenFoodToBeRemoved = toBeRemovedFood.getKey();
+		Entry<MenuItem, Integer> toBeRemovedFood = iteratedRemove.next();
+		MenuItem chosenFoodToBeRemoved = toBeRemovedFood.getKey();
 		String itemName = chosenFoodToBeRemoved.getName();
 		return itemName;
 	}

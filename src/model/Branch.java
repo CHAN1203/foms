@@ -18,7 +18,7 @@ public class Branch implements Serializable{
 	//somewhere need to put branch into <branch, employee> hash map
 	private List<String> foodCategoryList;
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
-	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<>();
+	private HashMap<String, MenuItem> MENU_ITEMS = new HashMap<>();
 	private HashMap<String, Order> ORDERS = new HashMap<>();  // <Order ID, Order object>
 	
 	public Branch(String name, String location, int staffQuota) {
@@ -55,7 +55,7 @@ public class Branch implements Serializable{
 		return this.EMPLOYEE;
 	}
 	
-	public HashMap<String, MenuItems> getMenuItems() {
+	public HashMap<String, MenuItem> getMenuItems() {
 		return this.MENU_ITEMS;
 	}
 

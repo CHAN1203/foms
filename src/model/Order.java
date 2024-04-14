@@ -7,7 +7,8 @@ import helper.Helper;
 import repository.Repository;
 import enums.*;
 
-public class Order implements Serializable, Comparable<Orders>{
+
+public class Order implements Serializable, Comparable<Order>{
 	
 	private String orderId;
 	
@@ -15,7 +16,8 @@ public class Order implements Serializable, Comparable<Orders>{
 	
 	private double totalBill;
 	
-	private HashMap<MenuItem, Integer> itemsInOrder;
+
+	private HashMap<MenuItem, Integer> currentOrders;
 	
 	private String remarks;
 	
@@ -29,31 +31,33 @@ public class Order implements Serializable, Comparable<Orders>{
 		this.branchName = branchName;
 		this.totalBill = 0;
 		this.remarks = "No Remarks";
-		this.itemsInOrder = new HashMap<MenuItems, Integer>();
+
+		this.currentOrders = new HashMap<MenuItem, Integer>();
 	}
 	
-	public void addOrderItem(MenuItems menuItem, int amount){
-        if (itemsInOrder.containsKey(menuItem)){
+	public void addOrderItem(MenuItem menuItem, int amount){
+        if (currentOrders.containsKey(menuItem)){
             int currAmount = currentOrders.get(menuItem);
-            itemsInOrder.put(menuItem, currAmount + amount);
+            currentOrders.put(menuItem, currAmount + amount);
         }
         else{
-        	itemsInOrder.put(menuItem, amount);
+            currentOrders.put(menuItem, amount);
         }
         totalBill += (menuItem.getPrice() * amount);
     }
 	
-	public boolean removeOrderItem(MenuItems toBeRemoved, int amount) {
+	public boolean removeOrderItem(MenuItem toBeRemoved, int amount) {
 
-        int currAmount = itemsInOrder.get(toBeRemoved);
+        int currAmount = currentOrders.get(toBeRemoved);
         if (amount <= currAmount) {
             if (amount == currAmount) {
-            	itemsInOrder.remove(toBeRemoved);
+                currentOrders.remove(toBeRemoved);
             } else {
-            	itemsInOrder.put(toBeRemoved, currAmount - amount);
+                currentOrders.put(toBeRemoved, currAmount - amount);
             }
             totalBill -= (toBeRemoved.getPrice() * amount);
             return true;
+            
         } else {
             System.out.println("");
             return false;
@@ -61,7 +65,10 @@ public class Order implements Serializable, Comparable<Orders>{
     }
 	
 	public MenuItem findOrderItem(String name) {
-        for (MenuItem menuItem : itemsInOrder.keySet()) {
+
+        for (MenuItem menuItem : currentOrders.keySet()) {
+        	
+        
             if (menuItem.getName().equalsIgnoreCase(name)){
                 return menuItem;
             }
@@ -69,8 +76,10 @@ public class Order implements Serializable, Comparable<Orders>{
         return null;
     }
 	
-	public HashMap<MenuItem, Integer> getItemsInOrder() {
-        return itemsInOrder;
+
+	public HashMap<MenuItem, Integer> getCurrentOrders() {
+        return currentOrders;
+
     }
 	
 	public String getOrderId() {
