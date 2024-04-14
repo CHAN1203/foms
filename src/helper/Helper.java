@@ -41,7 +41,7 @@ public class Helper {
                 return userInput;
             } catch (InputMismatchException e) {
                 sc.nextLine();
-                System.out.println("Invalid Input, Enter an integer!");
+                System.out.println("Invalid Input. Enter an integer!");
             }
         }
     }
@@ -73,7 +73,7 @@ public class Helper {
                 }
             } catch(InputMismatchException e){
                 sc.nextLine();
-                System.out.println("Invalid Input, Enter an integer!");
+                System.out.println("Invalid Input. Enter an integer!");
             } catch (OutOfRange e) {
                 System.out.println("Input is out of allowed range");
             }
@@ -293,5 +293,6 @@ public class Helper {
         } catch (Exception err) {
 
         }
+
     }
 }

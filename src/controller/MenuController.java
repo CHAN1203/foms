@@ -3,9 +3,8 @@ package controller;
 import repository.Repository;
 import repository.FileType;
 import model.MenuItem;
-
+import model.Branch;
 import java.util.HashMap;
-
 import enums.FoodAvailability;
 import helper.Helper;
 
@@ -39,6 +38,10 @@ public class MenuController {
     public static boolean addMenuItem(String branch,String name, String foodCategory, String description, double price, FoodAvailability foodAvailability) {
         String formattedName = name.toUpperCase();
         String menuIdToUpdate = getMenuIdFromName(branch, formattedName);
+        
+        if (!Repository.BRANCH.get(branch).getFoodCategoryList().contains("foodCategory")) {
+        	Repository.BRANCH.get(branch).getFoodCategoryList().add(foodCategory);
+        }
         
         if (!menuIdToUpdate.equals("")) {
             // means there is a duplicate 
@@ -186,7 +189,7 @@ public class MenuController {
     public static void printMenu(String branch) {
     	int num = 1;
         for (MenuItem menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
-        	System.out.println("Item " + num++);
+        	System.out.println("Item (" + (num++) + ")");
         	System.out.println("Item name: " + menuItem.getName());
         	System.out.println("Item Category: " + menuItem.getFoodCategory());
 	        System.out.println("Description: " + menuItem.getDescription());
@@ -202,8 +205,7 @@ public class MenuController {
     public static void printFoodCategory(String branch) {
     	int num = 1;
         for (String foodCategory : Repository.BRANCH.get(branch).getFoodCategoryList()) {
-	        System.out.println("Category " + (num++) + ": " + foodCategory);
-           	System.out.println();
+	        System.out.println("(" + (num++) + ") " + foodCategory);
         }
     }
     
