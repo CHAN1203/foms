@@ -19,8 +19,7 @@ public class Branch implements Serializable{
 	private List<String> foodCategoryList;
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
 	private HashMap<String, MenuItems> MENU_ITEMS = new HashMap<>();
-	
-	private ArrayList<Order> ORDERS = new ArrayList<>(); 
+	private HashMap<Integer, Order> ORDERS = new HashMap<>();  // <Order ID, Order object>
 	
 	public Branch(String name, String location, int staffQuota) {
 		this.name = name;
@@ -60,7 +59,7 @@ public class Branch implements Serializable{
 		return this.MENU_ITEMS;
 	}
 	
-	public ArrayList<Order> getOrders() {
+	public HashMap<Integer, Order> getOrders() {
 		return this.ORDERS;
 	}
 	
