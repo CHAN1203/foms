@@ -27,19 +27,18 @@ public class OrderController {
      * @return Order Id of the new order
      */
     public static String createOrder(String branch) {
-//    	Branch branchObject = Repository.BRANCH.get(branch);
-//    	String orderId = "O0001";
-//    	HashMap <String, Order> orders = branchObject.getOrders();
-//        int oid = Helper.generateUniqueId(orders);
-//        String orderId = String.format("O%04d", oid);
-//        Order newOrder = new Order(orderId, Helper.getTimeNow(), branch);
-//        
-//        // update room's order
-////        OrderController.updateOrders(orderId, newOrder);
-//
-//        HashMap<String, Order> orderObject = branchObject.getOrders();
-//        orderObject.put(orderId, newOrder);
-        return "O0001";
+    	Branch branchObject = Repository.BRANCH.get(branch);
+    	HashMap <String, Order> orders = branchObject.getOrders();
+        int oid = Helper.generateUniqueId(orders);
+        String orderId = String.format("O%04d", oid);
+        Order newOrder = new Order(orderId, Helper.getTimeNow(), branch);
+        
+        // update room's order
+//        OrderController.updateOrders(orderId, newOrder);
+
+        HashMap<String, Order> orderObject = branchObject.getOrders();
+        orderObject.put(orderId, newOrder);
+        return orderId;
     }
 
     /**
@@ -59,7 +58,7 @@ public class OrderController {
             // no menu item found
             return false;
         }
-        MenuItems menuItemToAdd = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
+        MenuItem menuItemToAdd = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         currentOrder.addOrderItem(menuItemToAdd, quantity);
         return true;
@@ -82,7 +81,7 @@ public class OrderController {
             // no menu item found
             return false;
         }
-        MenuItems menuItemToDelete = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
+        MenuItem menuItemToDelete = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         return currentOrder.removeOrderItem(menuItemToDelete, quantity);
     }
@@ -100,8 +99,8 @@ public class OrderController {
         System.out.println(String.format("%-66s", "").replace(" ", "─"));
 
         int index = 1;
-        for (Map.Entry<MenuItems, Integer> entry : currentOrder.getCurrentOrders().entrySet()) {
-            MenuItems key = entry.getKey();
+        for (Map.Entry<MenuItem, Integer> entry : currentOrder.getCurrentOrders().entrySet()) {
+            MenuItem key = entry.getKey();
             Integer value = entry.getValue();
             double totalPrice = value * key.getPrice();
             System.out.printf("%-4d %-26s %10d %8s$%.2f\n", index++, key.getName(), value, "", totalPrice);
