@@ -28,30 +28,34 @@ public class CustomerView extends MainView{
         System.out.println("(5) View Shopping Cart");
         System.out.println("(6) Checkout");
         System.out.println("(7) Check order status");
-        System.out.println("(8) Exit App");
+        System.out.println("(8) Back");
 	}
 
 	@Override
 	public void viewApp() {
 		int size = Repository.BRANCH.size(); 
-		int chosenBranch;
+		int chosenBranch = -1;
         do { // error handling to ensure user keys in a valid option for number of branches
         	branchView.viewApp();
+        	System.out.println("(" + (size+1) + ") Back" );
         	chosenBranch = Helper.readInt();
 	        if(chosenBranch <= size && chosenBranch > 0) {
 	        	break;
 	        }
+	        else if (chosenBranch == size+1){
+	        	return;
+	        }
 	        else {
-	        	System.out.println("Invalid option please try again.");
+	        	System.out.println("Invalid option. Please try again.");
 	        }
 	        
         }while(chosenBranch > size || chosenBranch <= 0);
 		String branch = promptBranch(chosenBranch);
 		String orderId = OrderController.createOrder(branch);
-		printActions();
-		int opt;
+		int opt = -1;
 		do {
-			opt = Helper.readInt(1,4);
+			printActions();
+			opt = Helper.readInt(1,8);
 			switch (opt) {
 			case 1:
 				if(!createOrder(orderId, branch)) {
@@ -60,19 +64,22 @@ public class CustomerView extends MainView{
 				else {
 					System.out.println("Successfully created order");
 				}
+				Helper.pressAnyKeyToContinue();
 				break;
 			case 2:
-				Helper.clearScreen();
-                printBreadCrumbs("Hotel App View > Order View > Remove an order for OrderId" + orderId);
+				//Helper.clearScreen();
+                printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
 				if(!removeOrder(orderId, branch)) {
 					System.out.println("Remove order unsuccessful");
 				}
 				else {
 					System.out.println("Successfully removed order");
 				}
+				Helper.pressAnyKeyToContinue();
+				break;
 			case 3:
-				Helper.clearScreen();
-				printBreadCrumbs("Hotel App View > Order View > Enter remarks for OrderId" + orderId);
+				//Helper.clearScreen();
+				printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
 				System.out.println("Enter remarks for your order");
 				String remarks = Helper.readString();
 				if(!OrderController.setRemarks(remarks, orderId, branch)) {
@@ -81,29 +88,32 @@ public class CustomerView extends MainView{
 				else {
 					System.out.println("Successfully entered remarks");
 				}
+				Helper.pressAnyKeyToContinue();
 				break;
 			case 4:
-				Helper.clearScreen();
-				printBreadCrumbs("Hotel App View > Customer View > Print all orders");
+				//Helper.clearScreen();
+				printBreadCrumbs("Fast Food App View > Customer View > Print all orders");
 				OrderController.printOrderDetails(orderId, branch);
+				Helper.pressAnyKeyToContinue();
 				break;
 			case 5:
-				Helper.clearScreen();
+				//Helper.clearScreen();
+				printBreadCrumbs("Fast Food App View > Order View > Shopping Cart View");
 				shoppingCart(orderId, branch);
+				Helper.pressAnyKeyToContinue();
+				break;
 			case 6:
+				printBreadCrumbs("Fast Food App View > Order View > Check Out View");
 				checkout(orderId, branch);
+				Helper.pressAnyKeyToContinue();
 				break;
 			case 7:
-				printBreadCrumbs("Hotel App View > Customer View > Check order status");
+				printBreadCrumbs("Fast Food App View > Customer View > Check order status");
 				checkOrderStatus(orderId, branch);
+				Helper.pressAnyKeyToContinue();
 				break;
 			case 8:
 				break;
-			default:
-				System.out.println("Invalid input");
-			}
-			if (opt != 8) {
-				Helper.pressAnyKeyToContinue();
 			}
 		} while (opt != 8);
 		
@@ -113,28 +123,28 @@ public class CustomerView extends MainView{
 	 private boolean createOrder(String orderId, String branch) {
 	        String itemName;
 	        int itemAmount;
-	        int opt; 
+	        int opt = -1; 
 	        
-	        Helper.clearScreen();
-	        printBreadCrumbs("Hotel App View > Order View > Create order for OrderId " + orderId);
+	        //Helper.clearScreen();
+	        printBreadCrumbs("Fast Food App View > Order View > Create order for OrderId " + orderId);
 	        String category = promptSelectCategory(branch);
 	        HashMap<String, MenuItem> filteredMenu = MenuController.filterMenuItemsByCategory(Repository.BRANCH.get(branch).getMenuItems(), category);
 	        
 	        int size = filteredMenu.size(); 
 	        do {// error handling to ensure user keys in valid option for certain food in a specific category
-	        	System.out.println("Select the food to order");
 		        MenuController.printMenuByFoodCategory(branch, category);
+		        System.out.println("Select the food to order:");
 		        opt = Helper.readInt();
-		        if(opt < size && opt > 0) {
+		        if(opt <= size && opt > 0) {
 		        	break;
 		        }
 		        else {
-		        	System.out.println("Invalid option please try again.");
+		        	System.out.println("Invalid option. Please try again.");
 		        }
 		        
 	        }while(opt > size || opt <= 0);
 	        
-	        System.out.println("Enter number of quantity");
+	        System.out.println("Enter number of quantity:");
 	        itemAmount = Helper.readInt();
 	        itemName = promptFoodOption(filteredMenu, opt);
 	        addOrderItem(itemName, orderId, itemAmount, branch);
@@ -145,24 +155,24 @@ public class CustomerView extends MainView{
 	 private boolean removeOrder(String orderId, String branch) {
 		 	String itemName;
 	        int itemAmount;
-	        int opt; 
+	        int opt = -1; 
 	        	        
 	        OrderController.printOrderDetails(orderId, branch);
 	        
 	        int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size();
 	        do {// error handling to ensure user selects a valid option of food to remove from their order
-	        	System.out.println("Select which food to remove");
+	        	System.out.println("Select which food to remove: ");
 		        opt = Helper.readInt();
 		        if(opt < size && opt > 0) {
 		        	break;
 		        }
 		        else {
-		        	System.out.println("Invalid option please try again.");
+		        	System.out.println(" option. Please try again.");
 		        }
 		        
 	        }while(opt > size || opt <= 0);
 	        
-	        System.out.println("Enter number of quantity");
+	        System.out.println("Enter number of quantity:");
 	        itemAmount = Helper.readInt();
 	        
 	        itemName = promptRemoveFood(Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders(), opt);
@@ -172,10 +182,10 @@ public class CustomerView extends MainView{
 	 }
 
 	 private void shoppingCart(String orderId, String branch) {
-		 printShoppingCart(orderId, branch);
-		 int opt;
+		 int opt = -1;
 		 do {
-			 opt = Helper.readInt();
+			 printShoppingCart(orderId, branch);
+			 opt = Helper.readInt(1,5);
 			 switch (opt) {
 			 
 			 	case 1:
@@ -187,17 +197,18 @@ public class CustomerView extends MainView{
 					}
 					break;
 			 	case 2:
-			 		Helper.clearScreen();
-	                printBreadCrumbs("Hotel App View > Order View > Remove an order for OrderId" + orderId);
+			 		//Helper.clearScreen();
+	                printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
 					if(!removeOrder(orderId, branch)) {
 						System.out.println("Remove order unsuccessful");
 					}
 					else {
 						System.out.println("Successfully removed order");
 					}
+					break;
 			 	case 3:
-			 		Helper.clearScreen();
-					printBreadCrumbs("Hotel App View > Order View > Enter remarks for OrderId" + orderId);
+			 		//Helper.clearScreen();
+					printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
 					System.out.println("Enter remarks for your order");
 					String remarks = Helper.readString();
 					if(!OrderController.setRemarks(remarks, orderId, branch)) {
@@ -208,11 +219,14 @@ public class CustomerView extends MainView{
 					}
 					break;
 			 	case 4:
-			 		Helper.clearScreen();
-			 		printBreadCrumbs("Hotel App View > Order View > Checkout view for OrderId" + orderId);
+			 		//Helper.clearScreen();
+			 		printBreadCrumbs("Fast Food App View > Order View > Checkout view for OrderId" + orderId);
 			 		checkout(orderId, branch);
+			 		break;
+			 	case 5:
+			 		return;
 			 }
-		 }while(opt != 4);
+		 } while(opt != 4);
 	 }
 	 
 	 private void printShoppingCart(String orderId, String branch) {
@@ -224,6 +238,7 @@ public class CustomerView extends MainView{
 		 System.out.println("(2) Remove an order");
 		 System.out.println("(3) Enter remarks");
 		 System.out.println("(4) Checkout");
+		 System.out.println("(5) Back");
 	 }
 	 
 	 
@@ -238,7 +253,7 @@ public class CustomerView extends MainView{
 		        	break;
 		        }
 		        else {
-		        	System.out.println("Invalid option please try again.");
+		        	System.out.println("Invalid option. Please try again.");
 		        }
 		        
 	        }while(categoryChoice > size || categoryChoice <= 0);
@@ -281,14 +296,13 @@ public class CustomerView extends MainView{
 		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
 		Branch chosenBranch = SelectedBranch.getValue();
 		String branch = chosenBranch.getName();
-		System.out.println(branch);
 		return branch;
 	}
 	
 	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {
 		Iterator<Entry<String, MenuItem>> iteratedFood= menuItems.entrySet().iterator();
-		int i = 0;
-		for(i=0; i<opt; i++) {
+		int i = 1;
+		for(i=1; i<opt; i++) {
 			iteratedFood.next();
 		}
 		Entry<String, MenuItem> SelectedFood = iteratedFood.next();
@@ -299,8 +313,8 @@ public class CustomerView extends MainView{
 	
 	private String promptRemoveFood(HashMap<MenuItem, Integer> currentOrders, int opt) {
 		Iterator<Entry<MenuItem, Integer>> iteratedRemove = currentOrders.entrySet().iterator();
-		int i = 0;
-		for(i=0; i<opt; i++) {
+		int i = 1;
+		for(i=1; i<opt; i++) {
 			iteratedRemove.next();
 		}
 		Entry<MenuItem, Integer> toBeRemovedFood = iteratedRemove.next();

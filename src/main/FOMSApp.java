@@ -13,13 +13,12 @@ public class FOMSApp {
 //		Admin admin = new Admin("Boss", "password", EmployeePosition.ADMIN, EmployeeGender.FEMALE, 62, "boss");
 //		Repository.EMPLOYEE.put("HS Yap", employee);
 //		Repository.persistData(FileType.EMPLOYEE);
-		
+//		X
 //		Repository.clearDatabase();
 		
 		Repository.initializeDummyBranch();
 		Repository.initializeDummyMenu();
 		Repository.initializeDummyEmployee();
-		
 		
 		Repository.readData(FileType.EMPLOYEE);
 		Repository.readData(FileType.BRANCH);

@@ -16,7 +16,7 @@ public class Branch implements Serializable{
 	private int staffQuota;
 		
 	//somewhere need to put branch into <branch, employee> hash map
-	private List<String> foodCategoryList;
+	private List<String> foodCategoryList = new ArrayList<String>();
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
 	private HashMap<String, MenuItem> MENU_ITEMS = new HashMap<>();
 	private HashMap<String, Order> ORDERS = new HashMap<>();  // <Order ID, Order object>

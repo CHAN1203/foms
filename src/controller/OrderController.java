@@ -1,3 +1,5 @@
+package controller;
+
 import repository. *;
 import helper.Helper;
 import model. *;
@@ -53,7 +55,7 @@ public class OrderController {
             return false;
         }
         String formattedName = name.toUpperCase();
-        String menuIdOfOrder = MenuController.getMenuIdFromName(formattedName);
+        String menuIdOfOrder = MenuController.getMenuIdFromName(branch, formattedName);
         if (menuIdOfOrder.equals("")) {
             // no menu item found
             return false;
@@ -122,7 +124,13 @@ public class OrderController {
             return false;
         }
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
-        currentOrder.setRemarks(remarks);
+        if (currentOrder.getRemarks().equals("No Remarks")) {
+        	currentOrder.setRemarks(remarks);
+        }
+        else {
+        	currentOrder.setRemarks(currentOrder.getRemarks().concat(" | ").concat(remarks));
+        }
+        
         return true;
     }
 
