@@ -1,6 +1,5 @@
 package controller;
 import helper.Helper;
-import model.MenuItems;
 import repository.Repository;
 import repository.FileType;
 import repository.Repository;
@@ -9,12 +8,33 @@ import enums. *;
 import model. *;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class StaffController {
 
-	public static void displayNewOrder(int orderID) {// retrieve hashmap (order) printf
+	public static void displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
 		
+		Branch branch = Repository.BRANCH.get(branchName); // get the current branch object
+		ArrayList<Order> branchOrders = branch.getOrders(); 
+		
+		for (Order order: branchOrders) {
+			if (order.getStatus() == OrderStatus.PROCESSING) {
+				
+				System.out.println("Order ID: " + order.getOrderID());
+				System.out.println("------------------------------------------------------");
+				System.out.println("Item Name                             Quantity");
+				System.out.println("------------------------------------------------------");
+
+				Set <String> itemNames = order.getItemsInOrder().keySet(); // get the item names in the order
+
+				for (String itemName : itemNames) {
+					Integer quantity = order.getItemsInOrder().get(itemName); // use hashmap to get quantity (value) from key (itemName)
+					System.out.println(itemName + "                          " + quantity);
+				}
+				
+			}
+		}
 	}
 	
 	public static void viewParticularOrderDetails(int orderID) {//retrieve the order of a specific OrderID print
@@ -97,6 +117,29 @@ public class StaffController {
     		return null;
     	}
     }
+    
+    public static List<Order> getOrdersInBranch(String branchID){
+    	ArrayList<Order> ordersInBranch = new ArrayList<>();
+    	
+    	for (Order order : Repository.ORDERS.values()) {
+    		// if its in this branch
+    			// ordersInBranch.add(order);
+    	}
+    	
+    	// return ordersInBranch;
+    
+    public static ArrayList<Integer> getProcessingOrders(Branch branch){
+    	
+    	ArrayList<Integer> processingOrders = getOrdersInBranch(String branchID);
+    	
+    	// find out what is 
+    	
+    	)
+    	
+    	
+    		
+    		if (items)
+    	}
     
 }
     
