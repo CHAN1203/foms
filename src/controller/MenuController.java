@@ -2,7 +2,7 @@ package controller;
 
 import repository.Repository;
 import repository.FileType;
-import model.MenuItems;
+import model.MenuItem;
 
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class MenuController {
         
         int mid = Helper.generateUniqueId(Repository.BRANCH.get(branch).getMenuItems());
         String menuItemId = String.format("M%04d", mid);
-        MenuItems newMenuItem = new MenuItems(branch, menuItemId, name, foodCategory, description, price, foodAvailability);
+        MenuItem newMenuItem = new MenuItem(branch, menuItemId, name, foodCategory, description, price, foodAvailability);
         Repository.BRANCH.get(branch).getMenuItems().put(menuItemId, newMenuItem);
         Repository.persistData(FileType.BRANCH);
         return true;
@@ -67,7 +67,7 @@ public class MenuController {
         if (menuIdToUpdate.equals("")) {
             return false;
         }
-        MenuItems menuItemToUpdate = Repository.BRANCH.get(branch).getMenuItems().get(menuIdToUpdate);
+        MenuItem menuItemToUpdate = Repository.BRANCH.get(branch).getMenuItems().get(menuIdToUpdate);
         menuItemToUpdate.setName(formattedName);
         menuItemToUpdate.setDescription(description);
         menuItemToUpdate.setPrice(price);
@@ -99,7 +99,7 @@ public class MenuController {
      * @return The menu item id if menu item found. Otherwise, {@code ""} if menu item not found
      */
     public static String getMenuIdFromName(String branch,String name) {
-        for (MenuItems currentMenuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
+        for (MenuItem currentMenuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
             if (currentMenuItem.getName().equalsIgnoreCase(name)) {
                 return currentMenuItem.getMenuItemId();
             }
@@ -112,11 +112,11 @@ public class MenuController {
      * @param menuItems Hash map of menu items, branch Branch of menu item, foodCategory Food category of menu item
      * @return Hash Map of filtered menu items by food category
      */
-    public static HashMap<String, MenuItems> filterMenuItemsByCategory(HashMap<String, MenuItems> menuItems, String foodCategory) {
-        HashMap<String, MenuItems> filteredMenuItems = new HashMap<>();
+    public static HashMap<String, MenuItem> filterMenuItemsByCategory(HashMap<String, MenuItem> menuItems, String foodCategory) {
+        HashMap<String, MenuItem> filteredMenuItems = new HashMap<>();
 
-        for (HashMap.Entry<String, MenuItems> entry : menuItems.entrySet()) {
-            MenuItems menuItem = entry.getValue();
+        for (HashMap.Entry<String, MenuItem> entry : menuItems.entrySet()) {
+            MenuItem menuItem = entry.getValue();
             if (menuItem.getFoodCategory().equalsIgnoreCase(foodCategory)) {
                 filteredMenuItems.put(entry.getKey(), menuItem);
             }
@@ -168,7 +168,7 @@ public class MenuController {
      */
     public static void printMenuByFoodCategory(String branch, String foodCategory) {
         int num = 1;
-    	for (MenuItems menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
+    	for (MenuItem menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
             if (menuItem.getFoodCategory().equalsIgnoreCase(foodCategory)) {
 	        	System.out.println("Item " + num++);
             	System.out.println("Item name: " + menuItem.getName());
@@ -185,7 +185,7 @@ public class MenuController {
      */
     public static void printMenu(String branch) {
     	int num = 1;
-        for (MenuItems menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
+        for (MenuItem menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
         	System.out.println("Item " + num++);
         	System.out.println("Item name: " + menuItem.getName());
         	System.out.println("Item Category: " + menuItem.getFoodCategory());

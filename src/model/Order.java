@@ -15,7 +15,7 @@ public class Order implements Serializable, Comparable<Order>{
 	
 	private double totalBill;
 	
-	private HashMap<MenuItems, Integer> currentOrders;
+	private HashMap<MenuItem, Integer> currentOrders;
 	
 	private String remarks;
 	
@@ -29,10 +29,10 @@ public class Order implements Serializable, Comparable<Order>{
 		this.branchName = branchName;
 		this.totalBill = 0;
 		this.remarks = "No Remarks";
-		this.currentOrders = new HashMap<MenuItems, Integer>();
+		this.currentOrders = new HashMap<MenuItem, Integer>();
 	}
 	
-	public void addOrderItem(MenuItems menuItem, int amount){
+	public void addOrderItem(MenuItem menuItem, int amount){
         if (currentOrders.containsKey(menuItem)){
             int currAmount = currentOrders.get(menuItem);
             currentOrders.put(menuItem, currAmount + amount);
@@ -43,7 +43,7 @@ public class Order implements Serializable, Comparable<Order>{
         totalBill += (menuItem.getPrice() * amount);
     }
 	
-	public boolean removeOrderItem(MenuItems toBeRemoved, int amount) {
+	public boolean removeOrderItem(MenuItem toBeRemoved, int amount) {
 
         int currAmount = currentOrders.get(toBeRemoved);
         if (amount <= currAmount) {
@@ -60,8 +60,8 @@ public class Order implements Serializable, Comparable<Order>{
         }
     }
 	
-	public MenuItems findOrderItem(String name) {
-        for (MenuItems menuItem : currentOrders.keySet()) {
+	public MenuItem findOrderItem(String name) {
+        for (MenuItem menuItem : currentOrders.keySet()) {
             if (menuItem.getName().equalsIgnoreCase(name)){
                 return menuItem;
             }
@@ -69,7 +69,7 @@ public class Order implements Serializable, Comparable<Order>{
         return null;
     }
 	
-	public HashMap<MenuItems, Integer> getCurrentOrders() {
+	public HashMap<MenuItem, Integer> getCurrentOrders() {
         return currentOrders;
     }
 	
