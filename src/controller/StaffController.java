@@ -14,36 +14,49 @@ import java.util.Set;
 
 public class StaffController {
 
-	public static void displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
+	public static boolean displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
 		
-		HashMap <Integer, Order> ordersInBranch = getOrdersInBranch(branchName);
+		HashMap <String, Order> ordersInBranch = getOrdersInBranch(branchName);
 		
-		for (Order order: ordersInBranch.values()) {
+		if (ordersInBranch.size() == 0) {
+			Helper.clearScreen();
+			System.out.println("No processing order right now.");
+			return false;
+		}
+		
+		for (Order order: ordersInBranch.values()) { // iterate through each order object in the branch
+			
 			if (order.getStatus() == OrderStatus.PROCESSING) {
-				
-				System.out.println("Order ID: " + order.getOrderID());
-				System.out.println("------------------------------------------------------");
+			
+				System.out.println("Order ID: " + order.getOrderId());
+		    	System.out.println("Date time: " + order.getDateTime());
+		    	System.out.println("Total bill: " + order.getTotalBill());
+		    	System.out.println("Remarks: " + order.getRemarks());
+		    	System.out.println("Status: " + order.getStatus());				
+		    	System.out.println("------------------------------------------------------");
 				System.out.println("Item Name                             Quantity");
 				System.out.println("------------------------------------------------------");
+				
+				HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders(); // get the items in the order
 
-				Set <String> itemNames = order.getItemsInOrder().keySet(); // get the item names in the order
-
-				for (String itemName : itemNames) {
-					Integer quantity = order.getItemsInOrder().get(itemName); // use hashmap to get quantity (value) from key (itemName)
+				for (MenuItem menuItem: itemsInOrder.keySet()) {
+					String itemName = menuItem.getName(); // get the name (String) of item
+					Integer quantity = itemsInOrder.get(menuItem); // use hashmap to get quantity (value) from key (menuItem object)
 					System.out.println(itemName + "                          " + quantity);
 				}
-				
 			}
 		}
+		return true;
 	}
-	
-	public static void viewParticularOrderDetails(String branchName, int orderID) {//retrieve the order of a specific OrderID print
+
+	public static void viewParticularOrderDetails(String branchName, int orderID) { //retrieve the order of a specific OrderID print
 		
 		Order order = getOrderByID(branchName, orderID);
 		
 		// if there are no orders with the given Order ID
 		
 		if (order == null) {
+			Helper.clearScreen();
 			System.out.println("Order does not exist!");
 		}
 		
@@ -55,19 +68,29 @@ public class StaffController {
 	}
 	
     public static void particularOrderView(Order order) {
-    	System.out.println("Order ID: " + order.getOrderID());
+    	Helper.clearScreen();
+    	System.out.println("Order ID: " + order.getOrderId());
+    	System.out.println("Date time: " + order.getDateTime());
+    	System.out.println("Total bill: " + order.getTotalBill());
+    	System.out.println("Remarks: " + order.getRemarks());
     	System.out.println("Status: " + order.getStatus());
     	System.out.println();
     	System.out.println("Items Ordered			Quantity");
     	System.out.println("--------------------------------");
     	
     	// initialize the variable keySet for readibility
-    	Set<String> keySet = order.getItemsInOrder().keySet();
+    	HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders();
+    	Set<MenuItem> keySet = itemsInOrder.keySet();
+    	Set<String> itemNames = null;
+    	
+    	for (MenuItem menuItem: keySet) { // add the item names to the set of names
+    		itemNames.add(menuItem.getName());
+    	}
     	
     	// Iterate through the HashMap and print each key value pair, read as follows "for each items in the set of keys in the HashMap"
-    	for (String items: keySet) {
+    	for (String items: itemNames) {
     		
-    		Integer quantity = order.getItemsInOrder().get(items);
+    		Integer quantity = order.getCurrentOrders().get(items);
     		
     		System.out.println(items + "		" + quantity);
     	}
@@ -80,6 +103,7 @@ public class StaffController {
     	// if order does not exist
     	
     	if (order == null) {
+    		Helper.clearScreen();
     		System.out.println("Order does not exist!");
     	}
     	
@@ -87,6 +111,8 @@ public class StaffController {
     	
     	else {
     		order.setStatus(OrderStatus.READYFORPICKUP);
+    		Helper.clearScreen();
+    		System.out.println("Order is ready to pickup!");
     	}	
 	}
 	
@@ -95,10 +121,10 @@ public class StaffController {
      */
     public static void printMenu(String branchName) {
     	
-    	HashMap<String, MenuItems> menuItemsInBranch = Repository.BRANCH.get(branchName).getMenuItems();
+    	HashMap<String, MenuItem> menuItemsInBranch = Repository.BRANCH.get(branchName).getMenuItems();
     	
     	// iterate through each item in the menu and print out the details
-        for (MenuItems menuItem : menuItemsInBranch.values()) { 
+        for (MenuItem menuItem : menuItemsInBranch.values()) { 
             System.out.println("Item name: " + menuItem.getName());
             System.out.println("Description: " + menuItem.getDescription());
             System.out.println(String.format("Price: $%.2f", menuItem.getPrice()));
@@ -107,7 +133,7 @@ public class StaffController {
     
     public static Order getOrderByID(String branchName, int orderID){
         	
-    	HashMap<Integer, Order> ordersInBranch = getOrdersInBranch(branchName);
+    	HashMap<String, Order> ordersInBranch = getOrdersInBranch(branchName);
     	
     	if (ordersInBranch.containsKey(orderID)) {
     		Order order = ordersInBranch.get(orderID); // get the order object from ID
@@ -120,9 +146,9 @@ public class StaffController {
     	
     }
     
-    public static HashMap<Integer, Order> getOrdersInBranch(String branchName){ // return orders in the specified branch
+    public static HashMap<String, Order> getOrdersInBranch(String branchName){ // return orders in the specified branch
     	Branch branch = Repository.BRANCH.get(branchName);
-    	HashMap<Integer, Order> ordersInBranch = branch.getOrders(); // create a hashmap with all the orders in the current branch
+    	HashMap<String, Order> ordersInBranch = branch.getOrders(); // create a hashmap with all the orders in the current branch <OrderID (string), Order (object)>
     	return ordersInBranch;
     }
 }
@@ -143,4 +169,4 @@ public class StaffController {
     
     
     
-}
+

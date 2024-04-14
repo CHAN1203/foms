@@ -1,5 +1,6 @@
 package view;
 import helper.Helper;
+import model.Branch;
 import controller. *;
 
 public class StaffView extends MainView{
@@ -15,25 +16,34 @@ public class StaffView extends MainView{
 		
 	}
 	
-	public void viewApp() {// OrderController / 2x StaffController + ManagerController ASK ASK ASK
+	public void viewApp(String branchName) {// OrderController / 2x StaffController + ManagerController ASK ASK ASK
 		int opt = -1;
 		do {
 			printActions();
-			opt = Helper.readInt(1,6);
+			opt = Helper.readInt(1,4);
+			
 			switch(opt) {
 				case 1:
-					StaffController.displayProcessingOrders();
+					StaffController.displayProcessingOrders(branchName);
 					break;
 				case 2:
 					System.out.println("which order do you want to know the details? Please enter an order ID");
-					int orderId = Helper.readInt();
-					StaffController.viewParticularOrderDetails(orderId);
+					int orderID = Helper.readInt();
+					StaffController.viewParticularOrderDetails(branchName, orderID);
 					break;
 				case 3:
-					StaffController.processOrder(orderId);
+					System.out.println("which order do you want to process?");
+					int orderID1 = Helper.readInt();
+					StaffController.processOrder(branchName, orderID1);
 					break;
 			}
-		}while(opt != 6);
+		} while(opt != 4);
+	}
+
+	@Override // useless in this case
+	public void viewApp() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

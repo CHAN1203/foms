@@ -7,14 +7,18 @@ import helper.Helper;
 import repository.Repository;
 import enums.*;
 
+
 public class Order implements Serializable, Comparable<Order>{
 	
+	private static final long serialVersionUID = 1L;
+
 	private String orderId;
 	
 	private String dateTime;
 	
 	private double totalBill;
 	
+
 	private HashMap<MenuItem, Integer> currentOrders;
 	
 	private String remarks;
@@ -29,6 +33,7 @@ public class Order implements Serializable, Comparable<Order>{
 		this.branchName = branchName;
 		this.totalBill = 0;
 		this.remarks = "No Remarks";
+
 		this.currentOrders = new HashMap<MenuItem, Integer>();
 	}
 	
@@ -54,6 +59,7 @@ public class Order implements Serializable, Comparable<Order>{
             }
             totalBill -= (toBeRemoved.getPrice() * amount);
             return true;
+            
         } else {
             System.out.println("");
             return false;
@@ -61,7 +67,10 @@ public class Order implements Serializable, Comparable<Order>{
     }
 	
 	public MenuItem findOrderItem(String name) {
+
         for (MenuItem menuItem : currentOrders.keySet()) {
+        	
+        
             if (menuItem.getName().equalsIgnoreCase(name)){
                 return menuItem;
             }
@@ -69,8 +78,10 @@ public class Order implements Serializable, Comparable<Order>{
         return null;
     }
 	
+
 	public HashMap<MenuItem, Integer> getCurrentOrders() {
         return currentOrders;
+
     }
 	
 	public String getOrderId() {
