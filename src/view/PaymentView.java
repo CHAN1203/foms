@@ -28,7 +28,7 @@ public class PaymentView extends MainView{
 	        	 break;
 	        }
 		 
-		 } while (opt > size);
+		 } while (opt > size || opt <= 0);
 		 
 		 if (opt < size && opt > 0) {
 			 //print receipt here or create ReceiptView?
