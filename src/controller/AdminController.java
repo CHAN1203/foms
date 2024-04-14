@@ -259,6 +259,7 @@ public class AdminController {
      }
     
     public static void initializeDummyEmployee() {
+    	addStaffAccount("1", "1", "NTU", EmployeePosition.STAFF, EmployeeGender.MALE, 32, "1");
     	addStaffAccount("kumar Blackmore", "password", "NTU", EmployeePosition.STAFF, EmployeeGender.MALE, 32, "kumarB");
     	addStaffAccount("Alexei", "password", "NTU", EmployeePosition.MANAGER, EmployeeGender.MALE, 25, "Alexei");
     	addStaffAccount("Tom Chan", "password", "JP", EmployeePosition.MANAGER,EmployeeGender.MALE, 56, "TomC");

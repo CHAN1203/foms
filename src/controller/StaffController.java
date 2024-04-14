@@ -14,14 +14,20 @@ import java.util.Set;
 
 public class StaffController {
 
-	public static void displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
+	public static boolean displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
 		
 		HashMap <String, Order> ordersInBranch = getOrdersInBranch(branchName);
+		
+		if (ordersInBranch.size() == 0) {
+			Helper.clearScreen();
+			System.out.println("No processing order right now.");
+			return false;
+		}
 		
 		for (Order order: ordersInBranch.values()) { // iterate through each order object in the branch
 			
 			if (order.getStatus() == OrderStatus.PROCESSING) {
-				
+			
 				System.out.println("Order ID: " + order.getOrderId());
 		    	System.out.println("Date time: " + order.getDateTime());
 		    	System.out.println("Total bill: " + order.getTotalBill());
@@ -31,25 +37,26 @@ public class StaffController {
 				System.out.println("Item Name                             Quantity");
 				System.out.println("------------------------------------------------------");
 				
-				HashMap<MenuItem, Integer> itemsInOrder = order.getItemsInOrder(); // get the items in the order
+				HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders(); // get the items in the order
 
 				for (MenuItem menuItem: itemsInOrder.keySet()) {
 					String itemName = menuItem.getName(); // get the name (String) of item
 					Integer quantity = itemsInOrder.get(menuItem); // use hashmap to get quantity (value) from key (menuItem object)
 					System.out.println(itemName + "                          " + quantity);
 				}
-				
 			}
 		}
+		return true;
 	}
-	
-	public static void viewParticularOrderDetails(String branchName, int orderID) {//retrieve the order of a specific OrderID print
+
+	public static void viewParticularOrderDetails(String branchName, int orderID) { //retrieve the order of a specific OrderID print
 		
 		Order order = getOrderByID(branchName, orderID);
 		
 		// if there are no orders with the given Order ID
 		
 		if (order == null) {
+			Helper.clearScreen();
 			System.out.println("Order does not exist!");
 		}
 		
@@ -61,6 +68,7 @@ public class StaffController {
 	}
 	
     public static void particularOrderView(Order order) {
+    	Helper.clearScreen();
     	System.out.println("Order ID: " + order.getOrderId());
     	System.out.println("Date time: " + order.getDateTime());
     	System.out.println("Total bill: " + order.getTotalBill());
@@ -95,6 +103,7 @@ public class StaffController {
     	// if order does not exist
     	
     	if (order == null) {
+    		Helper.clearScreen();
     		System.out.println("Order does not exist!");
     	}
     	
@@ -102,6 +111,8 @@ public class StaffController {
     	
     	else {
     		order.setStatus(OrderStatus.READYFORPICKUP);
+    		Helper.clearScreen();
+    		System.out.println("Order is ready to pickup!");
     	}	
 	}
 	
@@ -158,4 +169,4 @@ public class StaffController {
     
     
     
-}
+
