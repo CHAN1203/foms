@@ -8,6 +8,7 @@ import enums. *;
 import model. *;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,10 +16,9 @@ public class StaffController {
 
 	public static void displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
 		
-		Branch branch = Repository.BRANCH.get(branchName); // get the current branch object
-		ArrayList<Order> branchOrders = branch.getOrders(); 
+		HashMap <Integer, Order> ordersInBranch = getOrdersInBranch(branchName);
 		
-		for (Order order: branchOrders) {
+		for (Order order: ordersInBranch.values()) {
 			if (order.getStatus() == OrderStatus.PROCESSING) {
 				
 				System.out.println("Order ID: " + order.getOrderID());
@@ -37,55 +37,23 @@ public class StaffController {
 		}
 	}
 	
-	public static void viewParticularOrderDetails(int orderID) {//retrieve the order of a specific OrderID print
+	public static void viewParticularOrderDetails(String branchName, int orderID) {//retrieve the order of a specific OrderID print
 		
-		Order order = getOrderByID(orderID);
+		Order order = getOrderByID(branchName, orderID);
 		
 		// if there are no orders with the given Order ID
 		
 		if (order == null) {
-			nullOrderView();
+			System.out.println("Order does not exist!");
 		}
 		
 		// order found, print order details
 		
 		else {
-			particularOrderView(order);
+			particularOrderView(order); // method written below
 		}
 	}
 	
-	public static void processOrder(int orderID) {// change from Preparing to Ready to Pickup
-		
-    	Order order = getOrderByID(orderID);
-    	
-    	// if order does not exist
-    	
-    	if (order == null) {
-    		System.out.println("Order does not exist!");
-    	}
-    	
-    	// order exists
-    	
-    	else {
-    		order.setStatus(OrderStatus.READYFORPICKUP);
-    	}	}
-	
-	/**
-     * Prints the menu items in the menu with details of each menu item.
-     */
-    public static void printMenu() {
-        for (MenuItems menuItem :Repository.MENU_ITEMS.values()) {
-            System.out.println("Item name: " + menuItem.getName());
-            System.out.println("Description: " + menuItem.getDescription());
-            System.out.println(String.format("Price: $%.2f", menuItem.getPrice()));
-        }
-    }
-    /////////////////////////////////////
-    
-    public static void nullOrderView() {
-    	System.out.println("Order does not exist!");
-    }
-    
     public static void particularOrderView(Order order) {
     	System.out.println("Order ID: " + order.getOrderID());
     	System.out.println("Status: " + order.getStatus());
@@ -104,43 +72,59 @@ public class StaffController {
     		System.out.println(items + "		" + quantity);
     	}
     }
-    
-    public static Order getOrderByID(int orderID){
+	
+	public static void processOrder(String branchName, int orderID) {// change from Preparing to Ready to Pickup
+				
+    	Order order = getOrderByID(branchName, orderID);
     	
-    	if (Repository.ORDER.containsKey(orderID)) {
-    		Order searchedOrder = Repository.ORDER.get(orderID);
-    		return searchedOrder;
-    	}    	
+    	// if order does not exist
     	
-    	// Order not found
-    	else { 
-    		return null;
+    	if (order == null) {
+    		System.out.println("Order does not exist!");
     	}
+    	
+    	// order exists
+    	
+    	else {
+    		order.setStatus(OrderStatus.READYFORPICKUP);
+    	}	
+	}
+	
+	/**
+     * Prints the menu items in the menu with details of each menu item.
+     */
+    public static void printMenu(String branchName) {
+    	
+    	HashMap<String, MenuItems> menuItemsInBranch = Repository.BRANCH.get(branchName).getMenuItems();
+    	
+    	// iterate through each item in the menu and print out the details
+        for (MenuItems menuItem : menuItemsInBranch.values()) { 
+            System.out.println("Item name: " + menuItem.getName());
+            System.out.println("Description: " + menuItem.getDescription());
+            System.out.println(String.format("Price: $%.2f", menuItem.getPrice()));
+        }
     }
     
-    public static List<Order> getOrdersInBranch(String branchID){
-    	ArrayList<Order> ordersInBranch = new ArrayList<>();
+    public static Order getOrderByID(String branchName, int orderID){
+        	
+    	HashMap<Integer, Order> ordersInBranch = getOrdersInBranch(branchName);
     	
-    	for (Order order : Repository.ORDERS.values()) {
-    		// if its in this branch
-    			// ordersInBranch.add(order);
+    	if (ordersInBranch.containsKey(orderID)) {
+    		Order order = ordersInBranch.get(orderID); // get the order object from ID
+    		return order;
     	}
     	
-    	// return ordersInBranch;
-    
-    public static ArrayList<Integer> getProcessingOrders(Branch branch){
-    	
-    	ArrayList<Integer> processingOrders = getOrdersInBranch(String branchID);
-    	
-    	// find out what is 
-    	
-    	)
-    	
-    	
-    		
-    		if (items)
+    	else {
+    		return null;
     	}
+    	
+    }
     
+    public static HashMap<Integer, Order> getOrdersInBranch(String branchName){ // return orders in the specified branch
+    	Branch branch = Repository.BRANCH.get(branchName);
+    	HashMap<Integer, Order> ordersInBranch = branch.getOrders(); // create a hashmap with all the orders in the current branch
+    	return ordersInBranch;
+    }
 }
     
     
