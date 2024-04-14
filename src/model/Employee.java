@@ -37,7 +37,7 @@ public class Employee implements Serializable {
 		this.age = age;
 	}
 
-	public void setBranch(Branch branch) {
+	public void setBranch(String branch) {
 		this.branch = branch;
 	}
 

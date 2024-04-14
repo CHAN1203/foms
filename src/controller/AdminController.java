@@ -15,8 +15,9 @@ public class AdminController {
 //		Branch branchObject = Repository.BRANCH.get(emp.getBranch());
 //		HashMap <String, Employee> employeeHM = branchObject.getEmployee();
 //		employeeHM.put(emp.getName(), emp);
-		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getName(),emp);
-		Repository.EMPLOYEE.put(emp.getName(), emp);
+		Repository.BRANCH.get(emp.getBranch()).addNumberOfStaff();
+		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getLoginId(),emp);
+		Repository.EMPLOYEE.put(emp.getLoginId(), emp);
 		Repository.persistData(FileType.EMPLOYEE);
 		Repository.persistData(FileType.BRANCH);
 	}
@@ -117,7 +118,7 @@ public class AdminController {
      * @param LoginId the employee id of the employee that the user want to remove
      * @return {@code true} if remove successfully. Otherwise, {@code false} if employee id is not found
      */
-    public static boolean removeStaffAccount(String loginID) {
+    public static boolean removeStaffAccount(String loginID) { 
     	ArrayList<Employee> removeList = searchStaffById(loginID);
         if (removeList.size() == 0) {
             // not found
@@ -125,12 +126,15 @@ public class AdminController {
         }
         for (Employee employee : removeList) {
             if (Helper.promptConfirmation("remove this guest")) {
+            	Repository.BRANCH.get(employee.getBranch()).addNumberOfStaff();
                 Repository.EMPLOYEE.remove(loginID);
+                Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginID);
             } else {
                 return false;
             }
         }
         Repository.persistData(FileType.EMPLOYEE);
+        Repository.persistData(FileType.BRANCH);
         return true;
     }
     
@@ -176,6 +180,8 @@ public class AdminController {
                 case 2:
                 	staffToUpdate = Repository.EMPLOYEE.get(loginId);
                 	staffToUpdate.setPosition(position);
+                	Repository.EMPLOYEE.remove(loginId);
+                    Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginId);
                     Repository.EMPLOYEE.put(employee.getLoginId(), staffToUpdate);
                     break;
                 default:
@@ -183,6 +189,7 @@ public class AdminController {
             }
         }
         Repository.persistData(FileType.EMPLOYEE);
+        Repository.persistData(FileType.BRANCH);
         return true;
     }
     
@@ -197,6 +204,7 @@ public class AdminController {
         }
         //loop through employee object
         for (Employee employee : updateList) {
+            Repository.BRANCH.get(employee.getBranch()).deductNumberOfStaff();
             Employee staffToTransfer;
         	staffToTransfer = Repository.EMPLOYEE.get(loginId);
         	staffToTransfer.setBranch(branch);
@@ -208,8 +216,8 @@ public class AdminController {
     }
     
     //return true when open successfully
-    public static boolean openBranch(String newBranch, String location, int staffQuota) {
-    	Branch branch = new Branch(newBranch, location, staffQuota);
+    public static boolean openBranch(String newBranch, String location, int staffQuota, int numberOfStaff) {
+    	Branch branch = new Branch(newBranch, location, staffQuota, numberOfStaff);
     	Repository.BRANCH.put(branch.getName(), branch);
     	Repository.BRANCHES.add(newBranch);
     	Repository.persistData(FileType.BRANCH);
@@ -250,16 +258,12 @@ public class AdminController {
 	}
 	
     public static void initializeDummyBranchInfo() {
-    	openBranch("NTU", "North Spine Plaza", 8);
-    	openBranch("JE", "Jurong East", 11);
-    	openBranch("JP", "Jurong Point", 15);
-        
-//        AdminController.addStaffAccount();
-//        addMenuItem()
+    	openBranch("NTU", "North Spine Plaza", 8, 2);
+    	openBranch("JE", "Jurong East", 11, 2);
+    	openBranch("JP", "Jurong Point", 15, 2);
      }
     
     public static void initializeDummyEmployee() {
-    	addStaffAccount("1", "1", "NTU", EmployeePosition.STAFF, EmployeeGender.MALE, 32, "1");
     	addStaffAccount("kumar Blackmore", "password", "NTU", EmployeePosition.STAFF, EmployeeGender.MALE, 32, "kumarB");
     	addStaffAccount("Alexei", "password", "NTU", EmployeePosition.MANAGER, EmployeeGender.MALE, 25, "Alexei");
     	addStaffAccount("Tom Chan", "password", "JP", EmployeePosition.MANAGER,EmployeeGender.MALE, 56, "TomC");
@@ -267,4 +271,11 @@ public class AdminController {
     	addStaffAccount("Mary lee", "password", "JE", EmployeePosition.STAFF, EmployeeGender.FEMALE, 44, "MaryL");
     	addStaffAccount("Justin Loh", "password", "JP", EmployeePosition.STAFF, EmployeeGender.MALE, 49, "JustinL");
     }
+    
+    public static void initializePaymentMethod() {
+    	addPaymentMethod("Cash");
+    	addPaymentMethod("Paynow");
+    	addPaymentMethod("Paywave");
+     }
+    
 }

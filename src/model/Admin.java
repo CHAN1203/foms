@@ -66,7 +66,7 @@ public class Admin {
 		return this.loginId;
 	}
 
-	public	Admin(String name, String password, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
+	public Admin(String name, String password, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		this.name = name;
 		this.password = password;
 		this.age = age;

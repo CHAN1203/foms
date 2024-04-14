@@ -17,6 +17,7 @@ public class Repository {
     private static final String folder = "data";
     
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<>();
+    public static HashMap<String, Admin> ADMIN = new HashMap<>();
     public static HashMap<String, Branch> BRANCH = new HashMap<>();
     
     //haven't written any serialization part
@@ -45,6 +46,7 @@ public class Repository {
     public static void saveAllFiles() {
     	persistData(FileType.EMPLOYEE);
     	persistData(FileType.BRANCH);
+    	persistData(FileType.ADMIN);
     }
 
 	private static boolean readSerializedObject(FileType fileType) {
@@ -66,8 +68,9 @@ public class Repository {
                 EMPLOYEE = (HashMap<String, Employee>) object;
             } else if(fileType == FileType.BRANCH) {
             	BRANCH = (HashMap<String, Branch>) object;
+            } else if(fileType == FileType.ADMIN) {
+                ADMIN = (HashMap<String, Admin>) object;
             }
-
             objectInputStream.close();
             fileInputStream.close();
             
@@ -101,10 +104,13 @@ public class Repository {
                 objectOutputStream.writeObject(EMPLOYEE);
             } else if (fileType == FileType.BRANCH){
             	objectOutputStream.writeObject(BRANCH);
-            } 
+            } else if (fileType == FileType.ADMIN){
+                objectOutputStream.writeObject(ADMIN);
+            }
             objectOutputStream.close();
             fileOutputStream.close();
             return true;
+            
         } catch (Exception err) {
             System.out.println("Error: " + err.getMessage());
             return false;
@@ -147,6 +153,15 @@ public class Repository {
     		}
     	}
     	AdminController.initializeDummyEmployee();
+    	return true;
+    }
+    
+
+    public static boolean initializePaymentMethod() {
+    	if(PAYMENT_METHODS.size()!=0) {
+    		return false;
+    	}
+    	AdminController.initializePaymentMethod();
     	return true;
     }
     

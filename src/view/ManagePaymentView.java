@@ -26,10 +26,8 @@ public class ManagePaymentView extends MainView{
 				case 2:
 					promptRemovePaymentMethod();
 					break;
-				case 3:
-					System.exit(0);
 			}
-		}while(opt != 4);
+		}while(opt != 3);
 	}
 	
 	private boolean promptAddPaymentMethod() {
@@ -40,7 +38,7 @@ public class ManagePaymentView extends MainView{
     }
 	
 	private boolean promptRemovePaymentMethod() {
-		System.out.print("Enter an existing payment method to remove: ");
+		System.out.println("Enter an existing payment method to remove: ");
 	   	System.out.println("Existing payment methods:");
         for (String method : Repository.PAYMENT_METHODS) {
             System.out.println(method);

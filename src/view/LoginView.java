@@ -45,20 +45,20 @@ public class LoginView extends MainView {
 			employeePosition = EmployeePosition.STAFF;
 			break;
 		}
-		String username;
+		String loginId;
 		String password;
 		
-		System.out.println("\nUsername:");
-		username = Helper.readString();
+		System.out.println("\nLogin ID:");
+		loginId = Helper.readString();
 		System.out.println("\nPassword:");
 		password = Helper.readString();
 		
 		
-		boolean loginSuccess = UserController.authenticate(username, password);
+		boolean loginSuccess = UserController.authenticate(loginId, password, employeePosition);
 		if (loginSuccess) {
-			System.out.println("Login successful, welcome " + username);
+			System.out.println("Login successful, welcome " +loginId);
 			
-			Employee employee = Repository.EMPLOYEE.get(username);
+			Employee employee = Repository.EMPLOYEE.get(loginId);
 			
 			String branch = employee.getBranch(); // get the current branch object
 			
@@ -71,10 +71,6 @@ public class LoginView extends MainView {
 			else {
 				staffView.viewApp(branch);
 			}
-			// goto next view, use employeePosition to decide 
-			// if (employeePosition == EmployeePosition.ADMIN) {
-			// 		AdminView.viewApp()
-			// }
 		} 
 		
 		else {
