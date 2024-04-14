@@ -3,14 +3,16 @@ import helper.Helper;
 
 public class FastFoodAppView extends MainView{
 
-	protected BranchView branchView;
-	protected LoginView loginView;
+	private BranchView branchView = new BranchView();
+	private LoginView loginView = new LoginView();
+	private CustomerView customerView = new CustomerView();
 	
 	public FastFoodAppView() {
 		super();
 		branchView = new BranchView();
 		loginView = new LoginView();
 	}
+	
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View");
@@ -28,13 +30,14 @@ public class FastFoodAppView extends MainView{
 			choice = Helper.readInt();
 			switch(choice) {
 				case 1:
-					branchView.viewApp();
+					customerView.viewApp();
 					break;
 				case 2:
 					loginView.viewApp();
 					break;
 				case 3:
 					System.exit(0);
+					break;
 				default:
 					System.out.println("Invalid input! Please try again.");
 					break;

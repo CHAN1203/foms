@@ -5,12 +5,16 @@ import repository.FileType;
 import enums. *;
 import model. *;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class AdminController {
 	
 	public static void addStaffAccount(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		Employee emp = new Employee(name, password, branch, position, gender, age, loginId);
+//		Branch branchObject = Repository.BRANCH.get(emp.getBranch());
+//		HashMap <String, Employee> employeeHM = branchObject.getEmployee();
+//		employeeHM.put(emp.getName(), emp);
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getName(),emp);
 		Repository.EMPLOYEE.put(emp.getName(), emp);
 		Repository.persistData(FileType.EMPLOYEE);
@@ -253,4 +257,13 @@ public class AdminController {
 //        AdminController.addStaffAccount();
 //        addMenuItem()
      }
+    
+    public static void initializeDummyEmployee() {
+    	addStaffAccount("kumar Blackmore", "password", "NTU", EmployeePosition.STAFF, EmployeeGender.MALE, 32, "kumarB");
+    	addStaffAccount("Alexei", "password", "NTU", EmployeePosition.MANAGER, EmployeeGender.MALE, 25, "Alexei");
+    	addStaffAccount("Tom Chan", "password", "JP", EmployeePosition.MANAGER,EmployeeGender.MALE, 56, "TomC");
+    	addStaffAccount("Alica Ang", "password", "JE", EmployeePosition.MANAGER, EmployeeGender.FEMALE, 27, "AlicaA");
+    	addStaffAccount("Mary lee", "password", "JE", EmployeePosition.STAFF, EmployeeGender.FEMALE, 44, "MaryL");
+    	addStaffAccount("Justin Loh", "password", "JP", EmployeePosition.STAFF, EmployeeGender.MALE, 49, "JustinL");
+    }
 }

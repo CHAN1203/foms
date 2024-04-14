@@ -130,4 +130,25 @@ public class Repository {
         return true;
     }
     
+    public static boolean initializeDummyMenu() {
+    	for(Branch branch: Repository.BRANCH.values()) {
+    		if(branch.getMenuItems().size()!=0) {
+    			return false;
+    		}
+    	}
+    	MenuController.initializeDummyMenuItems();
+    	return true;
+    	}
+    
+    public static boolean initializeDummyEmployee() {
+    	for(Branch branch: Repository.BRANCH.values()) {
+    		if(branch.getEmployee().size()!=0) {
+    			return false;
+    		}
+    	}
+    	AdminController.initializeDummyEmployee();
+    	return true;
+    }
+    
+    
 }

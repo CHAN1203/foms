@@ -1,11 +1,9 @@
 package model;
 
-import enums. *;
+import enums.EmployeeGender;
+import enums.EmployeePosition;
 
-import java.io.Serializable;
-
-public class Employee implements Serializable {
-
+public class Admin {
 	private static final long serialVersionUID = 1L;
 	
 	protected String name;
@@ -14,16 +12,11 @@ public class Employee implements Serializable {
 	
 	private int age;
 	
-	private String branch;
-	
 	protected EmployeePosition position;
 	
 	private EmployeeGender gender;
 	
 	private String loginId;
-	
-	public Employee() {
-	}
 	
 	public void setName(String name) {
 		this.name = name;
@@ -35,10 +28,6 @@ public class Employee implements Serializable {
 
 	public void setAge(int age) {
 		this.age = age;
-	}
-
-	public void setBranch(String branch) {
-		this.branch = branch;
 	}
 
 	public void setPosition(EmployeePosition position) {
@@ -69,10 +58,6 @@ public class Employee implements Serializable {
 		return this.position;
 	}
 	
-	public String getBranch() {
-		return this.branch;
-	}
-	
 	public EmployeeGender getGender() {
 		return this.gender;
 	}
@@ -80,17 +65,11 @@ public class Employee implements Serializable {
 	public String getLoginId() {
 		return this.loginId;
 	}
-	
-	public Employee(String name, EmployeePosition position) {
-		this.name = name;
-		this.password = "password";
-	}
 
-	public Employee(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
+	public	Admin(String name, String password, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		this.name = name;
 		this.password = password;
 		this.age = age;
-		this.branch = branch;
 		this.position = position;
 		this.gender = gender;
 		this.loginId = loginId;

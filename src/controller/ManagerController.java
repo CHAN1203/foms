@@ -1,6 +1,6 @@
 package controller;
 import helper.Helper;
-import model.MenuItems;
+import model.MenuItem;
 import repository.Repository;
 import repository.FileType;
 import enums. *;
@@ -11,7 +11,7 @@ public class ManagerController extends StaffController{
 	
 	public static String getMenuIdFromName(String name) {
 		//loop through menu list, get the id of the item and return "" if the item not in list
-		for(MenuItems currentMenuItem : Repository.MENU_ITEMS.values()) {
+		for(MenuItem currentMenuItem : Repository.MENU_ITEMS.values()) {
 			if (currentMenuItem.getName().equals(name)) {
                 return currentMenuItem.getMenuItemId();
             }
@@ -28,7 +28,7 @@ public class ManagerController extends StaffController{
 		}
 		int mid = Helper.generateUniqueId(Repository.MENU_ITEMS);
         String menuItemId = String.format("M%04d", mid);
-        MenuItems newMenuItem = new MenuItems(menuItemId, formattedName, description, price, foodCategory);//how to put enum argument 
+        MenuItem newMenuItem = new MenuItem(menuItemId, formattedName, description, price, foodCategory);//how to put enum argument 
         Repository.MENU_ITEMS.put(menuItemId, newMenuItem);
         Repository.persistData(FileType.MENU_ITEMS);
         return true;
@@ -40,7 +40,7 @@ public class ManagerController extends StaffController{
         if (menuIdToUpdate.equals("")) {
             return false;
         }
-        MenuItems menuItemToUpdate = Repository.MENU_ITEMS.get(menuIdToUpdate);
+        MenuItem menuItemToUpdate = Repository.MENU_ITEMS.get(menuIdToUpdate);
         menuItemToUpdate.setName(formattedName);
         menuItemToUpdate.setDescription(description);
         menuItemToUpdate.setPrice(price);
