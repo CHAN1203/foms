@@ -22,6 +22,7 @@ public class FOMSApp {
 		
 		Repository.readData(FileType.EMPLOYEE);
 		Repository.readData(FileType.BRANCH);
+		Repository.readData(FileType.ADMIN);
 		//System.out.println(Repository.Employee.get("HS Yap").getName());
 		//System.out.println(Repository.Employee.get("HS Yap").getPassword());
 		FastFoodAppView fastFoodAppView = new FastFoodAppView();

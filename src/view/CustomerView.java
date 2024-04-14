@@ -50,7 +50,7 @@ public class CustomerView extends MainView{
 	        }
 	        
         }while(chosenBranch > size || chosenBranch <= 0);
-		String branch = promptBranch(chosenBranch);
+		String branch = BranchController.promptBranch(chosenBranch);
 		String orderId = OrderController.createOrder(branch);
 		int opt = -1;
 		do {
@@ -285,18 +285,6 @@ public class CustomerView extends MainView{
 		else {
 			System.out.printf("Removal from order FAILED (\"%s\" NOT FOUND in order\\ removal quantity > current quantity)\n", name);
 		}
-	}
-	
-	public String promptBranch(int opt) {
-		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
-		int i = 1;
-		for(i = 1; i<opt; i++) {
-			iteratedBranch.next();
-		}
-		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
-		Branch chosenBranch = SelectedBranch.getValue();
-		String branch = chosenBranch.getName();
-		return branch;
 	}
 	
 	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {

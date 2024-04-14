@@ -14,14 +14,15 @@ public class Branch implements Serializable{
 	private String location;
 	
 	private int staffQuota;
-		
+	
+	private int numberOfStaff;
 	//somewhere need to put branch into <branch, employee> hash map
 	private List<String> foodCategoryList = new ArrayList<String>();
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
 	private HashMap<String, MenuItem> MENU_ITEMS = new HashMap<>();
 	private HashMap<String, Order> ORDERS = new HashMap<>();  // <Order ID, Order object>
 	
-	public Branch(String name, String location, int staffQuota) {
+	public Branch(String name, String location, int staffQuota, int numberOfStaff) {
 		this.name = name;
 		this.location = location;
 		this.staffQuota = staffQuota;
@@ -39,6 +40,14 @@ public class Branch implements Serializable{
 		this.staffQuota = quota;
 	}
 	
+	public void deductNumberOfStaff() {
+		this.numberOfStaff--;
+	}
+	
+	public void addNumberOfStaff() {
+		this.numberOfStaff++;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -49,6 +58,10 @@ public class Branch implements Serializable{
 	
 	public int getstaffQuota() {
 		return this.staffQuota;
+	}
+	
+	public int getNumberOffStaff() {
+		return this.numberOfStaff;
 	}
 	
 	public HashMap<String, Employee> getEmployee() {

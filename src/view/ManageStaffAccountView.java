@@ -35,9 +35,6 @@ public class ManageStaffAccountView extends MainView{
                     printBreadCrumbs("Hotel App View > Menu View > Update menu items");
                     promptUpdateStaff();
                     break;
-                case 4:
-                	System.exit(0);
-                    break;
                 default:
                     System.out.println("Invalid option");
                     break;
