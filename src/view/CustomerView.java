@@ -38,7 +38,7 @@ public class CustomerView extends MainView{
         do { // error handling to ensure user keys in a valid option for number of branches
         	branchView.viewApp();
         	chosenBranch = Helper.readInt();
-	        if(chosenBranch < size && chosenBranch > 0) {
+	        if(chosenBranch <= size && chosenBranch > 0) {
 	        	break;
 	        }
 	        else {
@@ -272,15 +272,16 @@ public class CustomerView extends MainView{
 		}
 	}
 	
-	private String promptBranch(int opt) {
+	public String promptBranch(int opt) {
 		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
-		int i = 0;
-		for(i=0; i<opt; i++) {
+		int i = 1;
+		for(i = 1; i<opt; i++) {
 			iteratedBranch.next();
 		}
 		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
 		Branch chosenBranch = SelectedBranch.getValue();
 		String branch = chosenBranch.getName();
+		System.out.println(branch);
 		return branch;
 	}
 	

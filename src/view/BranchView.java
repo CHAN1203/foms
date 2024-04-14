@@ -31,7 +31,7 @@ public class BranchView extends MainView {
 	}
 	
 	public void printBranchNames() {
-		int i = 0;
+		int i = 1;
 		for(Map.Entry<String,Branch> entry : Repository.BRANCH.entrySet()) {
 			String branchName = entry.getKey();
 			System.out.println("(" + i + ") " + branchName);

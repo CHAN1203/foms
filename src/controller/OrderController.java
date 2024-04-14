@@ -1,10 +1,9 @@
 import repository. *;
 import helper.Helper;
 import model. *;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,15 +27,19 @@ public class OrderController {
      * @return Order Id of the new order
      */
     public static String createOrder(String branch) {
-        int oid = Helper.generateUniqueId(Repository.BRANCH.get(branch).getOrders());
-        String orderId = String.format("O%04d", oid);
-        Orders newOrder = new Orders(orderId, Helper.getTimeNow(), branch);
-        
-        // update room's order
-//        OrderController.updateOrders(orderId, newOrder);
-
-        Repository.BRANCH.get(branch).getOrders().put(orderId, newOrder);
-        return orderId;
+//    	Branch branchObject = Repository.BRANCH.get(branch);
+//    	String orderId = "O0001";
+//    	HashMap <String, Order> orders = branchObject.getOrders();
+//        int oid = Helper.generateUniqueId(orders);
+//        String orderId = String.format("O%04d", oid);
+//        Order newOrder = new Order(orderId, Helper.getTimeNow(), branch);
+//        
+//        // update room's order
+////        OrderController.updateOrders(orderId, newOrder);
+//
+//        HashMap<String, Order> orderObject = branchObject.getOrders();
+//        orderObject.put(orderId, newOrder);
+        return "O0001";
     }
 
     /**
@@ -57,7 +60,7 @@ public class OrderController {
             return false;
         }
         MenuItems menuItemToAdd = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
-        Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         currentOrder.addOrderItem(menuItemToAdd, quantity);
         return true;
     }
@@ -80,7 +83,7 @@ public class OrderController {
             return false;
         }
         MenuItems menuItemToDelete = Repository.BRANCH.get(branch).getMenuItems().get(menuIdOfOrder); 
-        Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         return currentOrder.removeOrderItem(menuItemToDelete, quantity);
     }
 
@@ -89,7 +92,7 @@ public class OrderController {
      * @param orderId Order Id of the order
      */
     public static void printOrderDetails(String orderId, String branch) {
-        Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         System.out.println(String.format("%-58s", "").replace(" ", "-"));
         System.out.printf("Order Id: %s Date/Time: %s\n", currentOrder.getOrderId(), currentOrder.getDateTime());
         System.out.println();
@@ -119,7 +122,7 @@ public class OrderController {
     	if (orderId.equals("")) {
             return false;
         }
-        Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         currentOrder.setRemarks(remarks);
         return true;
     }
@@ -135,7 +138,7 @@ public class OrderController {
             System.out.println("Order id not found");
             return false;
         }
-        Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         currentOrder.setStatus(newOrderStatus);
         Repository.persistData(FileType.BRANCH);
         return true;
@@ -154,20 +157,20 @@ public class OrderController {
      * Prints all the orders in the database
      */
     public static void printAllOrders(String branch) {
-        ArrayList<Orders> sortedList = new ArrayList<Orders>();
+        ArrayList<Order> sortedList = new ArrayList<Order>();
 
         // copy
-        for (Orders order : Repository.BRANCH.get(branch).getOrders().values()) {
+        for (Order order : Repository.BRANCH.get(branch).getOrders().values()) {
             sortedList.add(order);
         }
         Collections.sort(sortedList);
-        for (Orders order : sortedList) {
+        for (Order order : sortedList) {
             System.out.println(order);
         }
     }
     
     public static OrderStatus checkOrderStatus(String orderId, String branch) {
-    	Orders currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+    	Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         return currentOrder.getStatus();
     }
     
