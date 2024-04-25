@@ -7,7 +7,8 @@ public enum FileType {
 	// ORDERS("Orders"),
 	MENU_ITEMS("MenuItems"),
 	BRANCH("Branch"),
-	ADMIN("Admin");
+	ADMIN("Admin"),
+	PAYMENT_METHODS("PaymentMethods");
 	
 	public final String fileName;
 	

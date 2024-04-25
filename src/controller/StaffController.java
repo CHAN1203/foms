@@ -23,27 +23,14 @@ public class StaffController {
 			System.out.println("No processing order right now.");
 			return false;
 		}
+		System.out.println("size is not 0");
 		
-		for (Order order: ordersInBranch.values()) { // iterate through each order object in the branch
+		for (Map.Entry<String,Order> entry : ordersInBranch.entrySet()) {
+			System.out.println("Something");// iterate through each order object in the branch
+			Order currentOrder = entry.getValue();
+			if (currentOrder.getStatus() == OrderStatus.PROCESSING) {
 			
-			if (order.getStatus() == OrderStatus.PROCESSING) {
-			
-				System.out.println("Order ID: " + order.getOrderId());
-		    	System.out.println("Date time: " + order.getDateTime());
-		    	System.out.println("Total bill: " + order.getTotalBill());
-		    	System.out.println("Remarks: " + order.getRemarks());
-		    	System.out.println("Status: " + order.getStatus());				
-		    	System.out.println("------------------------------------------------------");
-				System.out.println("Item Name                             Quantity");
-				System.out.println("------------------------------------------------------");
-				
-				HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders(); // get the items in the order
-
-				for (MenuItem menuItem: itemsInOrder.keySet()) {
-					String itemName = menuItem.getName(); // get the name (String) of item
-					Integer quantity = itemsInOrder.get(menuItem); // use hashmap to get quantity (value) from key (menuItem object)
-					System.out.println(itemName + "                          " + quantity);
-				}
+				OrderController.printOrderDetails(currentOrder.getOrderId(), branchName);
 			}
 		}
 		return true;
