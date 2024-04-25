@@ -1,7 +1,9 @@
 package view;
 import controller.AdminController;
+import controller.BranchController;
 import enums. *;
 import helper.Helper;
+import repository.Repository;
 
 public class ManageStaffAccountView extends MainView{
 	public void printActions() {
@@ -46,6 +48,13 @@ public class ManageStaffAccountView extends MainView{
 	}
 	
 	
+	private void printBranchMenu() {
+		int i = 1;
+        for(String branch : Repository.BRANCH.keySet()) {
+        	System.out.println("(" + i + ") " + branch);
+			i++;
+        }
+    }
 	
 	private boolean promptAddStaffAccount() {
 		System.out.println("Enter staff loginId:");
@@ -54,9 +63,16 @@ public class ManageStaffAccountView extends MainView{
         String name = Helper.readString();
         String password = "password";
         System.out.println("Enter the branch which the staff is in:");
-        String branch = Helper.readString(); 
+        printBranchMenu();
+        int opt = -1;
+        opt = Helper.readInt();
+        String branch = BranchController.promptBranch(opt); 
         EmployeePosition position = promptRole();
-        if(position == null) return false;
+        
+        if( position == null) {
+        	System.out.println("The position is null! Add staff unsuccessful!");
+        	return false;
+        }
         
         EmployeeGender gender = promptGender();
         if(gender == null) return false;
@@ -64,10 +80,24 @@ public class ManageStaffAccountView extends MainView{
         System.out.println("Enter the staff's age");
         int age = Helper.readInt();
         
-        AdminController.addStaffAccount(name, password, branch, position, gender, age, loginId);
-        return true;
+        if(Repository.BRANCH.get(branch).getNumberOfEmployee() < Repository.BRANCH.get(branch).getstaffQuota()) {
+        	if(position == EmployeePosition.MANAGER) {
+            	if(Repository.BRANCH.get(branch).getNumberOfManager() < Repository.BRANCH.get(branch).getManagerQuota()) {
+                	AdminController.addStaffAccount(name, password, branch, position, gender, age, loginId);
+                	return true;
+        		}else {
+        			System.out.println("Manager Quota Exceeded. Add Manager Unsucessful!");
+                	return false;
+        		}
+            }
+        	AdminController.addStaffAccount(name, password, branch, position, gender, age, loginId);
+        	return true;
+        }else {
+        	System.out.println("Staff Quota Exceeded. Add Staff Unsucessful!");
+        	return false;
+        }
 	}
-	
+
 	private void printGenderMenu() {
         System.out.println("Please enter the staff's gender (1-2)");
         System.out.println("(1) Male");
@@ -94,9 +124,8 @@ public class ManageStaffAccountView extends MainView{
     
     private void printRoleMenu() {
         System.out.println("Please enter the staff's role (1-3)");
-        System.out.println("(1) Admin");
-        System.out.println("(2) Manager");
-        System.out.println("(3) Staff");
+        System.out.println("(1) Manager");
+        System.out.println("(2) Staff");
     }
     
     private EmployeePosition promptRole() {
@@ -107,11 +136,9 @@ public class ManageStaffAccountView extends MainView{
         } else {
             switch (choice) {
                 case 1:
-                    return EmployeePosition.ADMIN;
-                case 2:
                     return EmployeePosition.MANAGER;
-                case 3:
-                	return EmployeePosition.STAFF;
+                case 2:
+                    return EmployeePosition.STAFF;
                 default:
                     break;
             }
