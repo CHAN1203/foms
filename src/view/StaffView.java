@@ -12,7 +12,6 @@ import controller. *;
  * @since 2024-04-04
  */
 public class StaffView extends MainView{
-
 	String branch;
 	/**
 	 * Default constructor of StaffView
@@ -31,7 +30,7 @@ public class StaffView extends MainView{
 		System.out.println("(3) Process order");
 		System.out.println("(4) Back");
 	}
-	
+
 	/**
 	 * View Application of StaffView
 	 * @param branch branch name of the branch that the staff is currently in
@@ -41,8 +40,7 @@ public class StaffView extends MainView{
 		int opt = -1;
 		do {
 			printActions();
-			opt = Helper.readInt(1,4);
-			
+			opt = Helper.readInt(1,4);		
 			switch(opt) {
 				case 1:
 				    Helper.clearScreen();

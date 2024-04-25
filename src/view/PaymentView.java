@@ -10,26 +10,21 @@ import repository.Repository;
  * @sincec 2024-04-06
  */
 public class PaymentView extends MainView{
-	
 	/**
-	 * Constructing the required View Classes
+	 * Constructing the required View Class and variables
 	 */
 	String orderId; 
 	String branch;
 	ReceiptView receiptView;
-
 	
 	public PaymentView(String orderId, String branch) {
 		this.orderId = orderId;
 		this.branch = branch;
 	}
 	
-	
-
 	/**
 	 * View Actions for PaymentView
 	 */
-
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View > Payment View");
@@ -38,7 +33,7 @@ public class PaymentView extends MainView{
 		for (String paymentMethod: Repository.PAYMENT_METHODS) {
 			System.out.println("(" + (num++) + ") " + paymentMethod);			
 		}
-		System.out.println((num++) + ". Back to Customer View");
+		System.out.println("(" + (num++) + ") Back");
 	}
 
 	/**
@@ -47,7 +42,7 @@ public class PaymentView extends MainView{
 	 * @param branch branch name of the branch that the customer is currently in
 	 */
 	@Override
-	public void viewApp() {	
+	public void viewApp() {
 		 int opt = -1;
 		 int size = Repository.PAYMENT_METHODS.size()+1;
 		 do {
@@ -65,5 +60,5 @@ public class PaymentView extends MainView{
 			 receiptView.viewApp();
 		 }
 	}
-	
+
 }

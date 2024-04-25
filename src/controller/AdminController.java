@@ -39,7 +39,6 @@ public class AdminController {
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfManager();
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfEmployee();
 		}
-
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getLoginId(),emp);
 		Repository.EMPLOYEE.put(emp.getLoginId(), emp);
 		Repository.persistData(FileType.EMPLOYEE);
