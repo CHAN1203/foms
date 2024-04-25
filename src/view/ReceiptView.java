@@ -41,7 +41,7 @@ public class ReceiptView extends MainView{
 	public void viewApp() {
 		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
 		Order currentOrder = Repository.BRANCH.get(this.branch).getOrders().get(this.orderId);
-		System.out.println("Your total bill is: " + currentOrder.getTotalBill());
+		System.out.printf("Your total bill is: %.2f\n" + currentOrder.getTotalBill());
 		System.out.println("Confirm payment? ");
 		printActions();
 		int opt = -1;

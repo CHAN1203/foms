@@ -28,7 +28,7 @@ public class LoginView extends MainView {
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Login View");
-		System.out.println("\nChoose employee type:");
+		System.out.println("Choose employee type:");
 		System.out.println("1. Admin");
 		System.out.println("2. Manager");
 		System.out.println("3. Staff");
@@ -39,14 +39,12 @@ public class LoginView extends MainView {
 	 */
 	@Override
 	public void viewApp() {
-		printActions();
-		
-		int empPos;
+		int empPos = -1;
 		EmployeePosition employeePosition = null;
 		
 		do {
-			empPos = Helper.readInt();
-			
+			printActions();
+			empPos = Helper.readInt(1,4);
 			switch (empPos) {
 			case 1:
 				employeePosition = EmployeePosition.ADMIN;
@@ -58,11 +56,13 @@ public class LoginView extends MainView {
 			case 3:
 				employeePosition = EmployeePosition.STAFF;
 				break;
+			case 4:
+				break;
 			default:
 				System.out.println("Invalid option. Please try again.");
 				break;
 			}
-		}while(empPos != 4);
+		} while(empPos < 0 && empPos > 3);
 		
 		String loginId;
 		String password;
