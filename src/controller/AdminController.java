@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+<<<<<<< HEAD
 
 /** AdminController is a controller class that acts as a "middleman"
  * between the view classes - {@link AdminView}, {@link DisplayStaffView}, {@link ManageBranchView}, 
@@ -31,6 +32,9 @@ public class AdminController {
 	 * @param loginId the loginId of the new staff
 	 * @return {@code true} if add staff is successful. Otherwise, {@code false} 
 	 */
+=======
+public class AdminController {
+>>>>>>> e81321ded4235789a99fd84f620692cc49d0aa24
 	public static void addStaffAccount(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		Employee emp = new Employee(name, password, branch, position, gender, age, loginId);
 		//several conditions to recognize number of staff in specified position has increased
