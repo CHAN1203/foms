@@ -19,9 +19,7 @@ public class AdminController {
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfManager();
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfEmployee();
 		}
-		System.out.println("Manager Quota:" + Repository.BRANCH.get(emp.getBranch()).getManagerQuota());
-		System.out.println("num of emlpoyee:" + Repository.BRANCH.get(emp.getBranch()).getNumberOfEmployee());
-		System.out.println("num of manager:" + Repository.BRANCH.get(emp.getBranch()).getNumberOfManager());
+
 		
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getLoginId(),emp);
 		Repository.EMPLOYEE.put(emp.getLoginId(), emp);
