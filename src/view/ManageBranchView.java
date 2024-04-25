@@ -5,7 +5,19 @@ import controller.BranchController;
 import helper.Helper;
 import repository.Repository;
 
+
+/**
+ * ManageBranchView provides the view to take user input which calls {@link AdminController} to manage {@link Branch}.
+ * @author Chan Kee Qing
+ * @version 1.0
+ * @since 2022-04-15
+ */
 public class ManageBranchView extends MainView{
+	
+	/**
+     * View Actions of the ManageBranchView.
+     */
+    @Override
 	public void printActions() {
 		Helper.clearScreen();
         printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
@@ -15,7 +27,11 @@ public class ManageBranchView extends MainView{
         System.out.println("(3) Exit");
 	}
 	
-	public void viewApp() {// change case 2 and 3
+    /**
+     * View Application of the ManageBranchView. <p>
+     */
+    @Override
+	public void viewApp() {
         int opt = -1;
         do {
             printActions();
@@ -26,11 +42,13 @@ public class ManageBranchView extends MainView{
                     printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View > Add staff account");
                     promptOpenBranch();
                     break;
-                case 2: // Remove Staff
+                case 2: 
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
                     promptCloseBranch();
                     break;
+                case 3:
+                	break;
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -42,7 +60,10 @@ public class ManageBranchView extends MainView{
 	}
 	
 	
-	//open branch
+	/**
+	 * function to prompt to open a branch
+	 * @return {@code true} if open branch is successful. Otherwise, {@code false}.
+	 */
     private boolean promptOpenBranch() {
     	 System.out.println("Enter new branch name: ");
          String newBranch = Helper.readString();
@@ -55,6 +76,10 @@ public class ManageBranchView extends MainView{
     	return false;
     }
     
+    /**
+	 * function to prompt to close a branch
+	 * @return {@code true} if close branch is successful. Otherwise, {@code false}.
+	 */
     private boolean promptCloseBranch() {
     	System.out.println("Choose a branch to close:");
     	printBranchMenu();
@@ -62,11 +87,13 @@ public class ManageBranchView extends MainView{
     	opt = Helper.readInt();
     	String branchToClose = BranchController.promptBranch(opt);
  
-    	
-   	if(AdminController.closeBranch(branchToClose)) return true;
-   	return false;
+    	if(AdminController.closeBranch(branchToClose)) return true;
+    	return false;
    }
     
+    /**
+     * function to print branch menu
+     */
     private void printBranchMenu() {
 		int i = 1;
         for(String branch : Repository.BRANCH.keySet()) {

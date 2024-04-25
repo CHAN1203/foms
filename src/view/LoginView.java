@@ -4,10 +4,6 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
-import view.MenuView;
-import view.CustomerView;
-import model.Branch;
-import model.Employee;
 
 public class LoginView extends MainView {
 	
