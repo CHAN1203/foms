@@ -96,7 +96,7 @@ public class StaffView extends MainView{
 				int i = 1;
 				String orderId = entry.getKey();
 				Order orders = entry.getValue();
-				System.out.println("(" + i + ") " + orderId + "    Status: " + orders.getStatus() + "    Dine in option: " + orders.getOption());
+				System.out.println("(" + i + ") " + " OrderID: " + orderId + "    Status: " + orders.getStatus() + "    Dine in option: " + orders.getOption());
 				i++;
 			}
 			opt = Helper.readInt();

@@ -92,7 +92,7 @@ public class LoginView extends MainView {
 		} 
 		
 		else {
-			System.out.println("Invalid username or password");
+			System.out.println("Invalid username/password or employee position");
 		}
 	}
 }

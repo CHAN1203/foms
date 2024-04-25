@@ -8,6 +8,7 @@ import repository.Repository;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import controller.ManagerController;
 import controller.MenuController;
 import controller.OrderController;
 import controller.StaffController;
@@ -29,9 +30,10 @@ public class ManagerView extends StaffView{
         System.out.println("(3) Update menu item");
         System.out.println("(4) Print all menu items");
         System.out.println("(5) Display processing order");
-        System.out.println("(6) View Order Details");
-		System.out.println("(7) Process Order");
-		System.out.println("(8) Back");
+        System.out.println("(6) View order details");
+		System.out.println("(7) Process order");
+		System.out.println("(8) Display staff list");
+		System.out.println("(9) Back");
 	}
 	
 	public void viewApp() {
@@ -43,7 +45,7 @@ public class ManagerView extends StaffView{
         FoodAvailability foodAvailability;
         do {
             printActions();
-            opt = Helper.readInt(1, 8);
+            opt = Helper.readInt(1, 9);
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
@@ -117,12 +119,21 @@ public class ManagerView extends StaffView{
 						StaffController.updateOrderStatus(this.branch, selection);
 					}
                 case 8:
+                	Helper.clearScreen();
+                	printBreadCrumbs("Fast Food App View > Manager View > Display Staff List");
+                	if(ManagerController.displayStaffList(this.branch)) {
+                	}
+                	else {
+                		System.out.println("No staff in branch");
+                	}
+            		break;
+                case 9:
                 	break;
             }
-            if (opt != 8) {
+            if (opt != 9) {
                 Helper.pressAnyKeyToContinue();
             }
-        } while (opt != 8);
+        } while (opt != 9);
 	}
 	
 	private void addMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
