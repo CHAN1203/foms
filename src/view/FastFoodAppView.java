@@ -3,9 +3,9 @@ import helper.Helper;
 
 public class FastFoodAppView extends MainView{
 
-	private BranchView branchView = new BranchView();
-	private LoginView loginView = new LoginView();
-	private CustomerView customerView = new CustomerView();
+	BranchView branchView = new BranchView();
+	LoginView loginView = new LoginView();
+	CustomerView customerView = new CustomerView();
 	
 	public FastFoodAppView() {
 		super();

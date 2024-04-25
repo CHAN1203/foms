@@ -8,8 +8,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminController {
+/** AdminController is a controller class that acts as a "middleman"
+ * between the view classes - {@link HotelAppView} and {@link GuestView} and the model class - {@link Guest}. <p>
+ * 
+ * It can initialize, create, update or search {@link Guest} details.
+ * @author Zhang Kaichen, Max
+ * @version 1.0
+ * @since 2022-04-05
+ */
 
+public class AdminController {
+<<<<<<< HEAD
+	
+	/**
+	 * 
+	 * @param name
+	 * @param password
+	 * @param branch
+	 * @param position
+	 * @param gender
+	 * @param age
+	 * @param loginId
+	 */
+=======
+
+>>>>>>> 7d5268bf2abaa822570a168f2fe72a3587abde38
 	public static void addStaffAccount(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		Employee emp = new Employee(name, password, branch, position, gender, age, loginId);
 		//several conditions to recognize number of staff in specified position has increased

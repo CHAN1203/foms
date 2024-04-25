@@ -6,6 +6,7 @@ import model. *;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -193,6 +194,31 @@ public class OrderController {
     
     public static void confirmOrder() {
     	Repository.persistData(FileType.BRANCH);
+    }
+    
+    public static void deleteOrder(String orderId, String branch) {
+    	Order order = Repository.BRANCH.get(branch).getOrders().get(orderId);
+    	
+    	if(order == null) {
+    		System.out.println("Order not found!");
+    	}
+    	else {
+    		Repository.BRANCH.get(branch).getOrders().remove(orderId);
+    		Repository.persistData(FileType.BRANCH);
+    		System.out.println("Timer is up! Order deleted!");
+    	}
+    	
+    }
+    
+    public static Order promptOrders(String branch, int opt) {
+    	Iterator<Map.Entry<String, Order>> iteratedOrder = Repository.BRANCH.get(branch).getOrders().entrySet().iterator();
+		int i = 1;
+		for(i = 1; i<opt; i++) {
+			iteratedOrder.next();
+		}
+		Map.Entry<String, Order> SelectedOrder = iteratedOrder.next();
+		Order chosenOrder = SelectedOrder.getValue();
+		return chosenOrder;
     }
     
 //  public static boolean updateOrders(String orderId, Orders order) {

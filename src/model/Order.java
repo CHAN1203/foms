@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import enums.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Order implements Serializable, Comparable<Order>{
@@ -17,7 +19,8 @@ public class Order implements Serializable, Comparable<Order>{
 	
 	private double totalBill;
 	
-
+	private transient Timer timer = new Timer();
+	
 	private HashMap<MenuItem, Integer> currentOrders;
 	
 //	private String remarks;
@@ -108,6 +111,10 @@ public class Order implements Serializable, Comparable<Order>{
 
 	public String getBranchName() {
 		return branchName;
+	}
+	
+	public Timer getTimer() {
+		return timer;
 	}
 
 	public void setRemarks(String customerRemarks) {
