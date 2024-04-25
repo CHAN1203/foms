@@ -23,8 +23,8 @@ public class Order implements Serializable, Comparable<Order>{
 	
 	private HashMap<MenuItem, Integer> currentOrders;
 	
-//	private String remarks;
-	
+	private DineInOption option;
+
 	private List<String> remarks = new ArrayList<String>();
 	
 	private String branchName;
@@ -115,6 +115,14 @@ public class Order implements Serializable, Comparable<Order>{
 	
 	public Timer getTimer() {
 		return timer;
+	}
+	
+	public DineInOption getOption() {
+		return option;
+	}
+
+	public void setOption(DineInOption option) {
+		this.option = option;
 	}
 
 	public void setRemarks(String customerRemarks) {

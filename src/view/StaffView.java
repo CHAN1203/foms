@@ -82,7 +82,6 @@ public class StaffView extends MainView{
 	 * @return
 	 */
 	public static int promptSelectOrderId(String branch) {
-		int i = 1;
 		int opt;
 		int size = Repository.BRANCH.get(branch).getOrders().size();
 		if(size == 0) {
@@ -92,12 +91,17 @@ public class StaffView extends MainView{
 		
 		do {
 			for(Map.Entry<String,Order> entry : Repository.BRANCH.get(branch).getOrders().entrySet()) {
+				int i = 1;
 				String orderId = entry.getKey();
-				System.out.println("(" + i + ") " + orderId);
+				Order orders = entry.getValue();
+				System.out.println("(" + i + ") " + " OrderID: " + orderId + "    Status: " + orders.getStatus() + "    Dine in option: " + orders.getOption());
 				i++;
 			}
 			opt = Helper.readInt();
-		}while(opt<0 || opt>size);
+			if(opt<=0 || opt>size) {
+				System.out.println("Invalid option. Please try again");
+			}
+		}while(opt<=0 || opt>size);
 		return opt;
 	}
 }

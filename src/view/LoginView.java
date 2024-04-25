@@ -51,7 +51,6 @@ public class LoginView extends MainView {
 			case 2:
 				employeePosition = EmployeePosition.MANAGER;
 				break;
-			
 			case 3:
 				employeePosition = EmployeePosition.STAFF;
 				break;
@@ -93,7 +92,7 @@ public class LoginView extends MainView {
 		} 
 		
 		else {
-			System.out.println("Invalid username or password");
+			System.out.println("Invalid username/password or employee position");
 		}
 	}
 }

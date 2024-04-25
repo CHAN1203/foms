@@ -6,6 +6,7 @@ import repository.*;
 import java.util.*;
 import java.util.Map.Entry;
 import controller.*;
+import enums.DineInOption;
 import enums.OrderStatus;
 /**
  * OrderView provides the view to take user input on handling their {@link Order} 
@@ -352,6 +353,7 @@ public class OrderView extends MainView{
 		}
 		System.out.println("Shopping cart: ");
 		OrderController.printOrderDetails(orderId, branch);
+		promptDineInOption(orderId, branch);
 		paymentView = new PaymentView(orderId, branch);
 		paymentView.viewApp();
 		return true;
@@ -454,5 +456,25 @@ public class OrderView extends MainView{
 		else {
 			System.out.println("Successfully entered remarks");
 		}
+	}
+	
+	private void promptDineInOption(String orderId, String branch) {
+		int opt = -1;
+		do {
+			System.out.println("Would you like to :");
+			System.out.println("(1) Dine in");
+			System.out.println("(2) Takeaway");
+			
+			opt = Helper.readInt();
+			switch(opt) {
+			case 1:
+				Repository.BRANCH.get(branch).getOrders().get(orderId).setOption(DineInOption.DINEIN);
+				break;
+			case 2:
+				Repository.BRANCH.get(branch).getOrders().get(orderId).setOption(DineInOption.TAKEAWAY);
+			default:
+				System.out.println("Invalid option. Please try again.");
+			}
+		}while (opt<1 || opt>2);
 	}
 }

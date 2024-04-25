@@ -200,7 +200,6 @@ public class MenuController {
 	        System.out.println();
         }
     }
-    
     /**
      * Print all the food category in the menu of a specific branch.
      */

@@ -14,7 +14,10 @@ public class UserController {
 			if (!emp.getPassword().equals(password)) {
 				return false;
 			}
-		}else if(employeePosition == EmployeePosition.ADMIN) {
+			if( emp.getPosition() != employeePosition) {
+				return false;
+			}
+		} else if(employeePosition == EmployeePosition.ADMIN) {
 			Admin admin = Repository.ADMIN.get(username);
 			if(admin == null) {
 				return false;
