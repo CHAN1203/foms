@@ -4,17 +4,29 @@ import helper.Helper;
 import repository.*;
 import controller.*;
 import enums.OrderStatus;
-
+/**
+ * CustomerView provides the view to take user input for order related process
+ * which calls {@link OrderView}
+ * @author Hong Sheng, Jacky
+ * @version 1.0
+ * @since 2024-04-08
+ */
 public class CustomerView extends MainView{
-	
+	/**
+	 * Constructing of required View Classes
+	 */
 	BranchView branchView = new BranchView();
 	OrderView orderView;
 	PaymentView paymentView = new PaymentView();
-	
+	/**
+	 * Default constructor of the CustomerView
+	 */
 	public CustomerView() {
 		super();
 	}
-
+	/**
+	 * View Actions of the CustomerView
+	 */
 	@Override
 	protected void printActions() {
 		System.out.println("What would you like to do ?");
@@ -22,8 +34,9 @@ public class CustomerView extends MainView{
 		System.out.println("(2) Check order status");
 		System.out.println("(3) Back");
 	}
-	
-
+	/**
+	 * View Application of CustomerView which calls {@link BranchView}
+	 */
 	@Override
 	public void viewApp() {
 		int size = Repository.BRANCH.size(); 
@@ -71,7 +84,12 @@ public class CustomerView extends MainView{
 		
 		
 	}
-	 
+	/**
+	 * The function that checks order status of a particular OrderID through {@link OrderController}
+	 * and prints out further actions
+	 * @param orderId The orderId used to access the particular order
+	 * @param branch The branch name of the customer
+	 */
 	private void checkOrderStatus(String orderId, String branch) {
 		if(!OrderController.validateOrderId(orderId, branch)) {
 			System.out.println("Order ID not found");
