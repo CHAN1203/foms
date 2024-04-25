@@ -22,7 +22,7 @@ public class OrderView extends MainView{
 	String branch;
 	String orderId;
 	PaymentView paymentView;
-	
+
 	/**
 	 * Default Constructor of OrderView
 	 * @param branch branch name

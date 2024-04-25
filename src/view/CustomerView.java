@@ -17,10 +17,11 @@ public class CustomerView extends MainView{
 	 */
 	BranchView branchView = new BranchView();
 	OrderView orderView;
-	PaymentView paymentView;
+
 	/**
 	 * Default constructor of the CustomerView
 	 */
+
 	public CustomerView() {
 		super();
 	}

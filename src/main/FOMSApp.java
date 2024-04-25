@@ -21,6 +21,7 @@ public class FOMSApp {
 		
 		FastFoodAppView fastFoodAppView = new FastFoodAppView();
 		fastFoodAppView.viewApp();
+	
 	}
 
 }

@@ -13,14 +13,12 @@ import controller. *;
  */
 public class StaffView extends MainView{
 	String branch;
-	
-	//constructor
-	public StaffView(String branch) {
-		this.branch = branch;
-	}
 	/**
 	 * Default constructor of StaffView
 	 */
+	public StaffView(String branch) {
+		this.branch = branch;
+	}
 
 	/**
 	 * View Actions for StaffView
@@ -38,7 +36,7 @@ public class StaffView extends MainView{
 	 * @param branch branch name of the branch that the staff is currently in
 	 */
 	@Override
-	public void viewApp() {// OrderController / 2x StaffController + ManagerController ASK ASK ASK
+	public void viewApp() {
 		int opt = -1;
 		do {
 			printActions();

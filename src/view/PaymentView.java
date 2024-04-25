@@ -11,7 +11,7 @@ import repository.Repository;
  */
 public class PaymentView extends MainView{
 	/**
-	 * Constructing the required View Classes
+	 * Constructing the required View Class and variables
 	 */
 	String orderId; 
 	String branch;
@@ -60,6 +60,5 @@ public class PaymentView extends MainView{
 			 receiptView.viewApp();
 		 }
 	}
-
 
 }
