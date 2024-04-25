@@ -47,6 +47,8 @@ public class Repository {
     	persistData(FileType.EMPLOYEE);
     	persistData(FileType.BRANCH);
     	persistData(FileType.ADMIN);
+    	persistData(FileType.MENU_ITEMS);
+    	persistData(FileType.PAYMENT_METHODS);
     }
 
 	private static boolean readSerializedObject(FileType fileType) {
@@ -57,28 +59,33 @@ public class Repository {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Object object = objectInputStream.readObject();
             
-            if (!(object instanceof HashMap)) {
-                System.out.println(fileType.fileName);
+            // Read into database
+            if(object instanceof HashMap) {
+            	HashMap<String, ?> data = (HashMap<String, ?>) object;
+	            if (fileType == FileType.EMPLOYEE) {
+	                EMPLOYEE = (HashMap<String, Employee>) data;
+	            } else if(fileType == FileType.BRANCH) {
+	            	BRANCH = (HashMap<String, Branch>) data;
+	            } else if(fileType == FileType.ADMIN) {
+	                ADMIN = (HashMap<String, Admin>) data;
+	            } 
+            }
+            else if(object instanceof HashSet && fileType == FileType.PAYMENT_METHODS) {
+            	PAYMENT_METHODS = (HashSet<String>) object;
+            }
+            else {
+            	System.out.println(fileType.fileName);
                 objectInputStream.close();
                 return false;
             }
-            
-            // Read into database
-            if (fileType == FileType.EMPLOYEE) {
-                EMPLOYEE = (HashMap<String, Employee>) object;
-            } else if(fileType == FileType.BRANCH) {
-            	BRANCH = (HashMap<String, Branch>) object;
-            } else if(fileType == FileType.ADMIN) {
-                ADMIN = (HashMap<String, Admin>) object;
-            }
             objectInputStream.close();
             fileInputStream.close();
-            
+	            
         } catch (EOFException err) {
             System.out.println("Warning: " + err.getMessage()); //error exception check later with Aarons code
             if (fileType == FileType.EMPLOYEE) {
                 EMPLOYEE = new HashMap<String, Employee>();
-            } else {
+            } else { 
             	
             }
         } catch (IOException err) {
@@ -106,6 +113,8 @@ public class Repository {
             	objectOutputStream.writeObject(BRANCH);
             } else if (fileType == FileType.ADMIN){
                 objectOutputStream.writeObject(ADMIN);
+            } else if (fileType == FileType.PAYMENT_METHODS) {
+            	objectOutputStream.writeObject(PAYMENT_METHODS);
             }
             objectOutputStream.close();
             fileOutputStream.close();
@@ -130,6 +139,7 @@ public class Repository {
         writeSerializedObject(FileType.EMPLOYEE);
         writeSerializedObject(FileType.BRANCH);
         writeSerializedObject(FileType.ADMIN);
+        writeSerializedObject(FileType.PAYMENT_METHODS);
         return true;
     }
     
@@ -167,6 +177,7 @@ public class Repository {
     		return false;
     	}
     	AdminController.initializePaymentMethod();
+    	Repository.persistData(FileType.PAYMENT_METHODS);
     	return true;
     }
     

@@ -33,6 +33,7 @@ public class Order implements Serializable, Comparable<Order>{
 		this.dateTime = dateTime;
 		this.branchName = branchName;
 		this.totalBill = 0;
+		this.status = OrderStatus.PROCESSING;
 		remarks.add("No Remarks");
 
 		this.currentOrders = new HashMap<MenuItem, Integer>();

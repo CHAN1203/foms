@@ -299,10 +299,10 @@ public class CustomerView extends MainView{
 	private void checkout(String orderId, String branch) {
 		System.out.println("Shopping cart: ");
 		OrderController.printOrderDetails(orderId, branch);
-		paymentView.viewApp();
+		paymentView.viewApp(orderId,branch);
 	}
 	
-	private void removeRemarks(String orderId, String branch) {
+	private boolean removeRemarks(String orderId, String branch) {
 		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks().size();
 		do {
@@ -314,12 +314,17 @@ public class CustomerView extends MainView{
 		}while(opt<=0 || opt>size);
 		if(promptRemoveRemarks(orderId, branch, opt)) {
 			System.out.println("Successfully removed remarks!");
+			System.out.println();
+			OrderController.printOrderDetails(orderId, branch);
+			return true;
 		}
 		else {
 			System.out.println("Remarks removal unsuccessful");
+			System.out.println();
+			OrderController.printOrderDetails(orderId, branch);
+			return false;
 		}
-		System.out.println();
-		OrderController.printOrderDetails(orderId, branch);
+		
 	}
 	
 	private boolean promptRemoveRemarks(String orderId, String branch, int opt) {

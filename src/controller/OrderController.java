@@ -186,6 +186,10 @@ public class OrderController {
         return currentOrder.getStatus();
     }
     
+    public static void confirmOrder() {
+    	Repository.persistData(FileType.BRANCH);
+    }
+    
 //  public static boolean updateOrders(String orderId, Orders order) {
 //  Orders targetOrder = searchOrder(orderId);
 //  if (targetOrder == null) {
