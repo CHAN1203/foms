@@ -116,6 +116,8 @@ public class OrderController {
         for(String customerRemarks : remarksList) {
         	System.out.println(String.format("(" + i++ + ") " + customerRemarks));
         }
+        System.out.println();
+        System.out.println(currentOrder.getStatus());
         System.out.println(String.format("%-11s: $%.2f", "Total bill", currentOrder.getTotalBill()));
         System.out.println(String.format("%-58s", "").replace(" ", "-"));
     }

@@ -3,13 +3,11 @@ package controller;
 import repository.Repository;
 import repository.FileType;
 import model.MenuItem;
-import model.Branch;
 import java.util.HashMap;
 import enums.FoodAvailability;
 import helper.Helper;
 
 // for javadocs
-import view.MenuView;
 /**
  * MenuManager is a controller class that acts as a "middleman"
  * between the view class - {@link MenuView} and the model classes - {@link MenuItem}. <p>
@@ -64,7 +62,7 @@ public class MenuController {
      * @param price Price of the updated menu item
      * @return {@code true} if menu item is updated successfully. Otherwise, {@code false} if menu item fails to be updated (menu item not found in database)
      */
-    public static boolean updateMenuItem(String branch,String name, String description, double price){
+    public static boolean updateMenuItem(String branch,String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
         String formattedName = name.toUpperCase();
         String menuIdToUpdate = getMenuIdFromName(branch, formattedName);
         if (menuIdToUpdate.equals("")) {
@@ -74,6 +72,8 @@ public class MenuController {
         menuItemToUpdate.setName(formattedName);
         menuItemToUpdate.setDescription(description);
         menuItemToUpdate.setPrice(price);
+        menuItemToUpdate.setFoodCategory(foodCategory);
+        menuItemToUpdate.setFoodAvailability(foodAvailability);
         Repository.persistData(FileType.BRANCH);
         return true;
     }
@@ -127,6 +127,7 @@ public class MenuController {
         
         return filteredMenuItems;
     }
+    
     
     /**
      * Initializer for dummy menu items in the hotel. 
@@ -182,6 +183,7 @@ public class MenuController {
             }
         }
     }
+   
     
     /**
      * Print all menu items on the menu, along with the details of each menu item.

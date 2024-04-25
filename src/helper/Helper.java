@@ -287,12 +287,23 @@ public class Helper {
     /**
      * Method to clear the screen of the terminal for user experience and neat interface.
      */
-    public static void clearScreen() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception err) {
-
-        }
+    @SuppressWarnings("deprecation")
+	public static void clearScreen() {
+    	try  
+    	{  
+	    	final String os = System.getProperty("os.name");  
+	    	if (os.contains("Windows")) {  
+	    		Runtime.getRuntime().exec("cls");  
+	    	}  
+    	}  
+    	catch (final Exception e) {  
+    		
+    	}  
+//        try {
+//            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();  
+//        } catch (Exception err) {
+//
+//        }
 
     }
 }

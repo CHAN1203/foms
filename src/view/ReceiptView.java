@@ -6,16 +6,24 @@ import controller.OrderController;
 import helper.Helper;
 
 public class ReceiptView extends MainView{
+	String orderId; 
+	String branch;
 
+	public ReceiptView (String orderId, String branch) {
+		this.orderId = orderId;
+		this.branch = branch;
+	}
+	
 	@Override
 	protected void printActions() {
 		System.out.println("(1) Yes");
 		System.out.println("(2) Back");
 	}
 
-	public void viewApp(String orderId, String branch) {
+	@Override
+	public void viewApp() {
 		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
-		Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+		Order currentOrder = Repository.BRANCH.get(this.branch).getOrders().get(this.orderId);
 		System.out.println("Your total bill is: " + currentOrder.getTotalBill());
 		System.out.println("Confirm payment? ");
 		printActions();
@@ -36,9 +44,5 @@ public class ReceiptView extends MainView{
 		} while(opt<1 || opt>2);
 	}
 
-	@Override
-	public void viewApp() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

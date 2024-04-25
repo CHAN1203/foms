@@ -9,7 +9,6 @@ public class CustomerView extends MainView{
 	
 	BranchView branchView = new BranchView();
 	OrderView orderView;
-	PaymentView paymentView = new PaymentView();
 	
 	public CustomerView() {
 		super();
@@ -53,11 +52,13 @@ public class CustomerView extends MainView{
 			opt = Helper.readInt(1,3);
 			switch (opt) {
 			case 1:
+				Helper.clearScreen();
 				orderId = OrderController.createOrder(branch);
 				orderView = new OrderView(branch, orderId);
 				orderView.viewApp();
 				break;
 			case 2:
+				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + "  Check order status");
 				System.out.println("Enter order ID:");
 				orderId = Helper.readString();

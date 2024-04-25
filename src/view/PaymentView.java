@@ -4,8 +4,15 @@ import helper.Helper;
 import repository.Repository;
 
 public class PaymentView extends MainView{
-
-	ReceiptView receiptView = new ReceiptView();
+	String orderId; 
+	String branch;
+	
+	public PaymentView(String orderId, String branch) {
+		this.orderId = orderId;
+		this.branch = branch;
+	}
+	
+	ReceiptView receiptView;
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View > Payment View");
@@ -17,7 +24,8 @@ public class PaymentView extends MainView{
 		System.out.println((num++) + ". Back to Customer View");
 	}
 
-	public void viewApp(String orderId, String branch) {
+	@Override
+	public void viewApp() {
 		 int opt = -1;
 		 int size = Repository.PAYMENT_METHODS.size()+1;
 		 do {
@@ -31,16 +39,13 @@ public class PaymentView extends MainView{
 		 } while (opt > size || opt <= 0);
 		 
 		 if (opt < size && opt > 0) {
-			 receiptView.viewApp(orderId, branch);
+			 receiptView = new ReceiptView(this.orderId, this.branch);
+			 receiptView.viewApp();
 		 }
 
 		
 	}
 
-	@Override
-	public void viewApp() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

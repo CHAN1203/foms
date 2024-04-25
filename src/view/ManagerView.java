@@ -1,73 +1,109 @@
 package view;
+
 import helper.Helper;
-import controller.ManagerController;
-import repository.FileType;
+import controller.MenuController;
+import controller.StaffController;
 import enums. *;
 
-public class ManagerView extends MainView{
-	public void printActions() {
-		System.out.println("What would you like to do ?");
-        System.out.println("(1) Add menu items");
-        System.out.println("(2) Remove menu items");
-        System.out.println("(3) Update menu items");
-        System.out.println("(4) Display new order");
-        System.out.println("(5) View Order Details");
-		System.out.println("(6) Process Order");
-		System.out.println("(7) Quit");
+public class ManagerView extends StaffView{
+	String branch;
+	
+	public ManagerView(String branch) {
+		super(branch);
+		this.branch = branch;
 	}
 	
-	public void viewApp() {// change breadcrumbs // how to accept enum arguments?
+	public void printActions() {
+		printBreadCrumbs("Fast Food App View > Manager View");
+		System.out.println("What would you like to do ?");
+        System.out.println("(1) Add menu item");
+        System.out.println("(2) Remove menu item");
+        System.out.println("(3) Update menu item");
+        System.out.println("(4) Display processing order");
+        System.out.println("(5) View Order Details");
+		System.out.println("(6) Process Order");
+		System.out.println("(7) Back");
+	}
+	
+	public void viewApp() {
 		int opt = -1; 
-		String name = "";
-        String description = "";
-        double price = 0;
+		String name;
+        String description;
+        double price;
+        String foodCategory;
+        FoodAvailability foodAvailability;
         do {
             printActions();
             opt = Helper.readInt(1, 7);
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Add menu items");
-                    System.out.println("Enter name of item to be added:\r");
+                    printBreadCrumbs("Fast Food App View > Manager View > Add menu item");
+                    System.out.println("Enter name of item to be added:");
                     name = Helper.readString();
-                    System.out.printf("Enter description of %s:\n\r", name);
+                    System.out.println("Enter description of " + name + ":");
                     description = Helper.readString();
-                    System.out.printf("Enter price of %s:\n\r", name);
+                    System.out.println("Enter price of " + name + ":");
                     price = Helper.readDouble();
-                    addMenuItem(name, description, price, FoodCategory);
+                    System.out.println("Enter food category of " + name + ":");
+                    foodCategory = Helper.readString();
+                    foodAvailability = promptFoodAvailability(name);
+                    addMenuItem(name, description, price, foodCategory, foodAvailability);
                     break;
                 
                 case 2:
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
-                    System.out.println("Enter name of item to be removed:\r");
+                    printBreadCrumbs("Fast Food App View > Manager View > Remove menu item");
+                    System.out.println("Enter name of item to be removed:");
                     name = Helper.readString();
                     removeMenuItem(name);
                     break;
                 
                 case 3:
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Update menu items");
-                    System.out.println("Enter name of item to be updated:\r");
+                    printBreadCrumbs("Fast Food App View > Manager View > Update menu item");
+                    System.out.println("Enter name of item to be updated:");
                     name = Helper.readString();
-                    System.out.printf("Enter description of %s:\n\r", name);
+                    System.out.println("Enter description of " + name + ":");
                     description = Helper.readString();
-                    System.out.printf("Enter price of %s:\n\r", name);
+                    System.out.println("Enter price of " + name + ":");
                     price = Helper.readDouble();
-                    updateMenuItem(name, description, price, foodCategory);
+                    System.out.println("Enter food category of " + name + ":");
+                    foodCategory = Helper.readString();
+                    foodAvailability = promptFoodAvailability(name);
+                    updateMenuItem(name, description, price, foodCategory, foodAvailability);
                     break;
                
-                case 4:// do we want to just copy paste staffView? or do we want to extend StaffView instead?
-                    break;
+                case 4:
+                    Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Manager View > Display Processing Order");
+                	StaffController.displayProcessingOrders(this.branch);
+                	break;
                 case 5:
+                    Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Manager View > View Order Details");
+                	System.out.println("Select order to view details:");
+					int choice = promptSelectOrderId(this.branch);
+					if(choice == 0) {
+						continue;
+					}
+					else {
+						StaffController.viewParticularOrderDetails(this.branch, choice);
+					}
                     break;
                 case 6:
-                	
-                case 8:
+                    Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Manager View > Process Order");
+                	System.out.println("Select order to process:");
+					int selection = promptSelectOrderId(this.branchName);
+					if(selection == 0) {
+						continue;
+					}
+					else {
+						StaffController.updateOrderStatus(this.branchName, selection);
+					}
+                case 7:
                 	break;
-                default:
-                    System.out.println("Invalid option");
-                    break;
             }
             if (opt != 7) {
                 Helper.pressAnyKeyToContinue();
@@ -75,9 +111,8 @@ public class ManagerView extends MainView{
         } while (opt != 7);
 	}
 	
-	private void addMenuItem(String name, String description, double price, FoodCategory foodCategory){
-
-        if (ManagerController.addMenuItem(name, description, price, foodCategory)){
+	private void addMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
+        if (MenuController.addMenuItem(this.branch, name, foodCategory, description, price, foodAvailability)){
             System.out.printf("\"%s\" added to menu SUCCESSFULLY\n", name);
         }
         else{
@@ -86,7 +121,7 @@ public class ManagerView extends MainView{
     }
 	
 	private void removeMenuItem(String name){
-        if (ManagerController.removeMenuItem(name)){
+        if (MenuController.removeMenuItem(this.branch, name)){
             System.out.printf("\"%s\" removed from menu SUCCESSFULLY\n", name);
         }
         else{
@@ -94,11 +129,27 @@ public class ManagerView extends MainView{
         }
     }
 	
-	private void updateMenuItem(String name, String description, double price, FoodCategory foodCategory) {
-        if (ManagerController.updateMenuItem(name, description, price, foodCategory)) {
+	private void updateMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability) {
+		if (MenuController.updateMenuItem(this.branch , name, description, price, foodCategory, foodAvailability)){
             System.out.printf("%s updated in menu SUCCESSFULLY\n", name);
         } else {
             System.out.printf("Update menu FAILED (\"%s\" NOT FOUND in menu)\n", name);
         }
     }
+	
+	private FoodAvailability promptFoodAvailability(String name) {
+		int opt = -1;
+		System.out.println("Choose availability of " + name + ":");
+		System.out.println("(1)" + FoodAvailability.AVAILABLE);
+		System.out.println("(2)" + FoodAvailability.UNAVAILABLE);
+		opt = Helper.readInt(1,2);
+		if (opt == 1) {
+			return FoodAvailability.AVAILABLE;
+		}
+		else {
+			return FoodAvailability.UNAVAILABLE;
+		}
+	}
+	
+
 }

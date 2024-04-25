@@ -4,16 +4,13 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
-import view.MenuView;
-import view.CustomerView;
-import model.Branch;
-import model.Employee;
+
 
 public class LoginView extends MainView {
 	
 	AdminView adminView = new AdminView();
-	ManagerView managerView = new ManagerView();
-	StaffView staffView = new StaffView();
+	ManagerView managerView;
+	StaffView staffView;
 
 	@Override
 	protected void printActions() {
@@ -62,11 +59,14 @@ public class LoginView extends MainView {
 				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
+				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
+				managerView = new ManagerView(branch);
 				managerView.viewApp();
 			}
 			else {
 				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
-				staffView.viewApp(branch);
+				staffView = new StaffView(branch);
+				staffView.viewApp();
 			}
 		} 
 		

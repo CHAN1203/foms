@@ -11,11 +11,11 @@ public class DisplayStaffView extends MainView{
 		Helper.clearScreen();
         printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
         System.out.println("Select a filter: ");
-        System.out.println("(1) branch");
-        System.out.println("(2) role");
-        System.out.println("(3) gender");
-        System.out.println("(4) age");
-        System.out.println("(5) exit");
+        System.out.println("(1) Branch");
+        System.out.println("(2) Role");
+        System.out.println("(3) Gender");
+        System.out.println("(4) Age");
+        System.out.println("(5) Back");
 	}
 	
 	public void viewApp() {// change case 2 and 3
