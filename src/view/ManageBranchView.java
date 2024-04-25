@@ -1,6 +1,7 @@
 package view;
 
 import controller.AdminController;
+import controller.BranchController;
 import helper.Helper;
 import repository.Repository;
 
@@ -30,17 +31,14 @@ public class ManageBranchView extends MainView{
                     printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
                     promptCloseBranch();
                     break;
-                case 3:
-                	System.exit(0);
-                    break;
                 default:
                     System.out.println("Invalid option");
                     break;
             }
-            if (opt != 4) {
+            if (opt != 3) {
                 Helper.pressAnyKeyToContinue();
             }
-        } while (opt != 4);
+        } while (opt != 3);
 	}
 	
 	
@@ -51,19 +49,27 @@ public class ManageBranchView extends MainView{
          System.out.println("Enter new branch name location: ");
          String location = Helper.readString();
          //new branch has only 1 manager 
-    	if(AdminController.openBranch(newBranch, location, 1)) return true;
+    	if(AdminController.openBranch(newBranch, location, 1, 0)) return true;
     	return false;
     }
     
     private boolean promptCloseBranch() {
-    	System.out.println("Enter the name of the branch to close:");
-    	for (String branch : Repository.BRANCHES) {
-            System.out.println(branch);
-        }
+    	System.out.println("Choose a branch to close:");
+    	printBranchMenu();
+    	int opt = -1;
+    	opt = Helper.readInt();
+    	String branchToClose = BranchController.promptBranch(opt);
+ 
     	
-        String branchToClose = Helper.readString();
    	if(AdminController.closeBranch(branchToClose)) return true;
    	return false;
    }
     
+    private void printBranchMenu() {
+		int i = 1;
+        for(String branch : Repository.BRANCH.keySet()) {
+        	System.out.println("(" + i + ") " + branch);
+			i++;
+        }
+    }
 }

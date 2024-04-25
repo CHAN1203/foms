@@ -1,10 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import helper.Helper;
-import repository.Repository;
 import enums.*;
 
 
@@ -21,7 +20,9 @@ public class Order implements Serializable, Comparable<Order>{
 
 	private HashMap<MenuItem, Integer> currentOrders;
 	
-	private String remarks;
+//	private String remarks;
+	
+	private List<String> remarks = new ArrayList<String>();
 	
 	private String branchName;
 	
@@ -32,7 +33,8 @@ public class Order implements Serializable, Comparable<Order>{
 		this.dateTime = dateTime;
 		this.branchName = branchName;
 		this.totalBill = 0;
-		this.remarks = "No Remarks";
+		this.status = OrderStatus.PROCESSING;
+		remarks.add("No Remarks");
 
 		this.currentOrders = new HashMap<MenuItem, Integer>();
 	}
@@ -100,18 +102,19 @@ public class Order implements Serializable, Comparable<Order>{
 		return status;
 	}
 
-	public String getRemarks() {
+	public List<String> getRemarks() {
 		return remarks;
 	}
 
 	public String getBranchName() {
 		return branchName;
 	}
-	
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
 
+	public void setRemarks(String customerRemarks) {
+		remarks.clear();
+		remarks.add(customerRemarks);
+	}
+	
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}

@@ -5,6 +5,7 @@ import model.*;
 import repository.*;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import controller.*;
@@ -24,11 +25,12 @@ public class CustomerView extends MainView{
         System.out.println("(1) Place an order");
         System.out.println("(2) Remove an order");
         System.out.println("(3) Enter remarks");
-        System.out.println("(4) Print orders");
-        System.out.println("(5) View Shopping Cart");
-        System.out.println("(6) Checkout");
-        System.out.println("(7) Check order status");
-        System.out.println("(8) Back");
+        System.out.println("(4) Remove remarks");
+        System.out.println("(5) Print orders");
+        System.out.println("(6) View Shopping Cart");
+        System.out.println("(7) Checkout");
+        System.out.println("(8) Check order status");
+        System.out.println("(9) Back");
 	}
 
 	@Override
@@ -50,31 +52,20 @@ public class CustomerView extends MainView{
 	        }
 	        
         }while(chosenBranch > size || chosenBranch <= 0);
-		String branch = promptBranch(chosenBranch);
+		String branch = BranchController.promptBranch(chosenBranch);
 		String orderId = OrderController.createOrder(branch);
 		int opt = -1;
 		do {
 			printActions();
-			opt = Helper.readInt(1,8);
+			opt = Helper.readInt(1,9);
 			switch (opt) {
 			case 1:
-				if(!createOrder(orderId, branch)) {
-					System.out.println("Create order unsuccessful");
-				}
-				else {
-					System.out.println("Successfully created order");
-				}
+				createOrder(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 2:
-				//Helper.clearScreen();
                 printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
-				if(!removeOrder(orderId, branch)) {
-					System.out.println("Remove order unsuccessful");
-				}
-				else {
-					System.out.println("Successfully removed order");
-				}
+                removeOrder(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 3:
@@ -82,45 +73,45 @@ public class CustomerView extends MainView{
 				printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
 				System.out.println("Enter remarks for your order");
 				String remarks = Helper.readString();
-				if(!OrderController.setRemarks(remarks, orderId, branch)) {
-					System.out.println("Remarks entered unsuccessful");
-				}
-				else {
-					System.out.println("Successfully entered remarks");
-				}
+				setRemarks(remarks,orderId,branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 4:
+				printBreadCrumbs("Fast Food App View > Order View > Remove remarks for OrderId" + orderId);
+				OrderController.printOrderDetails(orderId, branch);
+				removeRemarks(orderId,branch);
+				Helper.pressAnyKeyToContinue();
+			case 5:
 				//Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > Print all orders");
 				OrderController.printOrderDetails(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
-			case 5:
+			case 6:
 				//Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Order View > Shopping Cart View");
 				shoppingCart(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
-			case 6:
+			case 7:
 				printBreadCrumbs("Fast Food App View > Order View > Check Out View");
 				checkout(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
-			case 7:
+			case 8:
 				printBreadCrumbs("Fast Food App View > Customer View > Check order status");
 				checkOrderStatus(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
-			case 8:
+			case 9:
 				break;
 			}
-		} while (opt != 8);
+		} while (opt != 9);
 		
 		
 	}
 	
-	 private boolean createOrder(String orderId, String branch) {
+	 private void createOrder(String orderId, String branch) {
 	        String itemName;
 	        int itemAmount;
 	        int opt = -1; 
@@ -148,11 +139,9 @@ public class CustomerView extends MainView{
 	        itemAmount = Helper.readInt();
 	        itemName = promptFoodOption(filteredMenu, opt);
 	        addOrderItem(itemName, orderId, itemAmount, branch);
-	        
-	        return true;
 	 }
 	 
-	 private boolean removeOrder(String orderId, String branch) {
+	 private void removeOrder(String orderId, String branch) {
 		 	String itemName;
 	        int itemAmount;
 	        int opt = -1; 
@@ -167,7 +156,7 @@ public class CustomerView extends MainView{
 		        	break;
 		        }
 		        else {
-		        	System.out.println(" option. Please try again.");
+		        	System.out.println("Invalid option. Please try again.");
 		        }
 		        
 	        }while(opt > size || opt <= 0);
@@ -178,55 +167,49 @@ public class CustomerView extends MainView{
 	        itemName = promptRemoveFood(Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders(), opt);
 	        removeOrderItem(itemName, orderId, itemAmount, branch);
 	        
-	        return true;
 	 }
 
 	 private void shoppingCart(String orderId, String branch) {
 		 int opt = -1;
 		 do {
 			 printShoppingCart(orderId, branch);
-			 opt = Helper.readInt(1,5);
+			 opt = Helper.readInt(1,6);
 			 switch (opt) {
 			 
 			 	case 1:
-			 		if(!createOrder(orderId, branch)) {
-						System.out.println("Create order unsuccessful");
-					}
-					else {
-						System.out.println("Successfully created order");
-					}
+					createOrder(orderId, branch);
+					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 2:
-			 		//Helper.clearScreen();
-	                printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
-					if(!removeOrder(orderId, branch)) {
-						System.out.println("Remove order unsuccessful");
-					}
-					else {
-						System.out.println("Successfully removed order");
-					}
+			 		printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
+	                removeOrder(orderId, branch);
+					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 3:
 			 		//Helper.clearScreen();
-					printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
+			 		printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
 					System.out.println("Enter remarks for your order");
 					String remarks = Helper.readString();
-					if(!OrderController.setRemarks(remarks, orderId, branch)) {
-						System.out.println("Remarks entered unsuccessful");
-					}
-					else {
-						System.out.println("Successfully entered remarks");
-					}
+					setRemarks(remarks,orderId,branch);
+					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 4:
+			 		printBreadCrumbs("Fast Food App View > Order View > Remove remarks for OrderId" + orderId);
+					OrderController.printOrderDetails(orderId, branch);
+					if(!removeRemarks(orderId, branch)) {
+						System.out.println("Remarks removal unsuccessful");
+					} else {
+						System.out.println("Successfully removed remarks");
+					}
+			 	case 5:
 			 		//Helper.clearScreen();
 			 		printBreadCrumbs("Fast Food App View > Order View > Checkout view for OrderId" + orderId);
 			 		checkout(orderId, branch);
 			 		break;
-			 	case 5:
+			 	case 6:
 			 		return;
 			 }
-		 } while(opt != 4);
+		 } while(opt != 6);
 	 }
 	 
 	 private void printShoppingCart(String orderId, String branch) {
@@ -237,19 +220,21 @@ public class CustomerView extends MainView{
 		 System.out.println("(1) Add an order");
 		 System.out.println("(2) Remove an order");
 		 System.out.println("(3) Enter remarks");
-		 System.out.println("(4) Checkout");
-		 System.out.println("(5) Back");
+		 System.out.println("(4) Remove remarks");
+		 System.out.println("(5) Checkout");
+		 System.out.println("(6) Back");
 	 }
 	 
 	 
 	 private String promptSelectCategory(String branch) {
 		 int categoryChoice;
 		 int size = Repository.BRANCH.get(branch).getFoodCategoryList().size();
+		 System.out.println(size);
 	        do {// error handling to ensure users selects a valid category from our total number of category
 	        	System.out.println("Please select a food category to view: ");
 	        	MenuController.printFoodCategory(branch);
 		        categoryChoice = Helper.readInt();
-		        if(categoryChoice < size && categoryChoice > 0) {
+		        if(categoryChoice <= size && categoryChoice > 0) {
 		        	break;
 		        }
 		        else {
@@ -287,18 +272,6 @@ public class CustomerView extends MainView{
 		}
 	}
 	
-	public String promptBranch(int opt) {
-		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
-		int i = 1;
-		for(i = 1; i<opt; i++) {
-			iteratedBranch.next();
-		}
-		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
-		Branch chosenBranch = SelectedBranch.getValue();
-		String branch = chosenBranch.getName();
-		return branch;
-	}
-	
 	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {
 		Iterator<Entry<String, MenuItem>> iteratedFood= menuItems.entrySet().iterator();
 		int i = 1;
@@ -326,7 +299,55 @@ public class CustomerView extends MainView{
 	private void checkout(String orderId, String branch) {
 		System.out.println("Shopping cart: ");
 		OrderController.printOrderDetails(orderId, branch);
-		paymentView.viewApp();
+		paymentView.viewApp(orderId,branch);
 	}
 	
+	private boolean removeRemarks(String orderId, String branch) {
+		int opt = -1;
+		int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks().size();
+		do {
+			System.out.println("Select which remarks you would like to remove");
+			opt = Helper.readInt();
+			if(opt<=0 || opt>size) {
+				System.out.println("Invalid option. Please try again");
+			}
+		}while(opt<=0 || opt>size);
+		if(promptRemoveRemarks(orderId, branch, opt)) {
+			System.out.println("Successfully removed remarks!");
+			System.out.println();
+			OrderController.printOrderDetails(orderId, branch);
+			return true;
+		}
+		else {
+			System.out.println("Remarks removal unsuccessful");
+			System.out.println();
+			OrderController.printOrderDetails(orderId, branch);
+			return false;
+		}
+		
+	}
+	
+	private boolean promptRemoveRemarks(String orderId, String branch, int opt) {
+		List<String> remarksList = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks();
+		if(remarksList.get(0).equals("No Remarks")) {
+			return false;
+		}
+		else {
+			remarksList.remove(opt -1);
+		}
+		
+		if(remarksList.size() == 0) {
+			remarksList.add("No Remarks");
+		}
+		return true;
+	}
+	
+	private void setRemarks(String remarks, String orderId, String branch) {
+		if(!OrderController.addRemarks(remarks, orderId, branch)) {
+			System.out.println("Remarks entered unsuccessful");
+		}
+		else {
+			System.out.println("Successfully entered remarks");
+		}
+	}
 }

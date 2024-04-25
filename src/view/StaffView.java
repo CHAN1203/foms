@@ -13,7 +13,6 @@ public class StaffView extends MainView{
 		System.out.println("2. View Particular Order Details");
 		System.out.println("3. Process Order");
 		System.out.println("4. Quit");
-		
 	}
 	
 	public void viewApp(String branchName) {// OrderController / 2x StaffController + ManagerController ASK ASK ASK
