@@ -188,7 +188,7 @@ public class MenuController {
     /**
      * Print all menu items on the menu, along with the details of each menu item.
      */
-    public static void printMenu(String branch) {
+    public static void printAllMenuItems(String branch) {
     	int num = 1;
         for (MenuItem menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
         	System.out.println("Item (" + (num++) + ")");
