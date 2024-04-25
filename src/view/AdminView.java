@@ -10,6 +10,7 @@ public class AdminView extends MainView{
 	ManageStaffAccountView manageStaffAccountView = new ManageStaffAccountView();
 	ManageBranchView manageBranchView = new ManageBranchView();
 	ManagePaymentView managePaymentView = new ManagePaymentView();
+	DisplayStaffView displayStaffView = new DisplayStaffView();
 	
 	public void printActions() {
 		Helper.clearScreen();
@@ -39,7 +40,7 @@ public class AdminView extends MainView{
                 case 2:
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
-                    AdminController.displayStaffList();
+                    displayStaffView.viewApp();
                     break;
                 case 3:
                     Helper.clearScreen();
@@ -97,7 +98,7 @@ public class AdminView extends MainView{
 	//loop through branch hash map to print all branch
 	private void printBranchMenu() {
 		int i = 1;
-        for(String branch : Repository.BRANCHES) {
+        for(String branch : Repository.BRANCH.keySet()) {
         	System.out.println("(" + i + ") " + branch);
 			i++;
         }
@@ -116,7 +117,7 @@ public class AdminView extends MainView{
         opt = Helper.readInt();
         String branch = BranchController.promptBranch(opt);
         
-        if (Repository.BRANCHES.contains(branch)) {
+        if (Repository.BRANCH.keySet().contains(branch)) {
         	AdminController.transferStaff(loginId, branch);
         	Repository.BRANCH.get(branch).addNumberOfStaff(); //add number of staff when transfer
             System.out.println("Staff has been transferred to branch " + branch);
