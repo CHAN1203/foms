@@ -5,6 +5,7 @@ import repository.Repository;
 
 public class PaymentView extends MainView{
 
+	ReceiptView receiptView = new ReceiptView();
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View > Payment View");
@@ -16,8 +17,7 @@ public class PaymentView extends MainView{
 		System.out.println((num++) + ". Back to Customer View");
 	}
 
-	@Override
-	public void viewApp() {
+	public void viewApp(String orderId, String branch) {
 		 int opt = -1;
 		 int size = Repository.PAYMENT_METHODS.size()+1;
 		 do {
@@ -31,9 +31,15 @@ public class PaymentView extends MainView{
 		 } while (opt > size || opt <= 0);
 		 
 		 if (opt < size && opt > 0) {
-			 //print receipt here or create ReceiptView?
+			 receiptView.viewApp(orderId, branch);
 		 }
 
+		
+	}
+
+	@Override
+	public void viewApp() {
+		// TODO Auto-generated method stub
 		
 	}
 
