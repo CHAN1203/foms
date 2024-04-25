@@ -4,7 +4,13 @@ import model.Order;
 import repository.Repository;
 import controller.OrderController;
 import helper.Helper;
-
+/**
+ * ReceiptView provides the view of the receipt and details of the {@link Order}
+ * 
+ * @author Jacky
+ * @version 1.0
+ * @since 2024-04-08
+ */
 public class ReceiptView extends MainView{
 	String orderId; 
 	String branch;
@@ -13,13 +19,21 @@ public class ReceiptView extends MainView{
 		this.orderId = orderId;
 		this.branch = branch;
 	}
-	
+
+	/**
+	 * View Actions for ReceiptView
+	 */
 	@Override
 	protected void printActions() {
 		System.out.println("(1) Yes");
 		System.out.println("(2) Back");
 	}
 
+	/**
+	 * View Application for ReceiptView
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 */
 	@Override
 	public void viewApp() {
 		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
@@ -43,6 +57,5 @@ public class ReceiptView extends MainView{
 			
 		} while(opt<1 || opt>2);
 	}
-
 
 }
