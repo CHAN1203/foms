@@ -128,6 +128,11 @@ public class OrderController {
     	if (orderId.equals("")) {
             return false;
         }
+    	for (String remark : Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks()) {
+    		if (remark.toLowerCase().equals(remarks.toLowerCase())) {
+    			return false;
+    		}
+    	}
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         if (currentOrder.getRemarks().get(0).equals("No Remarks")) {
         	currentOrder.setRemarks(remarks);
