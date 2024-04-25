@@ -38,7 +38,7 @@ public class PaymentView extends MainView{
 		for (String paymentMethod: Repository.PAYMENT_METHODS) {
 			System.out.println("(" + (num++) + ") " + paymentMethod);			
 		}
-		System.out.println((num++) + ". Back to Customer View");
+		System.out.println("("+ (num++) +")" + ". Back to Customer View");
 	}
 
 	/**
@@ -57,6 +57,9 @@ public class PaymentView extends MainView{
 	         if(opt < size && opt > 0) {
 	        	 break;
 	        }
+	         else {
+	        	 System.out.println("Invalid option. Please try again.");
+	         }
 		 
 		 } while (opt > size || opt <= 0);
 		 

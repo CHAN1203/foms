@@ -62,12 +62,17 @@ public class StaffController {
     	// order exists
     	
     	else {
-    		order.setStatus(OrderStatus.READYFORPICKUP);
-    		Helper.clearScreen();
-    		System.out.println("Order is ready to pickup!");
-    		scheduleDeletion(order.getOrderId(), branchName, 1*60*1000, ()->{
-    			OrderController.deleteOrder(order.getOrderId(), branchName);
-    		});
+    		if(order.getStatus()==OrderStatus.PROCESSING){
+    			order.setStatus(OrderStatus.READYFORPICKUP);
+    			Helper.clearScreen();
+        		System.out.println("Order is ready to pickup!");
+        		scheduleDeletion(order.getOrderId(), branchName, 1*60*1000, ()->{
+        			OrderController.deleteOrder(order.getOrderId(), branchName);
+        		});	
+    		} else if(order.getStatus() == OrderStatus.READYFORPICKUP || order.getStatus() == OrderStatus.COMPLETED) {
+    			System.out.println("Order cannot be further processed!");
+    			return;
+    		}
     	}	
 	}
 	

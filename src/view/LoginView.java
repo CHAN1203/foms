@@ -54,7 +54,6 @@ public class LoginView extends MainView {
 			case 2:
 				employeePosition = EmployeePosition.MANAGER;
 				break;
-			
 			case 3:
 				employeePosition = EmployeePosition.STAFF;
 				break;

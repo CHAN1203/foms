@@ -43,7 +43,7 @@ public class ManagerView extends StaffView{
         FoodAvailability foodAvailability;
         do {
             printActions();
-            opt = Helper.readInt(1, 7);
+            opt = Helper.readInt(1, 8);
             switch (opt) {
                 case 1:
                     Helper.clearScreen();

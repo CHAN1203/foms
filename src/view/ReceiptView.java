@@ -15,6 +15,7 @@ public class ReceiptView extends MainView{
 
 	String orderId; 
 	String branch;
+	CustomerView customerView = new CustomerView();
 
 	public ReceiptView (String orderId, String branch) {
 		this.orderId = orderId;
@@ -50,6 +51,9 @@ public class ReceiptView extends MainView{
 			switch(opt) {
 			case 1:
 				OrderController.confirmOrder();
+				System.out.println();
+				System.out.println("Payment successful! Returning ~");
+				System.out.println();
 				break;
 			case 2:
 				return;
