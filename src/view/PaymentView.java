@@ -38,7 +38,7 @@ public class PaymentView extends MainView{
 		for (String paymentMethod: Repository.PAYMENT_METHODS) {
 			System.out.println("(" + (num++) + ") " + paymentMethod);			
 		}
-		System.out.println((num++) + ". Back to Customer View");
+		System.out.println("(" + (num++) + ") Back");
 	}
 
 	/**
