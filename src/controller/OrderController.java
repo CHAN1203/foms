@@ -94,6 +94,7 @@ public class OrderController {
      */
     public static void printOrderDetails(String orderId, String branch) {
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+        List<String> remarksList = currentOrder.getRemarks();
         System.out.println(String.format("%-58s", "").replace(" ", "-"));
         System.out.printf("Order Id: %s Date/Time: %s\n", currentOrder.getOrderId(), currentOrder.getDateTime());
         System.out.println();
@@ -109,7 +110,11 @@ public class OrderController {
         }
 
         System.out.println();
-        System.out.println(String.format("%-11s: %s", "Remarks", currentOrder.getRemarks()));
+        System.out.println(String.format("%-11s:", "Remarks"));
+        int i = 1;
+        for(String customerRemarks : remarksList) {
+        	System.out.println(String.format("(" + i++ + ") " + customerRemarks));
+        }
         System.out.println(String.format("%-11s: $%.2f", "Total bill", currentOrder.getTotalBill()));
         System.out.println(String.format("%-58s", "").replace(" ", "-"));
     }
@@ -119,16 +124,16 @@ public class OrderController {
      * @param remarks Remarks for the order
      * @param orderId Order Id of the order
      */
-    public static boolean setRemarks(String remarks, String orderId, String branch){
+    public static boolean addRemarks(String remarks, String orderId, String branch){
     	if (orderId.equals("")) {
             return false;
         }
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
-        if (currentOrder.getRemarks().equals("No Remarks")) {
+        if (currentOrder.getRemarks().get(0).equals("No Remarks")) {
         	currentOrder.setRemarks(remarks);
         }
         else {
-        	currentOrder.setRemarks(currentOrder.getRemarks().concat(" | ").concat(remarks));
+        	currentOrder.getRemarks().add(remarks);
         }
         
         return true;
