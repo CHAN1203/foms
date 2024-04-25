@@ -100,7 +100,10 @@ public class OrderView extends MainView{
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 7:
-				checkout(orderId, branch);
+				boolean checkoutStatus = checkout(orderId, branch);
+		 		if (checkoutStatus == true) {
+		 			return;
+		 		}
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 8:
@@ -215,7 +218,10 @@ public class OrderView extends MainView{
 						System.out.println("Successfully removed remarks");
 					}
 			 	case 5:
-			 		checkout(orderId, branch);
+			 		boolean checkoutStatus = checkout(orderId, branch);
+			 		if (checkoutStatus == true) {
+			 			return;
+			 		}
 			 		break;
 			 	case 6:
 					pickupOrder(orderId, branch);
@@ -337,13 +343,18 @@ public class OrderView extends MainView{
 	 * @param orderId orderId of the order
 	 * @param branch branch name of the branch that the customer is currently in
 	 */
-	private void checkout(String orderId, String branch) {
+	private boolean checkout(String orderId, String branch) {
 		Helper.clearScreen();
 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Check Out View");
+		if (Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size() == 0) {
+			System.out.println("Order is empty! Please add food item into order");
+			return false;
+		}
 		System.out.println("Shopping cart: ");
 		OrderController.printOrderDetails(orderId, branch);
 		paymentView = new PaymentView(orderId, branch);
 		paymentView.viewApp();
+		return true;
 	}
 	/**
 	 * The function to pickup order for current customer through {@link OrderController}
