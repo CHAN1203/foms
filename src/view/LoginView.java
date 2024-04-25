@@ -62,7 +62,7 @@ public class LoginView extends MainView {
 				System.out.println("Invalid option. Please try again.");
 				break;
 			}
-		}while(empPos != 4);
+		}while(empPos<=0 || empPos> 3);
 		
 		String loginId;
 		String password;

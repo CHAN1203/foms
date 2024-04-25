@@ -1,7 +1,15 @@
 package view;
 
 import helper.Helper;
+import model.MenuItem;
+import model.Order;
+import repository.Repository;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
 import controller.MenuController;
+import controller.OrderController;
 import controller.StaffController;
 import enums. *;
 
@@ -19,10 +27,11 @@ public class ManagerView extends StaffView{
         System.out.println("(1) Add menu item");
         System.out.println("(2) Remove menu item");
         System.out.println("(3) Update menu item");
-        System.out.println("(4) Display processing order");
-        System.out.println("(5) View Order Details");
-		System.out.println("(6) Process Order");
-		System.out.println("(7) Back");
+        System.out.println("(4) Print all menu items");
+        System.out.println("(5) Display processing order");
+        System.out.println("(6) View Order Details");
+		System.out.println("(7) Process Order");
+		System.out.println("(8) Back");
 	}
 	
 	public void viewApp() {
@@ -73,13 +82,18 @@ public class ManagerView extends StaffView{
                     foodAvailability = promptFoodAvailability(name);
                     updateMenuItem(name, description, price, foodCategory, foodAvailability);
                     break;
-               
+                    
                 case 4:
+                	Helper.clearScreen();
+                	printBreadCrumbs("Fast Food App View > Manager View > Print All Menu Items");
+                	MenuController.printAllMenuItems(this.branch);
+                	break;
+                case 5:
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Manager View > Display Processing Order");
                 	StaffController.displayProcessingOrders(this.branch);
                 	break;
-                case 5:
+                case 6:
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Manager View > View Order Details");
                 	System.out.println("Select order to view details:");
@@ -91,7 +105,7 @@ public class ManagerView extends StaffView{
 						StaffController.viewParticularOrderDetails(this.branch, choice);
 					}
                     break;
-                case 6:
+                case 7:
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Manager View > Process Order");
                 	System.out.println("Select order to process:");
@@ -102,13 +116,13 @@ public class ManagerView extends StaffView{
 					else {
 						StaffController.updateOrderStatus(this.branch, selection);
 					}
-                case 7:
+                case 8:
                 	break;
             }
-            if (opt != 7) {
+            if (opt != 8) {
                 Helper.pressAnyKeyToContinue();
             }
-        } while (opt != 7);
+        } while (opt != 8);
 	}
 	
 	private void addMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
@@ -150,6 +164,4 @@ public class ManagerView extends StaffView{
 			return FoodAvailability.UNAVAILABLE;
 		}
 	}
-	
-
 }
