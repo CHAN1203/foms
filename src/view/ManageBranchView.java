@@ -48,8 +48,10 @@ public class ManageBranchView extends MainView{
          String newBranch = Helper.readString();
          System.out.println("Enter new branch name location: ");
          String location = Helper.readString();
+         System.out.println("Enter the staff quota: ");
+         int staffQuota = Helper.readInt();
          //new branch has only 1 manager 
-    	if(AdminController.openBranch(newBranch, location, 1, 0)) return true;
+    	if(AdminController.openBranch(newBranch, location, staffQuota, 0)) return true;
     	return false;
     }
     

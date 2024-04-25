@@ -9,13 +9,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminController {
-	
+
 	public static void addStaffAccount(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
 		Employee emp = new Employee(name, password, branch, position, gender, age, loginId);
-//		Branch branchObject = Repository.BRANCH.get(emp.getBranch());
-//		HashMap <String, Employee> employeeHM = branchObject.getEmployee();
-//		employeeHM.put(emp.getName(), emp);
-		Repository.BRANCH.get(emp.getBranch()).addNumberOfStaff();
+		//several conditions to recognize number of staff in specified position has increased
+		if(emp.getPosition() == EmployeePosition.STAFF) {
+			Repository.BRANCH.get(emp.getBranch()).addNumberOfStaff();
+			Repository.BRANCH.get(emp.getBranch()).addNumberOfEmployee();
+		}else if(emp.getPosition() == EmployeePosition.MANAGER) {
+			Repository.BRANCH.get(emp.getBranch()).addNumberOfManager();
+			Repository.BRANCH.get(emp.getBranch()).addNumberOfEmployee();
+		}
+		System.out.println("Manager Quota:" + Repository.BRANCH.get(emp.getBranch()).getManagerQuota());
+		System.out.println("num of emlpoyee:" + Repository.BRANCH.get(emp.getBranch()).getNumberOfEmployee());
+		System.out.println("num of manager:" + Repository.BRANCH.get(emp.getBranch()).getNumberOfManager());
+		
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getLoginId(),emp);
 		Repository.EMPLOYEE.put(emp.getLoginId(), emp);
 		Repository.persistData(FileType.EMPLOYEE);
@@ -126,7 +134,13 @@ public class AdminController {
         }
         for (Employee employee : removeList) {
             if (Helper.promptConfirmation("remove this guest")) {
-            	Repository.BRANCH.get(employee.getBranch()).addNumberOfStaff();
+            	//Repository.BRANCH.get(employee.getBranch()).addNumberOfStaff();
+            	if(employee.getPosition() == EmployeePosition.STAFF) {
+            		Repository.BRANCH.get(employee.getBranch()).deductNumberOfStaff();
+        		}else if(employee.getPosition() == EmployeePosition.MANAGER) {
+        			Repository.BRANCH.get(employee.getBranch()).deductNumberOfManager();
+        		}
+            	Repository.BRANCH.get(employee.getBranch()).deductNumberOfEmployee();
                 Repository.EMPLOYEE.remove(loginID);
                 Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginID);
             } else {
@@ -239,6 +253,7 @@ public class AdminController {
                 	Repository.EMPLOYEE.remove(loginId);
                     Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginId);
                     Repository.EMPLOYEE.put(employee.getLoginId(), staffToUpdate);
+                    Repository.BRANCH.get(employee.getBranch()).getEmployee().put(employee.getLoginId(),staffToUpdate);
                     break;
                 default:
                     break;
@@ -260,20 +275,60 @@ public class AdminController {
         }
         //loop through employee object
         for (Employee employee : updateList) {
-            Repository.BRANCH.get(employee.getBranch()).deductNumberOfStaff();
-            Employee staffToTransfer;
-        	staffToTransfer = Repository.EMPLOYEE.get(loginId);
-        	staffToTransfer.setBranch(branch);
-            Repository.EMPLOYEE.put(employee.getLoginId(), staffToTransfer);
-            break;
+        	if(Repository.BRANCH.get(branch).getNumberOfEmployee() < Repository.BRANCH.get(branch).getstaffQuota()) {
+        		if(employee.getPosition() == EmployeePosition.MANAGER) {
+                	if(Repository.BRANCH.get(branch).getNumberOfManager() < Repository.BRANCH.get(branch).getManagerQuota()) {
+                		Repository.BRANCH.get(employee.getBranch()).deductNumberOfManager();
+                        Employee staffToTransfer;
+                    	staffToTransfer = Repository.EMPLOYEE.get(loginId);
+                    	//remove the previous employee info on branch and employee hash map
+                    	Repository.EMPLOYEE.remove(loginId);
+                    	Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginId);
+                    	staffToTransfer.setBranch(branch);
+                    	//serialize the updated employee info to the branch and employee hash map
+                        Repository.EMPLOYEE.put(employee.getLoginId(), staffToTransfer);
+                        Repository.BRANCH.get(employee.getBranch()).getEmployee().put(employee.getLoginId(),staffToTransfer);
+                        Repository.persistData(FileType.EMPLOYEE);
+                        Repository.persistData(FileType.BRANCH);
+                      //once transfer successfully, must increase both number of staff and numeber of employee
+                        Repository.BRANCH.get(staffToTransfer.getBranch()).addNumberOfManager();
+                        Repository.BRANCH.get(staffToTransfer.getBranch()).addNumberOfEmployee();
+                    	return true;
+            		}else {
+            			System.out.println("Manager Quota Exceeded. Transfer Manager Unsucessful!");
+                    	return false;
+            		}
+        		}
+        		Repository.BRANCH.get(employee.getBranch()).deductNumberOfStaff();
+                Employee staffToTransfer;
+            	staffToTransfer = Repository.EMPLOYEE.get(loginId);
+            	Repository.EMPLOYEE.remove(loginId);
+            	Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginId);
+            	staffToTransfer.setBranch(branch);
+            	//serialize the updated employee info to the branch and employee hash map
+                Repository.EMPLOYEE.put(employee.getLoginId(), staffToTransfer);
+                Repository.BRANCH.get(employee.getBranch()).getEmployee().put(employee.getLoginId(),staffToTransfer);
+                //update the hash map by overwriting them
+                Repository.persistData(FileType.EMPLOYEE);
+                Repository.persistData(FileType.BRANCH);
+                //once transfer successfully, must increase both number of staff and numeber of employee
+                Repository.BRANCH.get(staffToTransfer.getBranch()).addNumberOfStaff();
+                Repository.BRANCH.get(staffToTransfer.getBranch()).addNumberOfEmployee();
+                return true;
+        	}else {
+        		System.out.println("Staff Quota Exceeded. Transfer Staff Unsucessful!");
+        		return false;
+        	}
         }
-        Repository.persistData(FileType.EMPLOYEE);
-        return true;
+        return false;
     }
+    
+   
     
     //return true when open successfully
     public static boolean openBranch(String newBranch, String location, int staffQuota, int numberOfStaff) {
-    	Branch branch = new Branch(newBranch, location, staffQuota, numberOfStaff);
+    	//number of staff, manager and so on are 0 when the branch is first created
+    	Branch branch = new Branch(newBranch, location, staffQuota, 0, 0, 0, 0);
     	Repository.BRANCH.put(branch.getName(), branch);
     	Repository.persistData(FileType.BRANCH);
     	return true;
@@ -309,14 +364,14 @@ public class AdminController {
         }
     }
     
-	public static void assignManager() {
-		
+	public static void assignManager(String name, String password, String branch, EmployeePosition position, EmployeeGender gender, int age, String loginId) {
+		addStaffAccount(name,password,branch, position, gender, age, loginId);
 	}
 	
     public static void initializeDummyBranchInfo() {
-    	openBranch("NTU", "North Spine Plaza", 8, 2);
-    	openBranch("JE", "Jurong East", 11, 2);
-    	openBranch("JP", "Jurong Point", 15, 2);
+    	openBranch("NTU", "North Spine Plaza", 8, 1);
+    	openBranch("JE", "Jurong East", 11, 1);
+    	openBranch("JP", "Jurong Point", 15, 1);
      }
     
     public static void initializeDummyEmployee() {
