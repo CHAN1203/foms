@@ -63,5 +63,4 @@ public class PaymentView extends MainView{
 			 receiptView.viewApp();
 		 }
 	}
-
 }
