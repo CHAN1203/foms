@@ -95,7 +95,7 @@ public class CustomerView extends MainView{
 				case 2:
 					break;
 				}
-			} while (opt != 2);
+			} while (opt < 1 && opt > 2);
 		}
 	}
 	

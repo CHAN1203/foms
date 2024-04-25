@@ -309,9 +309,9 @@ public class OrderView extends MainView{
 					OrderController.updateStatus(OrderStatus.READYFORPICKUP, orderId, branch);
 					break;
 				case 2:
-					break;
+					return;
 				}
-			}while (opt != 2);
+			}while (opt < 1 && opt > 2);
 		}
 	}
 	
