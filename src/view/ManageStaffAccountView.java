@@ -5,7 +5,19 @@ import enums. *;
 import helper.Helper;
 import repository.Repository;
 
+
+/**
+ * ManageStaffAccountView provides the view to take user input which calls {@link AdminController} to manage {@link Branch} and {@link Employee}.
+ * @author Chan Kee Qing
+ * @version 1.0
+ * @since 2022-04-13
+ */
 public class ManageStaffAccountView extends MainView{
+	
+	/**
+     * View Actions of the ManageStaffAccountView.
+     */
+    @Override
 	public void printActions() {
 		Helper.clearScreen();
         printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
@@ -16,7 +28,11 @@ public class ManageStaffAccountView extends MainView{
         System.out.println("(4) Exit");
 	}
 	
-	public void viewApp() {// change case 2 and 3
+    /**
+     * View Application of the ManageStaffAccountView. <p>
+     */
+    @Override
+	public void viewApp() {
         int opt = -1;
         do {
             printActions();
@@ -27,16 +43,18 @@ public class ManageStaffAccountView extends MainView{
                     printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View > Add staff account");
                     promptAddStaffAccount();
                     break;
-                case 2: // Remove Staff
+                case 2: 
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
                     promptRemoveStaffAccount();
                     break;
-                case 3:// 
+                case 3:
                     Helper.clearScreen();
                     printBreadCrumbs("Hotel App View > Menu View > Update menu items");
                     promptUpdateStaff();
                     break;
+                case 4:
+                	break;
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -47,7 +65,9 @@ public class ManageStaffAccountView extends MainView{
         } while (opt != 4);
 	}
 	
-	
+	/**
+	 * function to print branch menu
+	 */
 	private void printBranchMenu() {
 		int i = 1;
         for(String branch : Repository.BRANCH.keySet()) {
@@ -56,6 +76,10 @@ public class ManageStaffAccountView extends MainView{
         }
     }
 	
+	/**
+	 * function to prompt to add staff account
+	 * @return {@code true} if add add staff method is successful. Otherwise, {@code false}.
+	 */
 	private boolean promptAddStaffAccount() {
 		System.out.println("Enter staff loginId:");
 		String loginId = Helper.readString();
@@ -98,12 +122,21 @@ public class ManageStaffAccountView extends MainView{
         }
 	}
 
+	
+	/**
+	 * function to print gender menu
+	 */
 	private void printGenderMenu() {
         System.out.println("Please enter the staff's gender (1-2)");
         System.out.println("(1) Male");
         System.out.println("(2) Female");
     }
 	
+	
+	/**
+	 * function to prompt to ask for gender 
+	 * @return a gender enum
+	 */
 	private EmployeeGender promptGender() {
         printGenderMenu();
         int choice = Helper.readInt(1, 2);
@@ -122,12 +155,20 @@ public class ManageStaffAccountView extends MainView{
         return null;
     };
     
+    
+    /**
+	 * function to print role menu
+	 */
     private void printRoleMenu() {
         System.out.println("Please enter the staff's role (1-3)");
         System.out.println("(1) Manager");
         System.out.println("(2) Staff");
     }
     
+    /**
+	 * function to prompt to ask for employee position 
+	 * @return a employee position enum
+	 */
     private EmployeePosition promptRole() {
         printRoleMenu();
         int choice = Helper.readInt(1, 3);
@@ -146,7 +187,11 @@ public class ManageStaffAccountView extends MainView{
         return null;
     };
     
-    //remove staff account
+    
+    /**
+	 * function to prompt to remove staff account 
+	 * @return {@code true} if remove staff account is successful. Otherwise, {@code false}.
+	 */
     private boolean promptRemoveStaffAccount() {
         Helper.clearScreen();
         printBreadCrumbs("Hotel App View > Guest View > Remove a staff");
@@ -160,11 +205,10 @@ public class ManageStaffAccountView extends MainView{
     }
     
     
- // Update Guest
     /**
-     * Prompt to update staff <p>
-     * @return {@code true} if update successfully. Otherwise, {@code false}
-     */
+	 * function to prompt to update staff account 
+	 * @return {@code true} if update staff account is successful. Otherwise, {@code false}.
+	 */
     private boolean promptUpdateStaff() {
         Helper.clearScreen();
         printBreadCrumbs("Hotel App View > Guest View > Update a Guest Detail");
@@ -201,6 +245,9 @@ public class ManageStaffAccountView extends MainView{
         return false;
     }
     
+    /**
+     * function to print update staff menu
+     */
     private void printUpdateStaffMenu() {
         System.out.println("Please choose the information that you want to update (1-3)");
         System.out.println("(1) Name");
