@@ -10,7 +10,7 @@ public class FOMSApp {
 
 	public static void main(String[] args) {
 		
-//		Repository.clearDatabase();
+		Repository.clearDatabase();
 //		Repository.initializeDummyAdmin();
 //		Repository.initializeDummyBranch();
 //		Repository.initializeDummyMenu();

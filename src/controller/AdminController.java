@@ -149,12 +149,68 @@ public class AdminController {
         return searchList;
     }
     
-    public static boolean displayStaffList() {
+    public static boolean displayStaffListByBranch(String branch) {
+    	ArrayList<Employee> staffNameList = new ArrayList<Employee>();
+    
+    	//can't just iterate through map, need to do modification to loop through, need to import packages for map.entry
+        for (Map.Entry<String, Employee> entry : Repository.BRANCH.get(branch).getEmployee().entrySet()) {
+        	Employee employee = entry.getValue();
+            staffNameList.add(employee);
+        }
+        
+        if(staffNameList.size() != 0) {
+        	for(Employee employee : staffNameList) {
+            	System.out.println(employee.getName());
+            }
+        	return true;
+        }
+        return false;
+	}
+    public static boolean displayStaffListByRole(EmployeePosition position) {
     	ArrayList<Employee> staffNameList = new ArrayList<Employee>();
     	//can't just iterate through map, need to do modification to loop through, need to import packages for map.entry
         for (Map.Entry<String, Employee> entry : Repository.EMPLOYEE.entrySet()) {
         	Employee employee = entry.getValue();
-            staffNameList.add(employee);
+        	if (employee.getPosition().equals(position)) {
+        		staffNameList.add(employee);
+        	}
+            
+        }
+        if(staffNameList.size() != 0) {
+        	for(Employee employee : staffNameList) {
+            	System.out.println(employee.getName());
+            }
+        	return true;
+        }
+        return false;
+	}
+    
+    public static boolean displayStaffListByGender(EmployeeGender gender) {
+    	ArrayList<Employee> staffNameList = new ArrayList<Employee>();
+    	//can't just iterate through map, need to do modification to loop through, need to import packages for map.entry
+        for (Map.Entry<String, Employee> entry : Repository.EMPLOYEE.entrySet()) {
+        	Employee employee = entry.getValue();
+        	if (employee.getGender().equals(gender)) {
+        		staffNameList.add(employee);
+        	}
+        }
+        if(staffNameList.size() != 0) {
+        	for(Employee employee : staffNameList) {
+            	System.out.println(employee.getName());
+            }
+        	return true;
+        }
+        return false;
+	}
+    
+    public static boolean displayStaffListByAge(int age) {
+    	ArrayList<Employee> staffNameList = new ArrayList<Employee>();
+    	//can't just iterate through map, need to do modification to loop through, need to import packages for map.entry
+        for (Map.Entry<String, Employee> entry : Repository.EMPLOYEE.entrySet()) {
+        	Employee employee = entry.getValue();
+        	if (employee.getAge() == age) {
+        		staffNameList.add(employee);
+        	}
         }
         if(staffNameList.size() != 0) {
         	for(Employee employee : staffNameList) {
@@ -219,16 +275,16 @@ public class AdminController {
     public static boolean openBranch(String newBranch, String location, int staffQuota, int numberOfStaff) {
     	Branch branch = new Branch(newBranch, location, staffQuota, numberOfStaff);
     	Repository.BRANCH.put(branch.getName(), branch);
-    	Repository.BRANCHES.add(newBranch);
     	Repository.persistData(FileType.BRANCH);
     	return true;
     }
     
     //use if-else statement to check if the branch exist
     public static boolean closeBranch(String branchToClose) {
-    	if (Repository.BRANCHES.contains(branchToClose)) {
+    	if (Repository.BRANCH.keySet().contains(branchToClose)) {
             // Close the branch
-    		Repository.BRANCHES.remove(branchToClose);
+    		Repository.BRANCH.remove(branchToClose);
+    		Repository.persistData(FileType.BRANCH);
             System.out.println("Branch '" + branchToClose + "' has been closed.");
             return true;
         } else {
