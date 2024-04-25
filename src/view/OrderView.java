@@ -7,19 +7,35 @@ import java.util.*;
 import java.util.Map.Entry;
 import controller.*;
 import enums.OrderStatus;
-
+/**
+ * OrderView provides the view to take user input on handling their {@link Order} 
+ * through {@link OrderController}
+ * 
+ * @author Jacky, Hong Sheng
+ * @version 1.0
+ * @since 2024-04-04
+ */
 public class OrderView extends MainView{
-	
+	/**
+	 * Constructing required View Classes and initializing variables
+	 */
 	String branch;
 	String orderId;
 	PaymentView paymentView;
-	
+
+	/**
+	 * Default Constructor of OrderView
+	 * @param branch branch name
+	 * @param orderId orderId of particular user
+	 */
 	public OrderView(String branch, String orderId) {
 		super();
 		this.branch = branch;
 		this.orderId = orderId;
 	}
-
+	/**
+	 * View Actions of OrderView
+	 */
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId);
@@ -34,7 +50,10 @@ public class OrderView extends MainView{
 		System.out.println("(9) Back");
 	
 	}
-
+	/**
+	 * View Application of OrderView that calls {@link OrderController}
+	 * for further handling of orders
+	 */
 	@Override
 	public void viewApp() {
 		String branch = this.branch;
@@ -95,7 +114,11 @@ public class OrderView extends MainView{
 		
 		
 	}
-	 
+	 /**
+	  * The function that prompts the addition of {@link MenuItem} to {@link Order} through {@link MenuManager}
+	  * @param orderId orderId of the order
+	  * @param branch branch name of the branch this customer is currently in
+	  */
 	 private void addOrderItem(String orderId, String branch) {
 	        String itemName;
 	        int itemAmount;
@@ -105,7 +128,7 @@ public class OrderView extends MainView{
 	        HashMap<String, MenuItem> filteredMenu = MenuController.filterMenuItemsByCategory(Repository.BRANCH.get(branch).getMenuItems(), category);
 	        
 	        int size = filteredMenu.size(); 
-	        do {// error handling to ensure user keys in valid option for certain food in a specific category
+	        do {
 		        MenuController.printMenuByFoodCategory(branch, category);
 		        System.out.println("Select the food to order:");
 		        opt = Helper.readInt();
@@ -123,7 +146,12 @@ public class OrderView extends MainView{
 	        itemName = promptFoodOption(filteredMenu, opt);
 	        addToOrder(itemName, orderId, itemAmount, branch);
 	 }
-	 
+	 /**
+	  * The function that prompts the removal of {@link MenuItem} from {@link Order} 
+	  * through {@link OrderController}
+	  * @param orderId orderId of the order
+	  * @param branch branch name of the branch that the customer is currently in
+	  */
 	 private void removeOrderItem(String orderId, String branch) {
 		 	String itemName;
 	        int itemAmount;
@@ -132,7 +160,7 @@ public class OrderView extends MainView{
 	        OrderController.printOrderDetails(orderId, branch);
 	        
 	        int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size();
-	        do {// error handling to ensure user selects a valid option of food to remove from their order
+	        do {
 	        	System.out.println("Select which food to remove: ");
 		        opt = Helper.readInt();
 		        if(opt <= size && opt > 0) {
@@ -151,7 +179,11 @@ public class OrderView extends MainView{
 	        removeFromOrder(itemName, orderId, itemAmount, branch);
 	        
 	 }
-
+	 /**
+	  * The function that handles management of shopping cart
+	  * @param orderId orderId of the order
+	  * @param branch branch name of the branch that the customer is currently in
+	  */
 	 private void shoppingCart(String orderId, String branch) {
 		 int opt = -1;
 		 do {
@@ -194,7 +226,11 @@ public class OrderView extends MainView{
 			 }
 		 } while(opt != 7);
 	 }
-	 
+	 /**
+	  * The function that prints out available actions in shopping cart
+	  * @param orderId orderId of the order
+	  * @param branch branch name of the branch that the customer is currently in
+	  */
 	 private void printShoppingCart(String orderId, String branch) {
 		 System.out.println("Shopping Cart: ");
 		 OrderController.printOrderDetails(orderId, branch);
@@ -208,8 +244,12 @@ public class OrderView extends MainView{
 		 System.out.println("(6) Pick up order");
 		 System.out.println("(7) Back");
 	 }
-	 
-	 
+	 /**
+	  * The function accesses {@link Branch} to print {@link FoodCategory} availabe in the branch
+	  * and prompts users to select
+	  * @param branch branch name of the branch that the customer is currently in
+	  * @return the name of the FoodCategory
+	  */
 	 private String promptSelectCategory(String branch) {
 		 int categoryChoice;
 		 int size = Repository.BRANCH.get(branch).getFoodCategoryList().size();
@@ -227,8 +267,13 @@ public class OrderView extends MainView{
 	        }while(categoryChoice > size || categoryChoice <= 0);
 		 return Repository.BRANCH.get(branch).getFoodCategoryList().get(categoryChoice -1);
 	 }
-	 
-	
+	 /**
+	  * The function that adds {@link MenuItem} to an {@link Order} through {@link OrderController}
+	  * @param name name of the food to be added
+	  * @param orderId orderId of the order
+	  * @param amount amount of the food to be added
+	  * @param branch branch name of the branch that the customer is currently in
+	  */
 	private void addToOrder(String name, String orderId, int amount, String branch){
         if (OrderController.addOrderItem(name, orderId, amount, branch)){
             System.out.printf("\"%s\" added to order SUCCESSFULLY\n", name);
@@ -237,7 +282,13 @@ public class OrderView extends MainView{
             System.out.printf("Addition to order FAILED (\"%s\" NOT FOUND in menu)\n", name);
         };
     }
-	
+	/**
+	 * The function that removes {@link MenuItem} from {@link Order} through {@link OrderController}
+	 * @param name name of the food to be removed
+	 * @param orderId orderId of the current order
+	 * @param amount amount of the food to be removed
+	 * @param branch branch name of the branch that the customer is currently in
+	 */
 	private void removeFromOrder(String name, String orderId, int amount, String branch) {
 		if(OrderController.removeOrderItem(name, orderId, amount, branch)) {
 			System.out.printf("\"%s\" removed from order SUCCESSFULLY\n", name);
@@ -246,7 +297,12 @@ public class OrderView extends MainView{
 			System.out.printf("Removal from order FAILED (\"%s\" NOT FOUND in order\\ removal quantity > current quantity)\n", name);
 		}
 	}
-	
+	/**
+	 * The function that iterates through MenuItem HashMap to obtain the MenuItem object
+	 * @param menuItems the HashMap of MenuItems for a particular branch
+	 * @param opt the option of MenuItems the user chose
+	 * @return the MenuItem the user chose to add
+	 */
 	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {
 		Iterator<Entry<String, MenuItem>> iteratedFood= menuItems.entrySet().iterator();
 		int i = 1;
@@ -258,7 +314,13 @@ public class OrderView extends MainView{
 		String itemName = chosenFood.getName();
 		return itemName;
 	}
-	
+	/**
+	 * The function that iterates through the currentOrders HashMap in {@link Order}
+	 * to obtain the MenuItem object
+	 * @param currentOrders the HashMap of MenuItems for a particular order
+	 * @param opt the option of the MenuItems the user chose
+	 * @return the MenuItems the user chose to remove
+	 */
 	private String promptRemoveFood(HashMap<MenuItem, Integer> currentOrders, int opt) {
 		Iterator<Entry<MenuItem, Integer>> iteratedRemove = currentOrders.entrySet().iterator();
 		int i = 1;
@@ -270,7 +332,11 @@ public class OrderView extends MainView{
 		String itemName = chosenFoodToBeRemoved.getName();
 		return itemName;
 	}
-	
+	/**
+	 * The function that leads customer to {@link PaymentView}
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 */
 	private void checkout(String orderId, String branch) {
 		Helper.clearScreen();
 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Check Out View");
@@ -279,12 +345,10 @@ public class OrderView extends MainView{
 		paymentView = new PaymentView(orderId, branch);
 		paymentView.viewApp();
 	}
-	
-	
 	/**
-	 * To pickup order for current customer
-	 * @param orderId of order
-	 * @param branch of order
+	 * The function to pickup order for current customer through {@link OrderController}
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
 	 */
 	private void pickupOrder(String orderId, String branch) {
 		Helper.clearScreen();
@@ -315,7 +379,12 @@ public class OrderView extends MainView{
 			}while (opt < 1 && opt > 2);
 		}
 	}
-	
+	/**
+	 * The function that prompts the customers to removeRemarks on their {@link Order}
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 * @return {@code true} if removal of remarks is successful and {@code false} otherwise
+	 */
 	private boolean removeRemarks(String orderId, String branch) {
 		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks().size();
@@ -340,7 +409,13 @@ public class OrderView extends MainView{
 		}
 		
 	}
-	
+	/**
+	 * The function that removes the remarks on a {@link Order}
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 * @param opt the choice of remark the customer chose to remove
+	 * @return  {@code true} if removal successful and {@code false} otherwise
+	 */
 	private boolean promptRemoveRemarks(String orderId, String branch, int opt) {
 		List<String> remarksList = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks();
 		if(remarksList.get(0).equals("No Remarks")) {
@@ -355,7 +430,12 @@ public class OrderView extends MainView{
 		}
 		return true;
 	}
-	
+	/**
+	 * The function to set remarks for a particular {@link Order} through {@link OrderController}
+	 * @param remarks the remarks the user intends to add
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 */
 	private void setRemarks(String remarks, String orderId, String branch) {
 		if(!OrderController.addRemarks(remarks, orderId, branch)) {
 			System.out.println("Remarks entered unsuccessful");

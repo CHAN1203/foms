@@ -95,12 +95,12 @@ public class ManagerView extends StaffView{
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Manager View > Process Order");
                 	System.out.println("Select order to process:");
-					int selection = promptSelectOrderId(this.branchName);
+					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
 						continue;
 					}
 					else {
-						StaffController.updateOrderStatus(this.branchName, selection);
+						StaffController.updateOrderStatus(this.branch, selection);
 					}
                 case 7:
                 	break;

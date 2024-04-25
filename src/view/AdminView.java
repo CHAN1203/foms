@@ -7,15 +7,29 @@ import enums.EmployeePosition;
 import helper.Helper;
 import repository.Repository;
 
+/**
+ * AdminView provides the view to take user input which calls {@link AdminController} to manage {@link Branch} and {@link Employee}.
+ * @author Chan Kee Qing
+ * @version 1.0
+ * @since 2022-04-02
+ */
 public class AdminView extends MainView{
+	
+	/**
+	 * initialize objects to call their view app
+	 */
 	ManageStaffAccountView manageStaffAccountView = new ManageStaffAccountView();
 	ManageBranchView manageBranchView = new ManageBranchView();
 	ManagePaymentView managePaymentView = new ManagePaymentView();
 	DisplayStaffView displayStaffView = new DisplayStaffView();
 	
+	
+	/**
+     * View Actions of the AdminView.
+     */
+    @Override
 	public void printActions() {
 		Helper.clearScreen();
-		//!!need to change the headline
         printBreadCrumbs("Food Ordering App View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add/Remove/Update Staff Account");
@@ -28,7 +42,12 @@ public class AdminView extends MainView{
         System.out.println("(8) Exit");
 	}
 	
-	public void viewApp() { // change breadcrumbs //use class methods() first, then inside those methods(), call controller methods.
+    /**
+     * View Application of the AdminView. <p>
+     * see {@link AdminController} for more {@link Employee} management details.
+     */
+    @Override
+	public void viewApp() { 
 		int opt = -1; 
 		do { 
             printActions();
@@ -60,7 +79,7 @@ public class AdminView extends MainView{
                 	Helper.clearScreen();
                 	managePaymentView.viewApp();
                 	break;
-                case 7:// think about how to settle open close branch
+                case 7:
                 	Helper.clearScreen();
                 	manageBranchView.viewApp();
                 	break;  
@@ -76,6 +95,11 @@ public class AdminView extends MainView{
         } while (opt != 8);
 	}
 	
+    
+    /**
+     * function to prompt to promote staff
+     * @return {@code true} if successfully promote a staff. Otherwise, {@code false}.
+     */
 	private boolean promptPromoteStaff() {
         Helper.clearScreen();
         System.out.println("Enter the staff login Id that you want to promote: ");
@@ -104,7 +128,10 @@ public class AdminView extends MainView{
         return false;
     }
 	
-	//loop through branch hash map to print all branch
+
+	/**
+	 * function to loop through branch hash map to print branch menu
+	 */
 	private void printBranchMenu() {
 		int i = 1;
         for(String branch : Repository.BRANCH.keySet()) {
@@ -113,6 +140,11 @@ public class AdminView extends MainView{
         }
     }
 	
+	
+	/**
+	 * function to prompt to transfer staff
+	 * @return {@code true} if successfully transfer a staff. Otherwise, {@code false}.
+	 */
 	private boolean promptTransferStaff() {
 		int opt = -1;
 		System.out.println("Enter the staff's login ID that you want to transfer:");
@@ -140,6 +172,10 @@ public class AdminView extends MainView{
         }
 	}
 	
+	/**
+	 * function to prompt to assign a manager
+	 * @return {@code true} if successfully assign a manager. Otherwise, {@code false}.
+	 */
 	private boolean promptAssignManager() {
 		System.out.println("Enter manager loginId:");
 		String loginId = Helper.readString();
@@ -172,12 +208,20 @@ public class AdminView extends MainView{
         }
 	}
 	
+	
+	/**
+	 * function to print gender menu
+	 */
 	private void printGenderMenu() {
         System.out.println("Please enter the staff's gender (1-2)");
         System.out.println("(1) Male");
         System.out.println("(2) Female");
     }
 	
+	/**
+	 * function to prompt to ask for gender 
+	 * @return a gender enum
+	 */
 	private EmployeeGender promptGender() {
         printGenderMenu();
         int choice = Helper.readInt(1, 2);

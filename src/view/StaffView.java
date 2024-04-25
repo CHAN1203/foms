@@ -2,19 +2,28 @@ package view;
 import helper.Helper;
 import model.Order;
 import repository.Repository;
-
 import java.util.Map;
-
 import controller. *;
-
+/**
+ * StaffView provides the view for a Staff
+ * 
+ * @author Yue Hang, Shermin, Hong Sheng
+ * @version 1.0
+ * @since 2024-04-04
+ */
 public class StaffView extends MainView{
-	String branchName;
-	
-	//constructor
-	public StaffView(String branchName) {
-		this.branchName = branchName;
+
+	String branch;
+	/**
+	 * Default constructor of StaffView
+	 */
+	public StaffView(String branch) {
+		this.branch = branch;
 	}
-	
+
+	/**
+	 * View Actions for StaffView
+	 */
 	public void printActions() {
 		printBreadCrumbs("Fast Food App View > Staff View");
 		System.out.println("(1) Display processing order");
@@ -23,9 +32,12 @@ public class StaffView extends MainView{
 		System.out.println("(4) Back");
 	}
 	
-
+	/**
+	 * View Application of StaffView
+	 * @param branch branch name of the branch that the staff is currently in
+	 */
 	@Override
-	public void viewApp() {// OrderController / 2x StaffController + ManagerController ASK ASK ASK
+	public void viewApp() {
 		int opt = -1;
 		do {
 			printActions();
@@ -35,48 +47,53 @@ public class StaffView extends MainView{
 				case 1:
 				    Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Staff View > Display Processing Order");
-					StaffController.displayProcessingOrders(this.branchName);
+					StaffController.displayProcessingOrders(this.branch);
 					break;
 				case 2:
 					Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Staff View > View Order Details");
 					System.out.println("Select order to view details:");
-					int choice = promptSelectOrderId(this.branchName);
+					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
 						continue;
 					}
 					else {
-						StaffController.viewParticularOrderDetails(this.branchName, choice);
+						StaffController.viewParticularOrderDetails(this.branch, choice);
 					}
 					break;
 				case 3:
 					Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Staff View > Process Order");
 					System.out.println("Select order to process:");
-					int selection = promptSelectOrderId(this.branchName);
+					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
 						continue;
 					}
 					else {
-						StaffController.updateOrderStatus(this.branchName, selection);
+						StaffController.updateOrderStatus(this.branch, selection);
 					}
 					break;
 			}
 		} while(opt != 4);
 	}
 
-	
-	public static int promptSelectOrderId(String branchName) {
+
+	/**
+	 * The function that prompts a staff to select orderId 
+	 * @param branch branch name of the branch that the customer is currently in
+	 * @return
+	 */
+	public static int promptSelectOrderId(String branch) {
 		int i = 1;
 		int opt;
-		int size = Repository.BRANCH.get(branchName).getOrders().size();
+		int size = Repository.BRANCH.get(branch).getOrders().size();
 		if(size == 0) {
 			System.out.println("No availabe orders");
 			return 0;
 		}
 		
 		do {
-			for(Map.Entry<String,Order> entry : Repository.BRANCH.get(branchName).getOrders().entrySet()) {
+			for(Map.Entry<String,Order> entry : Repository.BRANCH.get(branch).getOrders().entrySet()) {
 				String orderId = entry.getKey();
 				System.out.println("(" + i + ") " + orderId);
 				i++;

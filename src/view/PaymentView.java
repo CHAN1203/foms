@@ -2,17 +2,34 @@ package view;
 
 import helper.Helper;
 import repository.Repository;
-
+/**
+ * PaymentView provides the view for customers to make payment
+ * 
+ * @author Jacky, Hong Sheng
+ * @version 1.0
+ * @sincec 2024-04-06
+ */
 public class PaymentView extends MainView{
+	
+	/**
+	 * Constructing the required View Classes
+	 */
 	String orderId; 
 	String branch;
+	ReceiptView receiptView;
+
 	
 	public PaymentView(String orderId, String branch) {
 		this.orderId = orderId;
 		this.branch = branch;
 	}
 	
-	ReceiptView receiptView;
+	
+
+	/**
+	 * View Actions for PaymentView
+	 */
+
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Customer View > Payment View");
@@ -24,8 +41,13 @@ public class PaymentView extends MainView{
 		System.out.println((num++) + ". Back to Customer View");
 	}
 
+	/**
+	 * View Application for PaymentView
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 */
 	@Override
-	public void viewApp() {
+	public void viewApp() {	
 		 int opt = -1;
 		 int size = Repository.PAYMENT_METHODS.size()+1;
 		 do {
@@ -42,10 +64,6 @@ public class PaymentView extends MainView{
 			 receiptView = new ReceiptView(this.orderId, this.branch);
 			 receiptView.viewApp();
 		 }
-
-		
 	}
-
-
-
+	
 }
