@@ -11,11 +11,11 @@ public class FOMSApp {
 	public static void main(String[] args) {
 		
 		Repository.clearDatabase();
-//		Repository.initializeDummyAdmin();
-//		Repository.initializeDummyBranch();
-//		Repository.initializeDummyMenu();
-//		Repository.initializeDummyEmployee();
-//		Repository.initializeDummyPaymentMethod();
+		Repository.initializeDummyAdmin();
+		Repository.initializeDummyBranch();
+		Repository.initializeDummyMenu();
+		Repository.initializeDummyEmployee();
+		Repository.initializeDummyPaymentMethod();
 		
 		Repository.readData(FileType.EMPLOYEE);
 		Repository.readData(FileType.BRANCH);
