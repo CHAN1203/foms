@@ -10,21 +10,17 @@ public class FOMSApp {
 
 	public static void main(String[] args) {
 		
-//		Admin admin = new Admin("Boss", "password", EmployeePosition.ADMIN, EmployeeGender.FEMALE, 62, "boss");
-//		Repository.EMPLOYEE.put("HS Yap", employee);
-//		Repository.persistData(FileType.EMPLOYEE);
-//		X
 //		Repository.clearDatabase();
-		
+		Repository.initializeDummyAdmin();
 		Repository.initializeDummyBranch();
 		Repository.initializeDummyMenu();
 		Repository.initializeDummyEmployee();
+		Repository.initializeDummyPaymentMethod();
 		
 		Repository.readData(FileType.EMPLOYEE);
 		Repository.readData(FileType.BRANCH);
 		Repository.readData(FileType.ADMIN);
-		//System.out.println(Repository.Employee.get("HS Yap").getName());
-		//System.out.println(Repository.Employee.get("HS Yap").getPassword());
+		
 		FastFoodAppView fastFoodAppView = new FastFoodAppView();
 		fastFoodAppView.viewApp();
 	}

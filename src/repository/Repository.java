@@ -2,7 +2,7 @@ package repository;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
+import enums.*;
 import model. *;
 import controller. *;
 import java.io.IOException;
@@ -124,7 +124,12 @@ public class Repository {
     public static boolean clearDatabase() {
         // Initialize empty data
         EMPLOYEE = new HashMap<String, Employee>();
+        BRANCH = new HashMap<String, Branch>();
+        ADMIN = new HashMap<String, Admin>();
+        PAYMENT_METHODS.clear();
         writeSerializedObject(FileType.EMPLOYEE);
+        writeSerializedObject(FileType.BRANCH);
+        writeSerializedObject(FileType.ADMIN);
         return true;
     }
     
@@ -157,12 +162,23 @@ public class Repository {
     }
     
 
-    public static boolean initializePaymentMethod() {
+    public static boolean initializeDummyPaymentMethod() {
     	if(PAYMENT_METHODS.size()!=0) {
     		return false;
     	}
     	AdminController.initializePaymentMethod();
     	return true;
+    }
+    
+    public static boolean initializeDummyAdmin() {
+    	if(ADMIN.size() !=0 ) {
+    		return false;
+    	}
+		Admin admin = new Admin("Boss", "password", EmployeePosition.ADMIN, EmployeeGender.FEMALE, 62, "boss");
+		Repository.ADMIN.put(admin.getLoginId(), admin);
+		Repository.persistData(FileType.ADMIN);
+		
+		return true;
     }
     
     

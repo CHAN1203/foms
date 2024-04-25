@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 import enums.EmployeeGender;
 import enums.EmployeePosition;
 
-public class Admin {
+public class Admin implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	protected String name;

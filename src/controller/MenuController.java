@@ -39,7 +39,7 @@ public class MenuController {
         String formattedName = name.toUpperCase();
         String menuIdToUpdate = getMenuIdFromName(branch, formattedName);
         
-        if (!Repository.BRANCH.get(branch).getFoodCategoryList().contains("foodCategory")) {
+        if (!Repository.BRANCH.get(branch).getFoodCategoryList().contains(foodCategory)) {
         	Repository.BRANCH.get(branch).getFoodCategoryList().add(foodCategory);
         }
         
