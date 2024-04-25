@@ -2,6 +2,7 @@ package view;
 import model.Employee;
 import controller.AdminController;
 import controller.BranchController;
+import enums.EmployeeGender;
 import enums.EmployeePosition;
 import helper.Helper;
 import repository.Repository;
@@ -44,7 +45,7 @@ public class AdminView extends MainView{
                     break;
                 case 3:
                     Helper.clearScreen();
-                    AdminController.assignManager();
+                    promptAssignManager();
                     break;
                 case 4:
                 	Helper.clearScreen();
@@ -62,7 +63,9 @@ public class AdminView extends MainView{
                 case 7:// think about how to settle open close branch
                 	Helper.clearScreen();
                 	manageBranchView.viewApp();
-                	break;                	
+                	break;  
+                case 8:
+                	break;
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -82,18 +85,24 @@ public class AdminView extends MainView{
             System.out.println("Staff not found!");
             return false;
         }
+       
         for(Employee employee:AdminController.searchStaffById(loginId)) {
+        	
         	if(employee.getPosition() == EmployeePosition.MANAGER) {
         		System.out.println("Manager cannot be promoted anymore!");
         		return false;
         	}
+        	if(Repository.BRANCH.get(employee.getBranch()).getNumberOfEmployee() < Repository.BRANCH.get(employee.getBranch()).getstaffQuota()) {
+        		System.out.println("Manager Quota Exceeded. Add Manager Unsucessful!");
+            	return false;
+        	}
+        	
             AdminController.promoteStaff(loginId, 2, EmployeePosition.MANAGER);
             System.out.println(employee.getName() + " has been promoted to " + employee.getPosition());
             return true;
         }
         return false;
     }
-	
 	
 	//loop through branch hash map to print all branch
 	private void printBranchMenu() {
@@ -118,14 +127,72 @@ public class AdminView extends MainView{
         String branch = BranchController.promptBranch(opt);
         
         if (Repository.BRANCH.keySet().contains(branch)) {
-        	AdminController.transferStaff(loginId, branch);
-        	Repository.BRANCH.get(branch).addNumberOfStaff(); //add number of staff when transfer
-            System.out.println("Staff has been transferred to branch " + branch);
-            return true;
+        	//return true only when transfer is successful
+        	if(AdminController.transferStaff(loginId, branch)) {
+        		Repository.BRANCH.get(branch).addNumberOfStaff(); //add number of staff when transfer
+                System.out.println("Staff has been transferred to branch " + branch);
+                return true;
+        	}
+        	return false;
         } else {
             System.out.println("Branch "+ branch + " does not exist.");
             return false;
         }
 	}
 	
+	private boolean promptAssignManager() {
+		System.out.println("Enter manager loginId:");
+		String loginId = Helper.readString();
+		System.out.println("Enter manager name:");
+        String name = Helper.readString();
+        String password = "password";
+        System.out.println("Enter the branch which the staff is in:");
+        printBranchMenu();
+        int opt = -1;
+        opt = Helper.readInt();
+        String branch = BranchController.promptBranch(opt); 
+        
+        EmployeeGender gender = promptGender();
+        if(gender == null) return false;
+        
+        System.out.println("Enter the staff's age");
+        int age = Helper.readInt();
+        
+        if(Repository.BRANCH.get(branch).getNumberOfEmployee() < Repository.BRANCH.get(branch).getstaffQuota()) {
+        	if(Repository.BRANCH.get(branch).getNumberOfManager() < Repository.BRANCH.get(branch).getManagerQuota()) {
+            	AdminController.assignManager(name, password, branch, EmployeePosition.MANAGER, gender, age, loginId);
+            	return true;
+    		}else {
+    			System.out.println("Manager Quota Exceeded. Add Manager Unsucessful!");
+            	return false;
+    		}
+        }else {
+        	System.out.println("Staff Quota Exceeded. Add Manager Unsucessful!");
+        	return false;
+        }
+	}
+	
+	private void printGenderMenu() {
+        System.out.println("Please enter the staff's gender (1-2)");
+        System.out.println("(1) Male");
+        System.out.println("(2) Female");
+    }
+	
+	private EmployeeGender promptGender() {
+        printGenderMenu();
+        int choice = Helper.readInt(1, 2);
+        if (choice != 1 && choice != 2) {
+            return null;
+        } else {
+            switch (choice) {
+                case 1:
+                    return EmployeeGender.MALE;
+                case 2:
+                    return EmployeeGender.FEMALE;
+                default:
+                    break;
+            }
+        }
+        return null;
+    };
 }
