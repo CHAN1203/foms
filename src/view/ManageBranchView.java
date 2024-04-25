@@ -1,6 +1,7 @@
 package view;
 
 import controller.AdminController;
+import controller.BranchController;
 import helper.Helper;
 import repository.Repository;
 
@@ -53,14 +54,22 @@ public class ManageBranchView extends MainView{
     }
     
     private boolean promptCloseBranch() {
-    	System.out.println("Enter the name of the branch to close:");
-    	for (String branch : Repository.BRANCHES) {
-            System.out.println(branch);
-        }
+    	System.out.println("Choose a branch to close:");
+    	printBranchMenu();
+    	int opt = -1;
+    	opt = Helper.readInt();
+    	String branchToClose = BranchController.promptBranch(opt);
+ 
     	
-        String branchToClose = Helper.readString();
    	if(AdminController.closeBranch(branchToClose)) return true;
    	return false;
    }
     
+    private void printBranchMenu() {
+		int i = 1;
+        for(String branch : Repository.BRANCH.keySet()) {
+        	System.out.println("(" + i + ") " + branch);
+			i++;
+        }
+    }
 }
