@@ -5,7 +5,6 @@ import repository.FileType;
 import enums. *;
 import model. *;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /** AdminController is a controller class that acts as a "middleman"
@@ -40,6 +39,7 @@ public class AdminController {
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfManager();
 			Repository.BRANCH.get(emp.getBranch()).addNumberOfEmployee();
 		}
+
 		Repository.BRANCH.get(emp.getBranch()).getEmployee().put(emp.getLoginId(),emp);
 		Repository.EMPLOYEE.put(emp.getLoginId(), emp);
 		Repository.persistData(FileType.EMPLOYEE);

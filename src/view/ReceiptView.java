@@ -12,6 +12,17 @@ import helper.Helper;
  * @since 2024-04-08
  */
 public class ReceiptView extends MainView{
+
+	String orderId; 
+	String branch;
+
+	public ReceiptView (String orderId, String branch) {
+		this.orderId = orderId;
+		this.branch = branch;
+	}
+	
+
+	
 	/**
 	 * View Actions for ReceiptView
 	 */
@@ -20,14 +31,16 @@ public class ReceiptView extends MainView{
 		System.out.println("(1) Yes");
 		System.out.println("(2) Back");
 	}
+
 	/**
 	 * View Application for ReceiptView
 	 * @param orderId orderId of the order
 	 * @param branch branch name of the branch that the customer is currently in
 	 */
-	public void viewApp(String orderId, String branch) {
+	@Override
+	public void viewApp() {
 		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
-		Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
+		Order currentOrder = Repository.BRANCH.get(this.branch).getOrders().get(this.orderId);
 		System.out.println("Your total bill is: " + currentOrder.getTotalBill());
 		System.out.println("Confirm payment? ");
 		printActions();
@@ -47,10 +60,5 @@ public class ReceiptView extends MainView{
 			
 		} while(opt<1 || opt>2);
 	}
-	/**
-	 * Inherited View Application method from parent class
-	 */
-	@Override
-	public void viewApp() {
-	}
+
 }

@@ -12,25 +12,32 @@ import controller. *;
  * @since 2024-04-04
  */
 public class StaffView extends MainView{
+
+	String branch;
 	/**
 	 * Default constructor of StaffView
 	 */
-	public StaffView() {
+	public StaffView(String branch) {
+		this.branch = branch;
 	}
+
 	/**
 	 * View Actions for StaffView
 	 */
 	public void printActions() {
-		System.out.println("1. Display New Order");
-		System.out.println("2. View Particular Order Details");
-		System.out.println("3. Process Order");
-		System.out.println("4. Quit");
+		printBreadCrumbs("Fast Food App View > Staff View");
+		System.out.println("(1) Display processing order");
+		System.out.println("(2) View particular Order Details");
+		System.out.println("(3) Process order");
+		System.out.println("(4) Back");
 	}
+	
 	/**
 	 * View Application of StaffView
 	 * @param branch branch name of the branch that the staff is currently in
 	 */
-	public void viewApp(String branch) {
+	@Override
+	public void viewApp() {
 		int opt = -1;
 		do {
 			printActions();
@@ -38,37 +45,39 @@ public class StaffView extends MainView{
 			
 			switch(opt) {
 				case 1:
-					StaffController.displayProcessingOrders(branch);
+				    Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Staff View > Display Processing Order");
+					StaffController.displayProcessingOrders(this.branch);
 					break;
 				case 2:
-					System.out.println("which order do you want to know the details? Please select the orderId");
-					int choice = promptSelectOrderId(branch);
+					Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Staff View > View Order Details");
+					System.out.println("Select order to view details:");
+					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
 						continue;
 					}
 					else {
-						StaffController.viewParticularOrderDetails(branch, choice);
+						StaffController.viewParticularOrderDetails(this.branch, choice);
 					}
 					break;
 				case 3:
-					System.out.println("which order do you want to process?");
-					int selection = promptSelectOrderId(branch);
+					Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Staff View > Process Order");
+					System.out.println("Select order to process:");
+					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
 						continue;
 					}
 					else {
-						StaffController.updateOrderStatus(branch, selection);
+						StaffController.updateOrderStatus(this.branch, selection);
 					}
 					break;
 			}
 		} while(opt != 4);
 	}
-	/**
-	 * Inherited View Application from parent class
-	 */
-	@Override 
-	public void viewApp() {
-	}
+
+
 	/**
 	 * The function that prompts a staff to select orderId 
 	 * @param branch branch name of the branch that the customer is currently in

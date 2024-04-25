@@ -4,6 +4,7 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
+
 /**
  * LoginView provides the view for user to choose Staff Position 
  * which calls to {@link AdminView}, {@link ManagerView} and {@link StaffView}
@@ -17,11 +18,13 @@ public class LoginView extends MainView {
 	 * Constructing required View Classes
 	 */
 	AdminView adminView = new AdminView();
-	ManagerView managerView = new ManagerView();
-	StaffView staffView = new StaffView();
+	ManagerView managerView;
+	StaffView staffView;
+
 	/**
 	 * View Actions for LoginView
 	 */
+
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Login View");
@@ -78,11 +81,14 @@ public class LoginView extends MainView {
 				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
+				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
+				managerView = new ManagerView(branch);
 				managerView.viewApp();
 			}
 			else {
 				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
-				staffView.viewApp(branch);
+				staffView = new StaffView(branch);
+				staffView.viewApp();
 			}
 		} 
 		

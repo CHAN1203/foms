@@ -17,10 +17,11 @@ public class CustomerView extends MainView{
 	 */
 	BranchView branchView = new BranchView();
 	OrderView orderView;
-	PaymentView paymentView = new PaymentView();
+
 	/**
 	 * Default constructor of the CustomerView
 	 */
+
 	public CustomerView() {
 		super();
 	}
@@ -66,11 +67,13 @@ public class CustomerView extends MainView{
 			opt = Helper.readInt(1,3);
 			switch (opt) {
 			case 1:
+				Helper.clearScreen();
 				orderId = OrderController.createOrder(branch);
 				orderView = new OrderView(branch, orderId);
 				orderView.viewApp();
 				break;
 			case 2:
+				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + "  Check order status");
 				System.out.println("Enter order ID:");
 				orderId = Helper.readString();
@@ -113,7 +116,7 @@ public class CustomerView extends MainView{
 				case 2:
 					break;
 				}
-			} while (opt != 2);
+			} while (opt < 1 && opt > 2);
 		}
 	}
 	
