@@ -3,10 +3,23 @@ package view;
 import controller.AdminController;
 import controller.BranchController;
 import helper.Helper;
+import model.Employee;
 import repository.Repository;
 import enums.*;
 
+
+/**
+ * DisplayStaffView provides the view to take user input which calls {@link AdminController} to display staff list according to the filter requirements.
+ * @author Chan Kee Qing
+ * @version 1.0
+ * @since 2022-04-24
+ */
 public class DisplayStaffView extends MainView{
+	
+	/**
+     * View Actions of the DisplayStaffView.
+     */
+    @Override
 	public void printActions() {
 		Helper.clearScreen();
         printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
@@ -18,7 +31,11 @@ public class DisplayStaffView extends MainView{
         System.out.println("(5) exit");
 	}
 	
-	public void viewApp() {// change case 2 and 3
+    /**
+     * View Application of the DisplayStaffView. <p>
+     */
+    @Override
+	public void viewApp() {
         int opt = -1;
         do {
             printActions();
@@ -55,6 +72,9 @@ public class DisplayStaffView extends MainView{
 	}
 	
 	
+    /**
+     * function to print branch menu
+     */
 	private void printBranchMenu() {
 		int i = 1;
         for(String branch : Repository.BRANCH.keySet()) {
@@ -64,6 +84,10 @@ public class DisplayStaffView extends MainView{
     }
 	
 	
+	/**
+	 * function to prompt to display staff by branch
+	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
+	 */
     private boolean promptDisplayStaffByBranch() {
     	 System.out.println("Enter the branch name: ");
     	 printBranchMenu();
@@ -80,11 +104,18 @@ public class DisplayStaffView extends MainView{
          }
     }
     
+    /**
+     * function to print role menu
+     */
     private void printRoleMenu() {
         System.out.println("(1) MANAGER ");
         System.out.println("(2) STAFF ");
     }
     
+    /**
+	 * function to prompt to display staff by role
+	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
+	 */
     private boolean promptDisplayStaffByRole() {
 		System.out.println("Enter the role name: ");
 		printRoleMenu();
@@ -103,6 +134,9 @@ public class DisplayStaffView extends MainView{
 		}
     }
     
+    /**
+     * function to print gender menu
+     */
     private void printGenderMenu() {
 		int i = 1;
         for(EmployeeGender gender : EmployeeGender.values()) {
@@ -111,6 +145,10 @@ public class DisplayStaffView extends MainView{
         }
     }
     
+    /**
+	 * function to prompt to display staff by gender
+	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
+	 */
     private boolean promptDisplayStaffByGender() {
 		System.out.println("Enter the gender: ");
 		printGenderMenu();
@@ -129,6 +167,10 @@ public class DisplayStaffView extends MainView{
 		}
     }
     
+    /**
+	 * function to prompt to display staff by age
+	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
+	 */
     private boolean promptDisplayStaffByAge() {
 		System.out.println("Enter the age: ");
 		int age = Helper.readInt();
