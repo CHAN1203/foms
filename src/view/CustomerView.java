@@ -89,7 +89,8 @@ public class CustomerView extends MainView{
 				opt = Helper.readInt(1,2);
 				switch (opt) {
 				case 1:
-					OrderController.updateStatus(OrderStatus.READYFORPICKUP, orderId, branch);
+					OrderController.updateStatus(OrderStatus.COMPLETED, orderId, branch);
+					StaffController.cancelTimer(orderId, branch);
 					break;
 				case 2:
 					break;

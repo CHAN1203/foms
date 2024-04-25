@@ -1,6 +1,11 @@
 package view;
 import helper.Helper;
 import model.Branch;
+import model.Order;
+import repository.Repository;
+
+import java.util.Map;
+
 import controller. *;
 
 public class StaffView extends MainView{
@@ -26,14 +31,24 @@ public class StaffView extends MainView{
 					StaffController.displayProcessingOrders(branchName);
 					break;
 				case 2:
-					System.out.println("which order do you want to know the details? Please enter an order ID");
-					int orderID = Helper.readInt();
-					StaffController.viewParticularOrderDetails(branchName, orderID);
+					System.out.println("which order do you want to know the details? Please select the orderId");
+					int choice = promptSelectOrderId(branchName);
+					if(choice == 0) {
+						continue;
+					}
+					else {
+						StaffController.viewParticularOrderDetails(branchName, choice);
+					}
 					break;
 				case 3:
 					System.out.println("which order do you want to process?");
-					int orderID1 = Helper.readInt();
-					StaffController.processOrder(branchName, orderID1);
+					int selection = promptSelectOrderId(branchName);
+					if(selection == 0) {
+						continue;
+					}
+					else {
+						StaffController.updateOrderStatus(branchName, selection);
+					}
 					break;
 			}
 		} while(opt != 4);
@@ -43,6 +58,26 @@ public class StaffView extends MainView{
 	public void viewApp() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static int promptSelectOrderId(String branchName) {
+		int i = 1;
+		int opt;
+		int size = Repository.BRANCH.get(branchName).getOrders().size();
+		if(size == 0) {
+			System.out.println("No availabe orders");
+			return 0;
+		}
+		
+		do {
+			for(Map.Entry<String,Order> entry : Repository.BRANCH.get(branchName).getOrders().entrySet()) {
+				String orderId = entry.getKey();
+				System.out.println("(" + i + ") " + orderId);
+				i++;
+			}
+			opt = Helper.readInt();
+		}while(opt<0 || opt>size);
+		return opt;
 	}
 }
 
