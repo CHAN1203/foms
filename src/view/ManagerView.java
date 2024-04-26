@@ -1,6 +1,7 @@
 package view;
 
 import helper.Helper;
+import repository.Repository;
 import controller.ManagerController;
 import controller.MenuController;
 import controller.StaffController;
@@ -94,6 +95,8 @@ public class ManagerView extends StaffView{
 					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
 						continue;
+					}else if(choice == Repository.BRANCH.get(branch).getOrders().size() +1) {
+						break;
 					}
 					else {
 						StaffController.viewParticularOrderDetails(this.branch, choice);
@@ -106,10 +109,13 @@ public class ManagerView extends StaffView{
 					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
 						continue;
+					}else if(selection == Repository.BRANCH.get(branch).getOrders().size() +1) {
+						break;
 					}
 					else {
 						StaffController.updateOrderStatus(this.branch, selection);
 					}
+					break;
                 case 8:
                 	Helper.clearScreen();
                 	printBreadCrumbs("Fast Food App View > Manager View > Display Staff List");

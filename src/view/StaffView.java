@@ -1,5 +1,6 @@
 package view;
 import helper.Helper;
+import model.Employee;
 import model.Order;
 import repository.Repository;
 import java.util.Map;
@@ -28,7 +29,8 @@ public class StaffView extends MainView{
 		System.out.println("(1) Display processing order");
 		System.out.println("(2) View particular Order Details");
 		System.out.println("(3) Process order");
-		System.out.println("(4) Back");
+		System.out.println("(4) Change password");
+		System.out.println("(5) Back");
 	}
 
 	/**
@@ -40,7 +42,7 @@ public class StaffView extends MainView{
 		int opt = -1;
 		do {
 			printActions();
-			opt = Helper.readInt(1,4);		
+			opt = Helper.readInt(1,5);		
 			switch(opt) {
 				case 1:
 				    Helper.clearScreen();
@@ -71,8 +73,11 @@ public class StaffView extends MainView{
 						StaffController.updateOrderStatus(this.branch, selection);
 					}
 					break;
+				case 4:
+					promptChangePassword();
+					break;
 			}
-		} while(opt != 4);
+		} while(opt != 5);
 	}
 
 
@@ -82,7 +87,7 @@ public class StaffView extends MainView{
 	 * @return
 	 */
 	public static int promptSelectOrderId(String branch) {
-		int opt;
+		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().size();
 		if(size == 0) {
 			System.out.println("No availabe orders");
@@ -90,19 +95,51 @@ public class StaffView extends MainView{
 		}
 		
 		do {
+			int i =1;
 			for(Map.Entry<String,Order> entry : Repository.BRANCH.get(branch).getOrders().entrySet()) {
-				int i = 1;
 				String orderId = entry.getKey();
 				Order orders = entry.getValue();
 				System.out.println("(" + i + ") " + " OrderID: " + orderId + "    Status: " + orders.getStatus() + "    Dine in option: " + orders.getOption());
 				i++;
 			}
+			System.out.println("(" + i + ")  Back");
 			opt = Helper.readInt();
-			if(opt<=0 || opt>size) {
+			if(opt<=0 || opt>size+1) {
 				System.out.println("Invalid option. Please try again");
 			}
-		}while(opt<=0 || opt>size);
+		}while(opt<=0 || opt>size+1);
 		return opt;
+	}
+	
+	private boolean promptChangePassword() {
+		System.out.println("Verify your loginID: ");
+		String loginId = Helper.readString();
+		System.out.println("Verify your password: ");
+		String password = Helper.readString();
+		
+		Employee emp = Repository.EMPLOYEE.get(loginId);
+		
+		if( emp != null ) {
+			System.out.println("Verification successful");
+			System.out.println();
+			System.out.println("Enter new password: ");
+			String newPassword = Helper.readString();
+			System.out.println("Re-enter new password: ");
+			String confirmPassword = Helper.readString();
+			if(UserController.changePassword(emp, newPassword, confirmPassword)) {
+				System.out.println("Password changed successfully!");
+				return true;
+			}
+			else {
+				System.out.println("Password does not match");
+				return false;
+			}
+			
+		}
+		else {
+			System.out.println("Verification failed");
+			return false;
+		}
 	}
 }
 

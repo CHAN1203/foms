@@ -96,11 +96,12 @@ public class OrderController {
     public static void printOrderDetails(String orderId, String branch) {
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         List<String> remarksList = currentOrder.getRemarks();
-        System.out.println(String.format("%-58s", "").replace(" ", "-"));
+        System.out.println();
+        System.out.println(String.format("%-63s", "").replace(" ", "-"));
         System.out.printf("Order Id: %s Date/Time: %s\n", currentOrder.getOrderId(), currentOrder.getDateTime());
         System.out.println();
-        System.out.println(String.format("%-4s %-26s %10s %18s", "Index", "Item", "Qty", "Price"));
-        System.out.println(String.format("%-66s", "").replace(" ", "─"));
+        System.out.println(String.format("%-4s %-26s %10s %12s", "Index", "Item", "Qty", "Price"));
+        System.out.println(String.format("%-63s", "").replace(" ", "─"));
 
         int index = 1;
         for (Map.Entry<MenuItem, Integer> entry : currentOrder.getCurrentOrders().entrySet()) {
@@ -117,9 +118,11 @@ public class OrderController {
         	System.out.println(String.format("(" + i++ + ") " + customerRemarks));
         }
         System.out.println();
-        System.out.println(currentOrder.getStatus());
+        System.out.printf("%-16s: %-15s", "Dine in Option", currentOrder.getOption());
+        System.out.printf("%-16s: %s\n", "Order Status", currentOrder.getStatus());
+        System.out.println();
         System.out.println(String.format("%-11s: $%.2f", "Total bill", currentOrder.getTotalBill()));
-        System.out.println(String.format("%-58s", "").replace(" ", "-"));
+        System.out.println(String.format("%-63s", "").replace(" ", "-"));
     }
     
     /**

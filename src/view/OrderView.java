@@ -47,9 +47,7 @@ public class OrderView extends MainView{
 		System.out.println("(5) Print orders");
 		System.out.println("(6) View Shopping Cart");
 		System.out.println("(7) Checkout");
-		System.out.println("(8) Collect order");
-		System.out.println("(9) Back");
-	
+		System.out.println("(8) Back");
 	}
 	/**
 	 * View Application of OrderView that calls {@link OrderController}
@@ -62,7 +60,7 @@ public class OrderView extends MainView{
 		int opt = -1;
 		do {
 			printActions();
-			opt = Helper.readInt(1,9);
+			opt = Helper.readInt(1,8);
 			switch (opt) {
 			case 1:
 				Helper.clearScreen();
@@ -80,16 +78,20 @@ public class OrderView extends MainView{
 				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID > Enter remarks for OrderId" + orderId);
 				System.out.println("Enter remarks for your order");
-				String remarks = Helper.readString();
-				setRemarks(remarks,orderId,branch);
+				setRemarks(orderId,branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 4:
 				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID > Remove remarks for OrderId" + orderId);
 				OrderController.printOrderDetails(orderId, branch);
-				removeRemarks(orderId,branch);
+				if(!removeRemarks(orderId, branch)) {
+					System.out.println("Remarks removal unsuccessful");
+				} else {
+					System.out.println("Successfully removed remarks");
+				}
 				Helper.pressAnyKeyToContinue();
+				break;
 			case 5:
 				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Print order");
@@ -108,13 +110,9 @@ public class OrderView extends MainView{
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 8:
-				pickupOrder(orderId, branch);
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 9:
 				break;
 			}
-		} while (opt != 9);
+		} while (opt != 8);
 		
 		
 	}
@@ -160,6 +158,11 @@ public class OrderView extends MainView{
 		 	String itemName;
 	        int itemAmount;
 	        int opt = -1; 
+	        
+	        if (Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size() == 0) {
+				System.out.println("Order is empty! Please add food item into order");
+				return;
+			}
 	        	        
 	        OrderController.printOrderDetails(orderId, branch);
 	        
@@ -194,9 +197,8 @@ public class OrderView extends MainView{
 			 Helper.clearScreen();
 			 printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Shopping Cart View");
 			 printShoppingCart(orderId, branch);
-			 opt = Helper.readInt(1,7);
+			 opt = Helper.readInt(1,6);
 			 switch (opt) {
-			 
 			 	case 1:
 					addOrderItem(orderId, branch);
 					Helper.pressAnyKeyToContinue();
@@ -207,17 +209,20 @@ public class OrderView extends MainView{
 					break;
 			 	case 3:
 					System.out.println("Enter remarks for your order");
-					String remarks = Helper.readString();
-					setRemarks(remarks,orderId,branch);
+					setRemarks(orderId,branch);
 					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 4:
 					OrderController.printOrderDetails(orderId, branch);
 					if(!removeRemarks(orderId, branch)) {
+						System.out.println();
 						System.out.println("Remarks removal unsuccessful");
 					} else {
 						System.out.println("Successfully removed remarks");
+						System.out.println();
 					}
+					Helper.pressAnyKeyToContinue();
+					break;
 			 	case 5:
 			 		boolean checkoutStatus = checkout(orderId, branch);
 			 		if (checkoutStatus == true) {
@@ -225,13 +230,9 @@ public class OrderView extends MainView{
 			 		}
 			 		break;
 			 	case 6:
-					pickupOrder(orderId, branch);
-					Helper.pressAnyKeyToContinue();
-					break;
-			 	case 7:
 			 		return;
 			 }
-		 } while(opt != 7);
+		 } while(opt != 6);
 	 }
 	 /**
 	  * The function that prints out available actions in shopping cart
@@ -248,8 +249,7 @@ public class OrderView extends MainView{
 		 System.out.println("(3) Enter remarks");
 		 System.out.println("(4) Remove remarks");
 		 System.out.println("(5) Checkout");
-		 System.out.println("(6) Pick up order");
-		 System.out.println("(7) Back");
+		 System.out.println("(6) Back");
 	 }
 	 /**
 	  * The function accesses {@link Branch} to print {@link FoodCategory} availabe in the branch
@@ -351,12 +351,16 @@ public class OrderView extends MainView{
 			System.out.println("Order is empty! Please add food item into order");
 			return false;
 		}
-		System.out.println("Shopping cart: ");
-		OrderController.printOrderDetails(orderId, branch);
-		promptDineInOption(orderId, branch);
-		paymentView = new PaymentView(orderId, branch);
-		paymentView.viewApp();
-		return true;
+		if(promptDineInOption(orderId, branch)) {;
+			System.out.println("Shopping cart: ");
+			OrderController.printOrderDetails(orderId, branch);
+			paymentView = new PaymentView(orderId, branch);
+			paymentView.viewApp();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	/**
 	 * The function to pickup order for current customer through {@link OrderController}
@@ -401,6 +405,11 @@ public class OrderView extends MainView{
 	private boolean removeRemarks(String orderId, String branch) {
 		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks().size();
+		
+		if(Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks().get(0) == "No Remarks") {
+			System.out.println("No remarks to be removed");
+			return false;
+		}
 		do {
 			System.out.println("Select which remarks you would like to remove");
 			opt = Helper.readInt();
@@ -449,7 +458,13 @@ public class OrderView extends MainView{
 	 * @param orderId orderId of the order
 	 * @param branch branch name of the branch that the customer is currently in
 	 */
-	private void setRemarks(String remarks, String orderId, String branch) {
+	private void setRemarks(String orderId, String branch) {
+		if (Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size() == 0) {
+			System.out.println("Order is empty! Please add food item into order");
+			return;
+		}
+		String remarks = Helper.readString();
+		
 		if(!OrderController.addRemarks(remarks, orderId, branch)) {
 			System.out.println("Remarks entered unsuccessful");
 		}
@@ -458,7 +473,7 @@ public class OrderView extends MainView{
 		}
 	}
 	
-	private void promptDineInOption(String orderId, String branch) {
+	private boolean promptDineInOption(String orderId, String branch) {
 		int opt = -1;
 		do {
 			System.out.println("Would you like to :");
@@ -469,12 +484,15 @@ public class OrderView extends MainView{
 			switch(opt) {
 			case 1:
 				Repository.BRANCH.get(branch).getOrders().get(orderId).setOption(DineInOption.DINEIN);
-				break;
+				return true;
 			case 2:
 				Repository.BRANCH.get(branch).getOrders().get(orderId).setOption(DineInOption.TAKEAWAY);
+				return true;
 			default:
 				System.out.println("Invalid option. Please try again.");
+				break;
 			}
 		}while (opt<1 || opt>2);
+		return false;
 	}
 }
