@@ -5,23 +5,21 @@ import controller.BranchController;
 import helper.Helper;
 import repository.Repository;
 import enums.*;
-
-
 /**
  * DisplayStaffView provides the view to take user input which calls {@link AdminController} to display staff list according to the filter requirements.
+ * 
  * @author Chan Kee Qing
  * @version 1.0
  * @since 2022-04-24
  */
 public class DisplayStaffView extends MainView{
-	
 	/**
      * View Actions of the DisplayStaffView.
      */
     @Override
 	public void printActions() {
 		Helper.clearScreen();
-        printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
+        printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View");
         System.out.println("Select a filter: ");
         System.out.println("(1) Branch");
         System.out.println("(2) Role");
@@ -29,7 +27,6 @@ public class DisplayStaffView extends MainView{
         System.out.println("(4) Age");
         System.out.println("(5) Back");
 	}
-	
     /**
      * View Application of the DisplayStaffView. <p>
      */
@@ -42,22 +39,22 @@ public class DisplayStaffView extends MainView{
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
-                    printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View > Add staff account");
+                    printBreadCrumbs("Fast Food App View > Login View >  Admin View > Display Staff View > Display Staff by Branch View");
                     promptDisplayStaffByBranch();
                     break;
                 case 2: 
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Role View");
                     promptDisplayStaffByRole();
                     break;
                 case 3: 
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Gender View");
                     promptDisplayStaffByGender();
                     break;
                 case 4: 
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Age View");
                     promptDisplayStaffByAge();
                     break;
                 case 5:
@@ -69,8 +66,6 @@ public class DisplayStaffView extends MainView{
             }
         } while (opt != 5);
 	}
-	
-	
     /**
      * function to print branch menu
      */
@@ -81,8 +76,6 @@ public class DisplayStaffView extends MainView{
 			i++;
         }
     }
-	
-	
 	/**
 	 * function to prompt to display staff by branch
 	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
@@ -102,7 +95,6 @@ public class DisplayStaffView extends MainView{
              return false;
          }
     }
-    
     /**
      * function to print role menu
      */
@@ -110,7 +102,6 @@ public class DisplayStaffView extends MainView{
         System.out.println("(1) MANAGER ");
         System.out.println("(2) STAFF ");
     }
-    
     /**
 	 * function to prompt to display staff by role
 	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
@@ -132,7 +123,6 @@ public class DisplayStaffView extends MainView{
                 return false;
 		}
     }
-    
     /**
      * function to print gender menu
      */
@@ -143,7 +133,6 @@ public class DisplayStaffView extends MainView{
 			i++;
         }
     }
-    
     /**
 	 * function to prompt to display staff by gender
 	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.
@@ -165,7 +154,6 @@ public class DisplayStaffView extends MainView{
                 return false;
 		}
     }
-    
     /**
 	 * function to prompt to display staff by age
 	 * @return {@code true} if successfully display the staff list. Otherwise, {@code false}.

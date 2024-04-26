@@ -13,7 +13,10 @@ import controller. *;
  * @since 2024-04-04
  */
 public class StaffView extends MainView{
-	String branch;
+	/**
+	 * branch of StaffView
+	 */
+	private String branch;
 	/**
 	 * Default constructor of StaffView
 	 */
@@ -25,7 +28,7 @@ public class StaffView extends MainView{
 	 * View Actions for StaffView
 	 */
 	public void printActions() {
-		printBreadCrumbs("Fast Food App View > Staff View");
+		printBreadCrumbs("Fast Food App View > Login View > Staff View");
 		System.out.println("(1) Display processing order");
 		System.out.println("(2) View particular Order Details");
 		System.out.println("(3) Process order");
@@ -83,8 +86,6 @@ public class StaffView extends MainView{
 			}
 		} while(opt != 5);
 	}
-
-
 	/**
 	 * The function that prompts a staff to select orderId 
 	 * @param branch branch name of the branch that the customer is currently in

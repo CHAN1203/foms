@@ -7,6 +7,7 @@ import enums.OrderStatus;
 /**
  * CustomerView provides the view to take user input for order related process
  * which calls {@link OrderView}
+ * 
  * @author Hong Sheng, Jacky
  * @version 1.0
  * @since 2024-04-08
@@ -17,11 +18,9 @@ public class CustomerView extends MainView{
 	 */
 	BranchView branchView = new BranchView();
 	OrderView orderView;
-
 	/**
 	 * Default constructor of the CustomerView
 	 */
-
 	public CustomerView() {
 		super();
 	}
@@ -30,6 +29,7 @@ public class CustomerView extends MainView{
 	 */
 	@Override
 	protected void printActions() {
+		printBreadCrumbs("Fast Food App View > Customer View");
 		System.out.println("What would you like to do ?");
 		System.out.println("(1) New order");
 		System.out.println("(2) Check order status");
@@ -47,7 +47,6 @@ public class CustomerView extends MainView{
         	System.out.println("(" + (size+1) + ") Back" );
         	chosenBranch = Helper.readInt();
 	        if(chosenBranch <= size && chosenBranch > 0) {
-	        	
 	        	break;
 	        }
 	        else if (chosenBranch == size+1){
@@ -84,12 +83,11 @@ public class CustomerView extends MainView{
 				break;
 			}
 		} while (opt != 3);
-		
-		
 	}
 	/**
 	 * The function that checks order status of a particular OrderID through {@link OrderController}
 	 * and prints out further actions
+	 * 
 	 * @param orderId The orderId used to access the particular order
 	 * @param branch The branch name of the customer
 	 */

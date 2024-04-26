@@ -4,7 +4,6 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
-
 /**
  * LoginView provides the view for user to choose Staff Position 
  * which calls to {@link AdminView}, {@link ManagerView} and {@link StaffView}
@@ -20,7 +19,6 @@ public class LoginView extends MainView {
 	AdminView adminView = new AdminView();
 	ManagerView managerView;
 	StaffView staffView;
-
 	/**
 	 * View Actions for LoginView
 	 */
@@ -40,7 +38,7 @@ public class LoginView extends MainView {
 	public void viewApp() {
 		int empPos = -1;
 		EmployeePosition employeePosition = null;
-		
+
 		do {
 			printActions();
 			empPos = Helper.readInt(1,4);
@@ -66,7 +64,6 @@ public class LoginView extends MainView {
 			return;
 		}
 
-		
 		String loginId;
 		String password;
 		

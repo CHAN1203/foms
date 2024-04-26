@@ -17,7 +17,7 @@ public class ManagerView extends StaffView{
 		this.branch = branch;
 	}
 	public void printActions() {
-		printBreadCrumbs("Fast Food App View > Manager View");
+		printBreadCrumbs("Fast Food App View > Login View > Manager View");
 		System.out.println("What would you like to do ?");
         System.out.println("(1) Add menu item");
         System.out.println("(2) Remove menu item");

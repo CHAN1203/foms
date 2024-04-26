@@ -12,9 +12,8 @@ import helper.Helper;
  * @since 2024-04-08
  */
 public class ReceiptView extends MainView{
-	String orderId; 
-	String branch;
-	CustomerView customerView = new CustomerView();
+	private String orderId; 
+	private String branch;
 
 	public ReceiptView (String orderId, String branch) {
 		this.orderId = orderId;

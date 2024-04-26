@@ -5,6 +5,7 @@ import model. *;
 import repository.Repository;
 /**
  * BranchView provides the view that takes user input for selection of branch
+ * 
  * @author Hong Sheng
  * @version 1.0
  * @since 2024-04-08
@@ -21,7 +22,7 @@ public class BranchView extends MainView {
 	 */
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Branch View");
+		printBreadCrumbs("Fast Food App View > Customer View > Branch View");
 		System.out.println("Please select the branch you would like to order from: ");
 		printBranchNames();
 	}
@@ -36,7 +37,7 @@ public class BranchView extends MainView {
 	/**
 	 * Uses for loop to access the Branch HashMap and prints out the branch names
 	 */
-	public void printBranchNames() {
+	private void printBranchNames() {
 		int i = 1;
 		for(Map.Entry<String,Branch> entry : Repository.BRANCH.entrySet()) {
 			String branchName = entry.getKey();

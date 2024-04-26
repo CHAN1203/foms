@@ -20,7 +20,7 @@ public class ManageStaffAccountView extends MainView{
     @Override
 	public void printActions() {
 		Helper.clearScreen();
-        printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
+        printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Staff Account View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add new staff");
         System.out.println("(2) Remove staff");

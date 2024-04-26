@@ -19,7 +19,7 @@ public class ManagePaymentView extends MainView{
 	public void printActions() {
 		Helper.clearScreen();
 		//!!need to change the headline
-        printBreadCrumbs("Food Ordering App View");
+        printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add new payment method");
         System.out.println("(2) Remove payment method");
