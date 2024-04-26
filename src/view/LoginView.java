@@ -16,9 +16,9 @@ public class LoginView extends MainView {
 	/**
 	 * Constructing required View Classes
 	 */
-	AdminView adminView = new AdminView();
-	ManagerView managerView;
-	StaffView staffView;
+	private AdminView adminView = new AdminView();
+	private ManagerView managerView;
+	private StaffView staffView;
 	/**
 	 * View Actions for LoginView
 	 */

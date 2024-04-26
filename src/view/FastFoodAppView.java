@@ -11,8 +11,8 @@ public class FastFoodAppView extends MainView{
 	/**
 	 * Constructing of required View Classes
 	 */
-	LoginView loginView = new LoginView();
-	CustomerView customerView = new CustomerView();
+	private LoginView loginView = new LoginView();
+	private CustomerView customerView = new CustomerView();
 	/**
 	 * Default constructor of FastFoodAppView
 	 */

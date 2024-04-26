@@ -13,15 +13,15 @@ public class PaymentView extends MainView{
 	/**
 	 * orderId of PaymentView
 	 */
-	String orderId; 
+	private String orderId; 
 	/**
 	 * branch of PaymentView
 	 */
-	String branch;
+	private String branch;
 	/**
 	 * Constructing the required View Class
 	 */
-	ReceiptView receiptView;
+	private ReceiptView receiptView;
 	/**
 	 * Constructor of PaymentView
 	 * @param orderId orderId of this object

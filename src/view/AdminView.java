@@ -20,10 +20,10 @@ public class AdminView extends MainView{
 	/**
 	 * initialize objects to call their view app
 	 */
-	ManageStaffAccountView manageStaffAccountView = new ManageStaffAccountView();
-	ManageBranchView manageBranchView = new ManageBranchView();
-	ManagePaymentView managePaymentView = new ManagePaymentView();
-	DisplayStaffView displayStaffView = new DisplayStaffView();
+	private ManageStaffAccountView manageStaffAccountView = new ManageStaffAccountView();
+	private ManageBranchView manageBranchView = new ManageBranchView();
+	private ManagePaymentView managePaymentView = new ManagePaymentView();
+	private DisplayStaffView displayStaffView = new DisplayStaffView();
 	/**
      * View Actions of the AdminView.
      */

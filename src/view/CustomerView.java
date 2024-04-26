@@ -16,8 +16,8 @@ public class CustomerView extends MainView{
 	/**
 	 * Constructing of required View Classes
 	 */
-	BranchView branchView = new BranchView();
-	OrderView orderView;
+	private BranchView branchView = new BranchView();
+	private OrderView orderView;
 	/**
 	 * Default constructor of the CustomerView
 	 */
