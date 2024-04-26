@@ -56,8 +56,6 @@ public class StaffView extends MainView{
 					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
 						continue;
-					}else if(choice == Repository.BRANCH.get(branch).getOrders().size() +1) {
-						break;
 					}
 					else {
 						StaffController.viewParticularOrderDetails(this.branch, choice);
@@ -70,8 +68,6 @@ public class StaffView extends MainView{
 					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
 						continue;
-					}else if(selection == Repository.BRANCH.get(branch).getOrders().size() +1) {
-						break;
 					}
 					else {
 						StaffController.updateOrderStatus(this.branch, selection);
@@ -114,6 +110,7 @@ public class StaffView extends MainView{
 		}while(opt<=0 || opt>size+1);
 		return opt;
 	}
+	
 	
 	private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");

@@ -13,9 +13,9 @@ import helper.Helper;
  * between the view class - {@link MenuView} and the model classes - {@link MenuItem}. <p>
  *
  * It can customize the menu. <p>
- * @author Hill Seah
+ * @author Kee Qing
  * @version 1.0
- * @since 2022-03-31
+ * @since 2024-04-4
  *
  */
 public class MenuController {

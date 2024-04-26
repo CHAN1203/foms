@@ -14,12 +14,12 @@ import repository.Repository;
  */
 
 public class BranchController {
+	
 	/**
 	 * Uses an iterator to iterate through the Branch HashMap and returns a branch object
 	 * @param Opt is the option of branch that user selected
 	 * @return Name of branch chosen
 	 */
-	
 	public static String promptBranch(int opt) {
 		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
 		int i = 1;

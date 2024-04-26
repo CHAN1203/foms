@@ -17,9 +17,9 @@ import enums.OrderStatus;
  * OrderManager is a controller class that acts as a "middleman"
  * between the view classes -  {@link OrderView} and the model classes - {@link Order}. <p>
  *
- * @author Hill Seah, Max
+ * @author Yue Hang
  * @version 1.0
- * @since 2022-04-06
+ * @since 2024-04-06
  *
  */
 public class OrderController {
@@ -192,15 +192,29 @@ public class OrderController {
         }
     }
     
+    /**
+     * Check status of current order
+     * @param orderId Order ID 
+     * @param branch Name of Branch
+     * @return
+     */
     public static OrderStatus checkOrderStatus(String orderId, String branch) {
     	Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         return currentOrder.getStatus();
     }
     
+    /**
+     * Serialize order and store into database
+     */
     public static void confirmOrder() {
     	Repository.persistData(FileType.BRANCH);
     }
     
+    /**
+     * Delete the order
+     * @param orderId Order ID
+     * @param branch Name of Branch
+     */
     public static void deleteOrder(String orderId, String branch) {
     	Order order = Repository.BRANCH.get(branch).getOrders().get(orderId);
     	
@@ -215,6 +229,13 @@ public class OrderController {
     	
     }
     
+    /**
+     * Iterate through each of the options shown to the user to reach his/her option, this is used
+     * like traversing an array
+     * @param branch Name of Branch
+     * @param opt Option input by user
+     * @return Order chosen by user
+     */
     public static Order promptOrders(String branch, int opt) {
     	Iterator<Map.Entry<String, Order>> iteratedOrder = Repository.BRANCH.get(branch).getOrders().entrySet().iterator();
 		int i = 1;

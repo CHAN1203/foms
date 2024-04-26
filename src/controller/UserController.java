@@ -5,7 +5,20 @@ import model.Admin;
 import repository.FileType;
 import repository.Repository;
 
+/**
+ * @author Yue Hang
+ * @version 1.0
+ * @since 2024-4-6
+ */
 public class UserController {
+	
+	/**
+	 * Takes in all login details from user and checks if it matches the details in our database
+	 * @param username Input username from user
+	 * @param password Input password from user
+	 * @param employeePosition Input position from user
+	 * @return {@code true} if login details match, otherwise {@code true}
+	 */
 	public static boolean authenticate(String username, String password, EmployeePosition employeePosition) {
 		if(employeePosition == EmployeePosition.STAFF || employeePosition == EmployeePosition.MANAGER) {
 			Employee emp = Repository.EMPLOYEE.get(username);
@@ -30,6 +43,13 @@ public class UserController {
 		return true;
 	}
 	
+	/**
+	 * Change the password of employee
+	 * @param emp Employee object
+	 * @param password Password
+	 * @param confirmPassword Confirm Password
+	 * @return
+	 */
 	public static boolean changePassword(Employee emp, String password, String confirmPassword) {
 		if(password.equals(confirmPassword)) {
 			emp.setPassword(confirmPassword);
@@ -42,6 +62,13 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Change the password of admin 
+	 * @param admin Admin object
+	 * @param password Password
+	 * @param confirmPassword Confirm Password
+	 * @return
+	 */
 	public static boolean changePassword(Admin admin, String password, String confirmPassword) {
 		if(password.equals(confirmPassword)) {
 			admin.setPassword(confirmPassword);
