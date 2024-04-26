@@ -426,7 +426,11 @@ public class AdminController {
      * @return {@code true} if add payment method successful. Otherwise, {@code false}
      */
     public static boolean addPaymentMethod(String newPaymentMethod) {
-    	return Repository.PAYMENT_METHODS.add(newPaymentMethod);
+    	if(Repository.PAYMENT_METHODS.add(newPaymentMethod)) {
+    		Repository.persistData(FileType.PAYMENT_METHODS);
+    		return true;
+    	}
+    	return false; 
     }
     
     public static boolean removePaymentMethod(String existedPaymentMethod) {

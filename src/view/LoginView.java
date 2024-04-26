@@ -60,7 +60,11 @@ public class LoginView extends MainView {
 				System.out.println("Invalid option. Please try again.");
 				break;
 			}
-		} while(empPos <= 0 || empPos> 3);
+		} while(empPos <= 0 || empPos> 4);
+		
+		if(empPos == 4) {
+			return;
+		}
 
 		
 		String loginId;

@@ -19,9 +19,29 @@ public class FOMSApp {
 		Repository.readData(FileType.ADMIN);
 		Repository.readData(FileType.PAYMENT_METHODS);
 		
+		printFOMSTitle();
 		FastFoodAppView fastFoodAppView = new FastFoodAppView();
 		fastFoodAppView.viewApp();
 	
 	}
+	
+	private static void printFOMSTitle() {
+        System.out.println();
+        System.out.println("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                           _________    _______     __      __    ______                             ║");
+        System.out.println("║                          /        /  /       \\    / \\    //|    /     \\                             ║");
+        System.out.println("║                          ▐▐▐▐▐▐▐▐▐/  ▐▐▐▐▐▐▐▐ |  ▐▐  \\  ▐▐ |   /▐▐▐▐▐▐▐ |                           ║");
+        System.out.println("║                          ▐▐ |        ▐▐ |  ▐▐ |  ▐▐▐▐  ▐▐▐▐ |  ▐▐ \\__▐▐/                            ║");
+        System.out.println("║                          ▐▐ |______  ▐▐ |  ▐▐ |  ▐▐ |▐▐/ ▐▐ |  ▐▐                                   ║");
+        System.out.println("║                          ▐▐▐▐▐▐▐▐▐/  ▐▐ |  ▐▐ |  ▐▐ |    ▐▐ |   ▐▐▐▐▐▐▐\\                            ║");
+        System.out.println("║                          ▐▐ |        ▐▐ |  ▐▐ |  ▐▐ |    ▐▐ |     \\__▐▐|                            ║");
+        System.out.println("║                          ▐▐ |        ▐▐ |  ▐▐ |  ▐▐ |    ▐▐ |  ▐▐    ▐▐ /                           ║");
+        System.out.println("║                          ▐▐ /        ▐▐▐▐▐▐▐▐/   ▐▐/     ▐▐/    ▐▐▐▐▐▐ /                            ║");
+        System.out.println("║                                                                                                     ║");
+        System.out.println("║                           Welcome to Fastfood Ordering Management System                            ║");
+        System.out.println("║                                                                                                     ║");
+        System.out.println("╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
 
 }
