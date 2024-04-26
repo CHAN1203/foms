@@ -10,24 +10,22 @@ import repository.Repository;
  * ManageStaffAccountView provides the view to take user input which calls {@link AdminController} to manage {@link Branch} and {@link Employee}.
  * @author Chan Kee Qing
  * @version 1.0
- * @since 2022-04-13
+ * @since 2024-04-13
  */
 public class ManageStaffAccountView extends MainView{
-	
 	/**
      * View Actions of the ManageStaffAccountView.
      */
     @Override
 	public void printActions() {
 		Helper.clearScreen();
-        printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View");// change breadcrumbs
+        printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Staff Account View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add new staff");
         System.out.println("(2) Remove staff");
         System.out.println("(3) Update staff");
         System.out.println("(4) Exit");
-	}
-	
+    }
     /**
      * View Application of the ManageStaffAccountView. <p>
      */
@@ -40,17 +38,17 @@ public class ManageStaffAccountView extends MainView{
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
-                    printBreadCrumbs("Food Ordering and Management App View > Manage Staff Account View > Add staff account");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Staff Account View > Add Staff Account View");
                     promptAddStaffAccount();
                     break;
                 case 2: 
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Staff Account View > Remove Staff Account View");
                     promptRemoveStaffAccount();
                     break;
                 case 3:
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Update menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Staff Account View > Remove Staff Account View");
                     promptUpdateStaff();
                     break;
                 case 4:
@@ -64,7 +62,6 @@ public class ManageStaffAccountView extends MainView{
             }
         } while (opt != 4);
 	}
-	
 	/**
 	 * function to print branch menu
 	 */
@@ -75,7 +72,6 @@ public class ManageStaffAccountView extends MainView{
 			i++;
         }
     }
-	
 	/**
 	 * function to prompt to add staff account
 	 * @return {@code true} if add add staff method is successful. Otherwise, {@code false}.
@@ -121,8 +117,6 @@ public class ManageStaffAccountView extends MainView{
         	return false;
         }
 	}
-
-	
 	/**
 	 * function to print gender menu
 	 */
@@ -131,8 +125,6 @@ public class ManageStaffAccountView extends MainView{
         System.out.println("(1) Male");
         System.out.println("(2) Female");
     }
-	
-	
 	/**
 	 * function to prompt to ask for gender 
 	 * @return a gender enum
@@ -153,9 +145,7 @@ public class ManageStaffAccountView extends MainView{
             }
         }
         return null;
-    };
-    
-    
+    }
     /**
 	 * function to print role menu
 	 */
@@ -164,7 +154,6 @@ public class ManageStaffAccountView extends MainView{
         System.out.println("(1) Manager");
         System.out.println("(2) Staff");
     }
-    
     /**
 	 * function to prompt to ask for employee position 
 	 * @return a employee position enum
@@ -185,9 +174,7 @@ public class ManageStaffAccountView extends MainView{
             }
         }
         return null;
-    };
-    
-    
+    }
     /**
 	 * function to prompt to remove staff account 
 	 * @return {@code true} if remove staff account is successful. Otherwise, {@code false}.
@@ -203,8 +190,6 @@ public class ManageStaffAccountView extends MainView{
         }
         return true;
     }
-    
-    
     /**
 	 * function to prompt to update staff account 
 	 * @return {@code true} if update staff account is successful. Otherwise, {@code false}.
@@ -244,7 +229,6 @@ public class ManageStaffAccountView extends MainView{
         }
         return false;
     }
-    
     /**
      * function to print update staff menu
      */

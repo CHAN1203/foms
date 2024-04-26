@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import controller.*;
 import enums.DineInOption;
-import enums.OrderStatus;
 /**
  * OrderView provides the view to take user input on handling their {@link Order} 
  * through {@link OrderController}
@@ -18,12 +17,17 @@ import enums.OrderStatus;
  */
 public class OrderView extends MainView{
 	/**
-	 * Constructing required View Classes and initializing variables
+	 * branch of OrderView
 	 */
 	String branch;
+	/**
+	 * orderId of OrderView
+	 */
 	String orderId;
+	/**
+	 * Constructing required View Classes and initializing variables
+	 */
 	PaymentView paymentView;
-
 	/**
 	 * Default Constructor of OrderView
 	 * @param branch branch name
@@ -39,7 +43,7 @@ public class OrderView extends MainView{
 	 */
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId);
+		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order View for Order ID " + orderId);
 		System.out.println("(1) Add food item");
 		System.out.println("(2) Remove food item");
 		System.out.println("(3) Enter remarks");
@@ -64,26 +68,26 @@ public class OrderView extends MainView{
 			switch (opt) {
 			case 1:
 				Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Add an item for OrderId" + orderId);
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Add an item for OrderId" + orderId);
                 addOrderItem(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 2:
 				Helper.clearScreen();
-                printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Remove an item for OrderId" + orderId);
+                printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Remove an item for OrderId" + orderId);
                 removeOrderItem(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 3:
 				Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID > Enter remarks for OrderId" + orderId);
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID " + orderId + " > Enter remarks for OrderId" + orderId);
 				System.out.println("Enter remarks for your order");
 				setRemarks(orderId,branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 4:
 				Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID > Remove remarks for OrderId" + orderId);
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " >  Order for Order ID " + orderId + " > Remove remarks for OrderId" + orderId);
 				OrderController.printOrderDetails(orderId, branch);
 				if(!removeRemarks(orderId, branch)) {
 					System.out.println("Remarks removal unsuccessful");
@@ -94,15 +98,17 @@ public class OrderView extends MainView{
 				break;
 			case 5:
 				Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Print order");
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Print order View for OrderId" +orderId);
 				OrderController.printOrderDetails(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 6:
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Shopping Cart View for OrderId" +orderId);
 				shoppingCart(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
 			case 7:
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Checkout View for OrderId" +orderId);
 				boolean checkoutStatus = checkout(orderId, branch);
 		 		if (checkoutStatus == true) {
 		 			return;
@@ -195,24 +201,27 @@ public class OrderView extends MainView{
 		 int opt = -1;
 		 do {
 			 Helper.clearScreen();
-			 printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Shopping Cart View");
 			 printShoppingCart(orderId, branch);
 			 opt = Helper.readInt(1,6);
 			 switch (opt) {
 			 	case 1:
+			 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Add an item for OrderId" + orderId);
 					addOrderItem(orderId, branch);
 					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 2:
+			 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Remove an item for OrderId" + orderId);
 	                removeOrderItem(orderId, branch);
 					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 3:
+			 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Enter remarks for OrderId" + orderId);
 					System.out.println("Enter remarks for your order");
 					setRemarks(orderId,branch);
 					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 4:
+			 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Remove remarks for OrderId" + orderId);
 					OrderController.printOrderDetails(orderId, branch);
 					if(!removeRemarks(orderId, branch)) {
 						System.out.println();
@@ -224,6 +233,7 @@ public class OrderView extends MainView{
 					Helper.pressAnyKeyToContinue();
 					break;
 			 	case 5:
+			 		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId + " > Checkout View for OrderId" + orderId);
 			 		boolean checkoutStatus = checkout(orderId, branch);
 			 		if (checkoutStatus == true) {
 			 			return;
@@ -252,7 +262,7 @@ public class OrderView extends MainView{
 		 System.out.println("(6) Back");
 	 }
 	 /**
-	  * The function accesses {@link Branch} to print {@link FoodCategory} availabe in the branch
+	  * The function accesses {@link Branch} to print {@link FoodCategory} available in the branch
 	  * and prompts users to select
 	  * @param branch branch name of the branch that the customer is currently in
 	  * @return the name of the FoodCategory
@@ -260,7 +270,7 @@ public class OrderView extends MainView{
 	 private String promptSelectCategory(String branch) {
 		 int categoryChoice;
 		 int size = Repository.BRANCH.get(branch).getFoodCategoryList().size();
-	        do {// error handling to ensure users selects a valid category from our total number of category
+	        do {
 	        	System.out.println("Please select a food category to view: ");
 	        	MenuController.printFoodCategory(branch);
 		        categoryChoice = Helper.readInt();
@@ -346,7 +356,6 @@ public class OrderView extends MainView{
 	 */
 	private boolean checkout(String orderId, String branch) {
 		Helper.clearScreen();
-		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Check Out View");
 		if (Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size() == 0) {
 			System.out.println("Order is empty! Please add food item into order");
 			return false;
@@ -360,40 +369,6 @@ public class OrderView extends MainView{
 		}
 		else {
 			return false;
-		}
-	}
-	/**
-	 * The function to pickup order for current customer through {@link OrderController}
-	 * @param orderId orderId of the order
-	 * @param branch branch name of the branch that the customer is currently in
-	 */
-	private void pickupOrder(String orderId, String branch) {
-		Helper.clearScreen();
-		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > OOrder for Order ID > Collect Order");
-		OrderStatus status = OrderController.checkOrderStatus(orderId, branch);
-		System.out.println(OrderController.checkOrderStatus(orderId, branch));
-		if (status.equals(OrderStatus.PROCESSING)) {
-			System.out.println("Order not ready to pickup yet");
-		}
-		else if (status.equals(OrderStatus.COMPLETED)){
-			System.out.println("Order has completed.");
-		}
-		else{
-			System.out.println("Confirm pick up?");
-			int opt = -1;
-			
-			do {
-				System.out.println("(1) Yes");
-				System.out.println("(2) Back");
-				opt = Helper.readInt(1,2);
-				switch (opt) {
-				case 1:
-					OrderController.updateStatus(OrderStatus.READYFORPICKUP, orderId, branch);
-					break;
-				case 2:
-					return;
-				}
-			}while (opt < 1 && opt > 2);
 		}
 	}
 	/**
@@ -472,7 +447,12 @@ public class OrderView extends MainView{
 			System.out.println("Successfully entered remarks");
 		}
 	}
-	
+	/**
+	 * The function to prompt customer to select dine in option
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 * @return {@code true} if selection of option is valid and {@code false} otherwise.
+	 */
 	private boolean promptDineInOption(String orderId, String branch) {
 		int opt = -1;
 		do {

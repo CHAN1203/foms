@@ -9,15 +9,31 @@ import controller.StaffController;
 import controller.UserController;
 import enums. *;
 
+/**
+ * ManagerView provides the view to take user input which calls {@link MenuController} to handle {@link Order}
+ * 
+ * @author Shermin, Yue Hang
+ * @version 1.0
+ * @since 2024-04-06
+ */
 public class ManagerView extends StaffView{
-	String branch;
-	
+	/**
+	 * branch name ManagerView;
+	 */
+	private String branch;
+	/**
+	 * Constructor for ManagerView
+	 * @param branch branch name for the branch that the manager is from
+	 */
 	public ManagerView(String branch) {
 		super(branch);
 		this.branch = branch;
 	}
+	/**
+	 * View Actions of ManagerView
+	 */
 	public void printActions() {
-		printBreadCrumbs("Fast Food App View > Manager View");
+		printBreadCrumbs("Fast Food App View > Login View > Manager View");
 		System.out.println("What would you like to do ?");
         System.out.println("(1) Add menu item");
         System.out.println("(2) Remove menu item");
@@ -30,7 +46,9 @@ public class ManagerView extends StaffView{
 		System.out.println("(9) Change password");
 		System.out.println("(10) Back");
 	}
-	
+	/**
+	 * View Application of ManagerView
+	 */
 	public void viewApp() {
 		int opt = -1; 
 		String name;
@@ -44,7 +62,7 @@ public class ManagerView extends StaffView{
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > Add menu item");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > Add menu item");
                     System.out.println("Enter name of item to be added:");
                     name = Helper.readString();
                     System.out.println("Enter description of " + name + ":");
@@ -64,7 +82,7 @@ public class ManagerView extends StaffView{
                 
                 case 2:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > Remove menu item");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > Remove menu item");
                     System.out.println("Enter name of item to be removed:");
                     name = Helper.readString();
                     removeMenuItem(name);
@@ -72,7 +90,7 @@ public class ManagerView extends StaffView{
                 
                 case 3:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > Update menu item");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > Update menu item");
                     System.out.println("Enter name of item to be updated:");
                     name = Helper.readString();
                     System.out.println("Enter description of " + name + ":");
@@ -87,17 +105,17 @@ public class ManagerView extends StaffView{
                     
                 case 4:
                 	Helper.clearScreen();
-                	printBreadCrumbs("Fast Food App View > Manager View > Print All Menu Items");
+                	printBreadCrumbs("Fast Food App View > Login View > Manager View > Print All Menu Items");
                 	MenuController.printAllMenuItems(this.branch);
                 	break;
                 case 5:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > Display Processing Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > Display Processing Order");
                 	StaffController.displayProcessingOrders(this.branch);
                 	break;
                 case 6:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > View Order Details");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > View Order Details");
                 	System.out.println("Select order to view details:");
 					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
@@ -111,7 +129,7 @@ public class ManagerView extends StaffView{
                     break;
                 case 7:
                     Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Manager View > Process Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Manager View > Process Order View");
                 	System.out.println("Select order to process:");
 					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
@@ -125,7 +143,7 @@ public class ManagerView extends StaffView{
 					break;
                 case 8:
                 	Helper.clearScreen();
-                	printBreadCrumbs("Fast Food App View > Manager View > Display Staff List");
+                	printBreadCrumbs("Fast Food App View > Login View > Manager View > Display Staff List View");
                 	if(ManagerController.displayStaffList(this.branch)) {
                 	}
                 	else {
@@ -133,6 +151,7 @@ public class ManagerView extends StaffView{
                 	}
             		break;
                 case 9:
+                	printBreadCrumbs("Fast Food App View > Login View > Manager View > Change Password View");
                 	promptChangePassword();
                 	break;
                 case 10:
@@ -143,7 +162,14 @@ public class ManagerView extends StaffView{
             }
         } while (opt != 10);
 	}
-	
+	/**
+	 * The function to add a {@link MenuItem} to the list of MenuItem through {@link MenuController}
+	 * @param name name of the MenuItem to be added
+	 * @param description description of the MenuItem to be added
+	 * @param price price of the MenuItem to be added
+	 * @param foodCategory category of the MenuItem to be added
+	 * @param foodAvailability availability of the MenuItem to be added 
+	 */
 	private void addMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
         if (MenuController.addMenuItem(this.branch, name, foodCategory, description, price, foodAvailability)){
             System.out.printf("\"%s\" added to menu SUCCESSFULLY\n", name);
@@ -152,7 +178,10 @@ public class ManagerView extends StaffView{
             System.out.printf("Addition to menu FAILED (\"%s\" is already in the menu)\n", name);
         }
     }
-	
+	/**
+	 * The function to remove a {@link MenuItem} from the list of MenuItem through {@link MenuController}
+	 * @param name name of the MenuItem to be removed
+	 */
 	private void removeMenuItem(String name){
         if (MenuController.removeMenuItem(this.branch, name)){
             System.out.printf("\"%s\" removed from menu SUCCESSFULLY\n", name);
@@ -161,7 +190,14 @@ public class ManagerView extends StaffView{
             System.out.printf("Removal from menu FAILED (\"%s\" NOT FOUND in order\\ removal quantity > current quantity)\n", name);
         }
     }
-	
+	/**
+	 * The function to update the attributes of a {@link MenuItem}
+	 * @param name name of the MenuItem to be updated
+	 * @param description new description for the MenuItem
+	 * @param price new price of the MenuItem
+	 * @param foodCategory new category of the MenuItem
+	 * @param foodAvailability new availability of the MenuItem
+	 */
 	private void updateMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability) {
 		if (MenuController.updateMenuItem(this.branch , name, description, price, foodCategory, foodAvailability)){
             System.out.printf("%s updated in menu SUCCESSFULLY\n", name);
@@ -169,7 +205,11 @@ public class ManagerView extends StaffView{
             System.out.printf("Update menu FAILED (\"%s\" NOT FOUND in menu)\n", name);
         }
     }
-	
+	/**
+	 * The function to prompt Manager to select the availability of a particular MenuItem
+	 * @param name name of the MenuItem
+	 * @return the enum of FoodAvailability 
+	 */
 	private FoodAvailability promptFoodAvailability(String name) {
 		int opt = -1;
 		System.out.println("Choose availability of " + name + ":");
@@ -183,7 +223,9 @@ public class ManagerView extends StaffView{
 			return FoodAvailability.UNAVAILABLE;
 		}
 	}
-	
+	/**
+	 * The function to prompt a Manager to change password through {@link UserController}
+	 */
 	private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
 		String loginId = Helper.readString();

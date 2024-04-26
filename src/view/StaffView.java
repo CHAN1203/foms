@@ -13,26 +13,27 @@ import controller. *;
  * @since 2024-04-04
  */
 public class StaffView extends MainView{
-	String branch;
+	/**
+	 * branch of StaffView
+	 */
+	private String branch;
 	/**
 	 * Default constructor of StaffView
 	 */
 	public StaffView(String branch) {
 		this.branch = branch;
 	}
-
 	/**
 	 * View Actions for StaffView
 	 */
 	public void printActions() {
-		printBreadCrumbs("Fast Food App View > Staff View");
+		printBreadCrumbs("Fast Food App View > Login View > Staff View");
 		System.out.println("(1) Display processing order");
 		System.out.println("(2) View particular Order Details");
 		System.out.println("(3) Process order");
 		System.out.println("(4) Change password");
 		System.out.println("(5) Back");
 	}
-
 	/**
 	 * View Application of StaffView
 	 * @param branch branch name of the branch that the staff is currently in
@@ -46,12 +47,12 @@ public class StaffView extends MainView{
 			switch(opt) {
 				case 1:
 				    Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > Display Processing Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > Display Processing Order View");
 					StaffController.displayProcessingOrders(this.branch);
 					break;
 				case 2:
 					Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > View Order Details");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > View Order Details");
 					System.out.println("Select order to view details:");
 					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
@@ -63,7 +64,7 @@ public class StaffView extends MainView{
 					break;
 				case 3:
 					Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > Process Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > Process Order View");
 					System.out.println("Select order to process:");
 					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
@@ -74,13 +75,12 @@ public class StaffView extends MainView{
 					}
 					break;
 				case 4:
+					printBreadCrumbs("Fast Food App View > Login View > Staff View > Change Password View");
 					promptChangePassword();
 					break;
 			}
 		} while(opt != 5);
 	}
-
-
 	/**
 	 * The function that prompts a staff to select orderId 
 	 * @param branch branch name of the branch that the customer is currently in
@@ -110,8 +110,9 @@ public class StaffView extends MainView{
 		}while(opt<=0 || opt>size+1);
 		return opt;
 	}
-	
-	
+	/**
+	 * The function to prompt a Staff to change password through {@link UserController}
+	 */
 	private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
 		String loginId = Helper.readString();

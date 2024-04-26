@@ -11,21 +11,18 @@ import helper.Helper;
  * @since 2022-04-03
  */
 public class ManagePaymentView extends MainView{
-	
 	/**
      * View Actions of the ManagePaymentView.
      */
     @Override
 	public void printActions() {
 		Helper.clearScreen();
-		//!!need to change the headline
-        printBreadCrumbs("Food Ordering App View");
+        printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add new payment method");
         System.out.println("(2) Remove payment method");
         System.out.println("(3) Quit");
 	}
-	
     /**
      * View Application of the ManagePaymentView. <p>
      */
@@ -37,9 +34,11 @@ public class ManagePaymentView extends MainView{
 			opt = Helper.readInt(1,3);
 			switch(opt) {
 				case 1:
+					printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View > Add Payment Method View");
 					promptAddPaymentMethod();
 					break;
 				case 2:
+					printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View > Remove Payment Method View")
 					promptRemovePaymentMethod();
 					break;
 				case 3:
@@ -47,7 +46,6 @@ public class ManagePaymentView extends MainView{
 			}
 		}while(opt != 3);
 	}
-	
     /**
 	 * function to prompt to add new payment method
 	 * @return {@code true} if add new payment method is successful. Otherwise, {@code false}.
@@ -58,7 +56,6 @@ public class ManagePaymentView extends MainView{
 		if(AdminController.addPaymentMethod(newPaymentMethod)) return true;
 		return false;
     }
-	
 	/**
 	 * function to prompt to remove payment method
 	 * @return {@code true} if add new payment method is successful. Otherwise, {@code false}.
