@@ -30,7 +30,7 @@ public class Order implements Serializable, Comparable<Order>{
 	private String branchName;
 	
 	private OrderStatus status;
-	
+	 
 	public Order(String orderId, String dateTime, String branchName) {
 		this.orderId = orderId;
 		this.dateTime = dateTime;

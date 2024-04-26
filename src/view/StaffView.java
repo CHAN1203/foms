@@ -35,6 +35,8 @@ public class StaffView extends MainView{
 		System.out.println("(4) Change password");
 		System.out.println("(5) Back");
 	}
+	
+	
 
 	/**
 	 * View Application of StaffView

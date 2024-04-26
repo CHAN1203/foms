@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import controller.*;
 import enums.DineInOption;
 import enums.OrderStatus;
+
 /**
  * OrderView provides the view to take user input on handling their {@link Order} 
  * through {@link OrderController}
@@ -62,7 +63,7 @@ public class OrderView extends MainView{
 			printActions();
 			opt = Helper.readInt(1,8);
 			switch (opt) {
-			case 1:
+			case 1: 
 				Helper.clearScreen();
 				printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID > Add an item for OrderId" + orderId);
                 addOrderItem(orderId, branch);

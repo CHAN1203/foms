@@ -19,9 +19,6 @@ public class Repository {
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<>();
     public static HashMap<String, Admin> ADMIN = new HashMap<>();
     public static HashMap<String, Branch> BRANCH = new HashMap<>();
-    
-    //haven't written any serialization part
-    public static Set<String> BRANCHES = new HashSet<>();
     public static Set<String> PAYMENT_METHODS = new HashSet<>();
     /**
      * Constructor that reads all the data from the data file during initialization of program.
@@ -142,7 +139,7 @@ public class Repository {
         }
         AdminController.initializeDummyBranchInfo();
         return true;
-    }
+    }	
     
     public static boolean initializeDummyMenu() {
     	for(Branch branch: Repository.BRANCH.values()) {
