@@ -7,7 +7,7 @@ import repository.Repository;
 
 /**
  * @author Yue Hang
- * @version 1.0
+ * @version 6.0
  * @since 2024-4-6
  */
 public class UserController {
