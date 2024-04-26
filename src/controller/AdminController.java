@@ -307,6 +307,7 @@ public class AdminController {
                     Repository.BRANCH.get(employee.getBranch()).getEmployee().remove(loginId);
                     Repository.EMPLOYEE.put(employee.getLoginId(), staffToUpdate);
                     Repository.BRANCH.get(employee.getBranch()).getEmployee().put(employee.getLoginId(),staffToUpdate);
+                    Repository.BRANCH.get(staffToUpdate.getBranch()).addNumberOfManager();
                     break;
                 default:
                     break;

@@ -112,6 +112,8 @@ public class CustomerView extends MainView{
 				case 1:
 					OrderController.updateStatus(OrderStatus.COMPLETED, orderId, branch);
 					StaffController.cancelTimer(orderId, branch);
+					System.out.println();
+					System.out.println("Pickup Successful!");
 					break;
 				case 2:
 					break;

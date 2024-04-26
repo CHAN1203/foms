@@ -1,7 +1,9 @@
 package view;
+import model.Admin;
 import model.Employee;
 import controller.AdminController;
 import controller.BranchController;
+import controller.UserController;
 import enums.EmployeeGender;
 import enums.EmployeePosition;
 import helper.Helper;
@@ -39,7 +41,8 @@ public class AdminView extends MainView{
         System.out.println("(5) Transfer Staff");
         System.out.println("(6) Add/Remove Payment Method");
         System.out.println("(7) Open/Close Branch");
-        System.out.println("(8) Exit");
+        System.out.println("(8) Change password");
+        System.out.println("(9) Exit");
 	}
 	
     /**
@@ -51,7 +54,7 @@ public class AdminView extends MainView{
 		int opt = -1; 
 		do { 
             printActions();
-            opt = Helper.readInt(1,8);
+            opt = Helper.readInt(1,9);
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
@@ -84,15 +87,16 @@ public class AdminView extends MainView{
                 	manageBranchView.viewApp();
                 	break;  
                 case 8:
+                	promptChangePassword();
                 	break;
                 default:
                     System.out.println("Invalid option");
                     break;
             }
-            if (opt != 8) {
+            if (opt != 9) {
                 Helper.pressAnyKeyToContinue();
             }
-        } while (opt != 8);
+        } while (opt != 9);
 	}
 	
     
@@ -115,15 +119,13 @@ public class AdminView extends MainView{
         	if(employee.getPosition() == EmployeePosition.MANAGER) {
         		System.out.println("Manager cannot be promoted anymore!");
         		return false;
+        	}else if(Repository.BRANCH.get(employee.getBranch()).getNumberOfManager() < Repository.BRANCH.get(employee.getBranch()).getManagerQuota()) {
+        		AdminController.promoteStaff(loginId, 2, EmployeePosition.MANAGER);
+                System.out.println(employee.getName() + " has been promoted to " + employee.getPosition());
+                return true;
         	}
-        	if(Repository.BRANCH.get(employee.getBranch()).getNumberOfEmployee() < Repository.BRANCH.get(employee.getBranch()).getstaffQuota()) {
-        		System.out.println("Manager Quota Exceeded. Add Manager Unsucessful!");
-            	return false;
-        	}
-        	
-            AdminController.promoteStaff(loginId, 2, EmployeePosition.MANAGER);
-            System.out.println(employee.getName() + " has been promoted to " + employee.getPosition());
-            return true;
+            System.out.println("Manager Quota Exceeded. Promote Manager Unsucessful!");
+        	return false;
         }
         return false;
     }
@@ -239,4 +241,35 @@ public class AdminView extends MainView{
         }
         return null;
     };
+    
+    private void promptChangePassword() {
+		System.out.println("Verify your loginID: ");
+		String loginId = Helper.readString();
+		System.out.println("Verify your password: ");
+		String password = Helper.readString();
+		
+		Admin admin = Repository.ADMIN.get(loginId);
+		
+		if( admin != null && admin.getPassword().equals(password)) {
+			System.out.println("Verification successful");
+			System.out.println();
+			System.out.println("Enter new password: ");
+			String newPassword = Helper.readString();
+			System.out.println("Re-enter new password: ");
+			String confirmPassword = Helper.readString();
+			if(UserController.changePassword(admin, newPassword, confirmPassword)) {
+				System.out.println("Password changed successfully!");
+				return;
+			}
+			else {
+				System.out.println("Password does not match");
+				return;
+			}
+			
+		}
+		else {
+			System.out.println("Verification failed");
+			return;
+		}
+	}
 }

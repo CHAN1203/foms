@@ -39,7 +39,7 @@ public class ReceiptView extends MainView{
 	public void viewApp() {
 		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
 		Order currentOrder = Repository.BRANCH.get(this.branch).getOrders().get(this.orderId);
-		System.out.printf("Your total bill is: %.2f\n", currentOrder.getTotalBill());
+		System.out.printf("Your total bill is: $%.2f\n", currentOrder.getTotalBill());
 		System.out.println("Confirm payment? ");
 		printActions();
 		int opt = -1;
@@ -49,7 +49,7 @@ public class ReceiptView extends MainView{
 			case 1:
 				OrderController.confirmOrder();
 				System.out.println();
-				System.out.println("Payment successful! Returning ~");
+				System.out.println("Payment successful! Thank you for the purchase! Returning~");
 				System.out.println();
 				break;
 			case 2:
