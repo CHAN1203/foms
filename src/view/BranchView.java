@@ -1,6 +1,8 @@
 package view;
 
 import java.util.Map;
+
+import helper.Helper;
 import model. *;
 import repository.Repository;
 /**
@@ -22,6 +24,7 @@ public class BranchView extends MainView {
 	 */
 	@Override
 	protected void printActions() {
+		Helper.clearScreen();
 		printBreadCrumbs("Fast Food App View > Customer View > Branch View");
 		System.out.println("Please select the branch you would like to order from: ");
 		printBranchNames();

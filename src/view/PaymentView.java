@@ -11,23 +11,32 @@ import repository.Repository;
  */
 public class PaymentView extends MainView{
 	/**
-	 * Constructing the required View Class and variables
+	 * orderId of PaymentView
 	 */
 	String orderId; 
+	/**
+	 * branch of PaymentView
+	 */
 	String branch;
+	/**
+	 * Constructing the required View Class
+	 */
 	ReceiptView receiptView;
-	
+	/**
+	 * Constructor of PaymentView
+	 * @param orderId orderId of this object
+	 * @param branch branch of this object
+	 */
 	public PaymentView(String orderId, String branch) {
 		this.orderId = orderId;
 		this.branch = branch;
 	}
-	
 	/**
 	 * View Actions for PaymentView
 	 */
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Customer View > Payment View");
+		printBreadCrumbs("Fast Food App View > Customer View > Order View for OrderId " + orderId + " > Checkout View > Payment View for OrderId " + orderId);
 		System.out.println("Choose payment method:");
 		int num = 1;
 		for (String paymentMethod: Repository.PAYMENT_METHODS) {

@@ -19,16 +19,15 @@ public class ReceiptView extends MainView{
 		this.orderId = orderId;
 		this.branch = branch;
 	}
-
 	/**
 	 * View Actions for ReceiptView
 	 */
 	@Override
 	protected void printActions() {
+		printBreadCrumbs("Fast Food App View > Customer View > Order View for OrderId " + orderId + " > Checkout View > Payment View > Receipt View for OrderId " + orderId);
 		System.out.println("(1) Yes");
 		System.out.println("(2) Back");
 	}
-
 	/**
 	 * View Application for ReceiptView
 	 * @param orderId orderId of the order
@@ -36,7 +35,6 @@ public class ReceiptView extends MainView{
 	 */
 	@Override
 	public void viewApp() {
-		printBreadCrumbs("Fast Food App View > Customer View > Checkout > Payment Confirmation");
 		Order currentOrder = Repository.BRANCH.get(this.branch).getOrders().get(this.orderId);
 		System.out.printf("Your total bill is: $%.2f\n", currentOrder.getTotalBill());
 		System.out.println("Confirm payment? ");
