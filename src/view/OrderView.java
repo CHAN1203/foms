@@ -20,15 +20,15 @@ public class OrderView extends MainView{
 	/**
 	 * branch of OrderView
 	 */
-	String branch;
+	private String branch;
 	/**
 	 * orderId of OrderView
 	 */
-	String orderId;
+	private String orderId;
 	/**
 	 * Constructing required View Classes and initializing variables
 	 */
-	PaymentView paymentView;
+	private PaymentView paymentView;
 	/**
 	 * Default Constructor of OrderView
 	 * @param branch branch name
