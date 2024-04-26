@@ -1,10 +1,12 @@
 package view;
 
 import helper.Helper;
+import model.Employee;
 import repository.Repository;
 import controller.ManagerController;
 import controller.MenuController;
 import controller.StaffController;
+import controller.UserController;
 import enums. *;
 
 public class ManagerView extends StaffView{
@@ -26,7 +28,8 @@ public class ManagerView extends StaffView{
         System.out.println("(6) View order details");
 		System.out.println("(7) Process order");
 		System.out.println("(8) Display staff list");
-		System.out.println("(9) Back");
+		System.out.println("(9) Change password");
+		System.out.println("(10) Back");
 	}
 	
 	public void viewApp() {
@@ -38,7 +41,7 @@ public class ManagerView extends StaffView{
         FoodAvailability foodAvailability;
         do {
             printActions();
-            opt = Helper.readInt(1, 9);
+            opt = Helper.readInt(1, 10);
             switch (opt) {
                 case 1:
                     Helper.clearScreen();
@@ -126,12 +129,15 @@ public class ManagerView extends StaffView{
                 	}
             		break;
                 case 9:
+                	promptChangePassword();
+                	break;
+                case 10:
                 	break;
             }
-            if (opt != 9) {
+            if (opt != 10) {
                 Helper.pressAnyKeyToContinue();
             }
-        } while (opt != 9);
+        } while (opt != 10);
 	}
 	
 	private void addMenuItem(String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
@@ -171,6 +177,37 @@ public class ManagerView extends StaffView{
 		}
 		else {
 			return FoodAvailability.UNAVAILABLE;
+		}
+	}
+	
+	private void promptChangePassword() {
+		System.out.println("Verify your loginID: ");
+		String loginId = Helper.readString();
+		System.out.println("Verify your password: ");
+		String password = Helper.readString();
+		
+		Employee emp = Repository.EMPLOYEE.get(loginId);
+		
+		if( emp != null && emp.getPassword().equals(password)) {
+			System.out.println("Verification successful");
+			System.out.println();
+			System.out.println("Enter new password: ");
+			String newPassword = Helper.readString();
+			System.out.println("Re-enter new password: ");
+			String confirmPassword = Helper.readString();
+			if(UserController.changePassword(emp, newPassword, confirmPassword)) {
+				System.out.println("Password changed successfully!");
+				return;
+			}
+			else {
+				System.out.println("Password does not match");
+				return;
+			}
+			
+		}
+		else {
+			System.out.println("Verification failed");
+			return;
 		}
 	}
 }

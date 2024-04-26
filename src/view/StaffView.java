@@ -111,7 +111,7 @@ public class StaffView extends MainView{
 		return opt;
 	}
 	
-	private boolean promptChangePassword() {
+	private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
 		String loginId = Helper.readString();
 		System.out.println("Verify your password: ");
@@ -119,7 +119,7 @@ public class StaffView extends MainView{
 		
 		Employee emp = Repository.EMPLOYEE.get(loginId);
 		
-		if( emp != null ) {
+		if( emp != null && emp.getPassword().equals(password)) {
 			System.out.println("Verification successful");
 			System.out.println();
 			System.out.println("Enter new password: ");
@@ -128,17 +128,17 @@ public class StaffView extends MainView{
 			String confirmPassword = Helper.readString();
 			if(UserController.changePassword(emp, newPassword, confirmPassword)) {
 				System.out.println("Password changed successfully!");
-				return true;
+				return;
 			}
 			else {
 				System.out.println("Password does not match");
-				return false;
+				return;
 			}
 			
 		}
 		else {
 			System.out.println("Verification failed");
-			return false;
+			return;
 		}
 	}
 }
