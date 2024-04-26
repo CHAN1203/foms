@@ -23,7 +23,6 @@ public class StaffView extends MainView{
 	public StaffView(String branch) {
 		this.branch = branch;
 	}
-
 	/**
 	 * View Actions for StaffView
 	 */
@@ -35,8 +34,6 @@ public class StaffView extends MainView{
 		System.out.println("(4) Change password");
 		System.out.println("(5) Back");
 	}
-	
-	
 
 	/**
 	 * View Application of StaffView
@@ -51,12 +48,12 @@ public class StaffView extends MainView{
 			switch(opt) {
 				case 1:
 				    Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > Display Processing Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > Display Processing Order View");
 					StaffController.displayProcessingOrders(this.branch);
 					break;
 				case 2:
 					Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > View Order Details");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > View Order Details");
 					System.out.println("Select order to view details:");
 					int choice = promptSelectOrderId(this.branch);
 					if(choice == 0) {
@@ -68,7 +65,7 @@ public class StaffView extends MainView{
 					break;
 				case 3:
 					Helper.clearScreen();
-                    printBreadCrumbs("Fast Food App View > Staff View > Process Order");
+                    printBreadCrumbs("Fast Food App View > Login View > Staff View > Process Order View");
 					System.out.println("Select order to process:");
 					int selection = promptSelectOrderId(this.branch);
 					if(selection == 0) {
@@ -79,6 +76,7 @@ public class StaffView extends MainView{
 					}
 					break;
 				case 4:
+					printBreadCrumbs("Fast Food App View > Login View > Staff View > Change Password View");
 					promptChangePassword();
 					break;
 			}
@@ -113,8 +111,9 @@ public class StaffView extends MainView{
 		}while(opt<=0 || opt>size+1);
 		return opt;
 	}
-	
-	
+	/**
+	 * The function to prompt a Staff to change password through {@link UserController}
+	 */
 	private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
 		String loginId = Helper.readString();
