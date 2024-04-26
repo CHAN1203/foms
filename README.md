@@ -30,11 +30,27 @@ This is our group assignment for SC2002 (Object Oriented Programming).
 
 ## Scripts
 > How to run our project
-1.
+1. In your command line change directory into src
+````
+C:\Users\Jacky\Documents\NTU\Y1S2\SC2002 Object Oriented Programming\Assignment\foms
+````
 
-`Press`
+2. Compile the java files using command line
+````
+javac -d bin src/controller/*java src/enums/*java src/helper/*java src/model/*java src/repository/*java src/view/*java src/main/*java
+````
+
+3.  Run the java file using command line
+````
+java './src/main/FOMSApp.java'
+````
 
 # Java Docs
+Create javadocs - make sure you are at foms directory
+````
+javadoc -d ./docs/ ./src/controller/*java ./src/enums/*java ./src/helper/*java ./src/main/*java ./src/model/enums/*java ./src/repository/*java ./src/view/*java -encoding ISO-8859-1
+````
+Launch the index.html under ./javadoc/index.html
 
 # Contributors
 - @Jeakai
