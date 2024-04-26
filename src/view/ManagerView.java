@@ -50,8 +50,13 @@ public class ManagerView extends StaffView{
                     name = Helper.readString();
                     System.out.println("Enter description of " + name + ":");
                     description = Helper.readString();
-                    System.out.println("Enter price of " + name + ":");
-                    price = Helper.readDouble();
+                    do {
+	                    System.out.println("Enter price of " + name + ":");
+	                    price = Helper.readDouble();
+	                    if(price<=0) {
+	                    	System.out.println("Error. Negative price, please key in again...");
+	                    }
+                    }while (price<=0);
                     System.out.println("Enter food category of " + name + ":");
                     foodCategory = Helper.readString();
                     foodAvailability = promptFoodAvailability(name);
