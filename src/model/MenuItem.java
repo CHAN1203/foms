@@ -3,47 +3,65 @@ package model;
 import java.io.Serializable;
 import enums.FoodAvailability;
 
-public class MenuItem implements Serializable{// this is just a copy paste from Aarons code, CHANGE TO OUR OWN
+/**
+ * MenuItem represents the menu item in the customisable menu. <p>
+ * 
+ * Each menu item contains a menu item id, the name of the item, the description of the item and the price of the item.
+ * @author Sher Min, Jacky
+ * @version 1.0
+ * @since 2024-04-10
+ */
+public class MenuItem implements Serializable{
 	 /**
      * For Java Serializable
      */
     private static final long serialVersionUID = 4L;
+    
     /**
      * 
      */
     private String branch;
+    
     /**
      * Id of the menu item
      */
     private String menuItemId;
+    
     /**
      * Name of the menu item
      */
     private String name;
+    
     /**
      * Food Category of menu item
      */
     private String foodCategory;
+    
     /**
      * Description of the preparation methods of the menu item
      */
     private String description;
+    
     /**
      * Price of the menu item
      */
     private double price;
+    
     /**
      * Availability of the menu item
      */
     private FoodAvailability  foodAvailability;
     
     /**
-     * Constructs and initializes the Id, name, description and price of the menu item respectively.
+     * Constructs and initializes the branch, id, name, food category, description, price and availability of menu item.
      * 
-     * @param menuItemId Id of the menu item.
+     * @param branch Branch of the menu item
+     * @param menuItemId Id of the menu item
      * @param name Name of the menu item
-     * @param description Description of the preparation methods of the menu item
+     * @param foodCategory Food category of the menu item
+     * @param description Description of the menu item
      * @param price Price of the menu item
+     * @param foodAvailability Availability of menu item
      */
     public MenuItem(String branch, String menuItemId, String name, String foodCategory, String description, double price, FoodAvailability  foodAvailability) {
         setBranch(branch);

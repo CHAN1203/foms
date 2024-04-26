@@ -26,10 +26,10 @@ public class LoginView extends MainView {
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Login View");
 		System.out.println("Choose employee type:");
-		System.out.println("1. Admin");
-		System.out.println("2. Manager");
-		System.out.println("3. Staff");
-		System.out.println("4. Back");
+		System.out.println("(1) Admin");
+		System.out.println("(2) Manager");
+		System.out.println("(3) Staff");
+		System.out.println("(4) Back");
 	}
 	/**
 	 * View Application for LoginView that uses {@link UserController} to authenticate login 

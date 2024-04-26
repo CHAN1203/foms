@@ -34,6 +34,7 @@ public class StaffView extends MainView{
 		System.out.println("(4) Change password");
 		System.out.println("(5) Back");
 	}
+
 	/**
 	 * View Application of StaffView
 	 * @param branch branch name of the branch that the staff is currently in
@@ -86,7 +87,7 @@ public class StaffView extends MainView{
 	 * @param branch branch name of the branch that the customer is currently in
 	 * @return
 	 */
-	private static int promptSelectOrderId(String branch) {
+	protected static int promptSelectOrderId(String branch) {
 		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().size();
 		if(size == 0) {

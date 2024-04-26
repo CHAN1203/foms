@@ -38,7 +38,7 @@ public class ManagePaymentView extends MainView{
 					promptAddPaymentMethod();
 					break;
 				case 2:
-					printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View > Remove Payment Method View")
+					printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Payment View > Remove Payment Method View");
 					promptRemovePaymentMethod();
 					break;
 				case 3:

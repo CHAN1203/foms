@@ -41,24 +41,28 @@ public class DisplayStaffView extends MainView{
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Login View >  Admin View > Display Staff View > Display Staff by Branch View");
                     promptDisplayStaffByBranch();
+                    Helper.pressAnyKeyToContinue();
                     break;
                 case 2: 
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Role View");
                     promptDisplayStaffByRole();
+                    Helper.pressAnyKeyToContinue();
                     break;
                 case 3: 
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Gender View");
                     promptDisplayStaffByGender();
+                    Helper.pressAnyKeyToContinue();
                     break;
                 case 4: 
                     Helper.clearScreen();
                     printBreadCrumbs("Fast Food App View > Login View > Admin View > Display Staff View > Display Staff by Age View");
                     promptDisplayStaffByAge();
+                    Helper.pressAnyKeyToContinue();
                     break;
                 case 5:
-                	Helper.clearScreen();
+                	Helper.pressAnyKeyToContinue();
                 	break;
                 default:
                     System.out.println("Invalid option");

@@ -88,6 +88,8 @@ public class AdminView extends MainView{
                 	printBreadCrumbs("Fast Food App View > Login View > Admin View > Password Change View");
                 	promptChangePassword();
                 	break;
+                case 9:
+                	break;
                 default:
                     System.out.println("Invalid option");
                     break;
