@@ -18,7 +18,7 @@ public class FOMSApp {
      */
 	public static void main(String[] args) {
 		
-		Repository.clearDatabase();
+		//Repository.clearDatabase();
 		Repository.readData(FileType.EMPLOYEE);
 		Repository.readData(FileType.BRANCH);
 		Repository.readData(FileType.ADMIN);
