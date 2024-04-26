@@ -10,7 +10,7 @@ import repository.Repository;
 
 /**
  * @author Sher Min
- * @version 1.0
+ * @version 4.0
  * @since 2024-4-4
  */
 public class ManagerController extends StaffController{
