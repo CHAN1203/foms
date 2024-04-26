@@ -39,7 +39,7 @@ public class OrderView extends MainView{
 	 */
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order for Order ID " + orderId);
+		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > Order View for Order ID " + orderId);
 		System.out.println("(1) Add food item");
 		System.out.println("(2) Remove food item");
 		System.out.println("(3) Enter remarks");
@@ -363,40 +363,6 @@ public class OrderView extends MainView{
 		}
 	}
 	/**
-	 * The function to pickup order for current customer through {@link OrderController}
-	 * @param orderId orderId of the order
-	 * @param branch branch name of the branch that the customer is currently in
-	 */
-	private void pickupOrder(String orderId, String branch) {
-		Helper.clearScreen();
-		printBreadCrumbs("Fast Food App View > Customer View > " + branch + " > OOrder for Order ID > Collect Order");
-		OrderStatus status = OrderController.checkOrderStatus(orderId, branch);
-		System.out.println(OrderController.checkOrderStatus(orderId, branch));
-		if (status.equals(OrderStatus.PROCESSING)) {
-			System.out.println("Order not ready to pickup yet");
-		}
-		else if (status.equals(OrderStatus.COMPLETED)){
-			System.out.println("Order has completed.");
-		}
-		else{
-			System.out.println("Confirm pick up?");
-			int opt = -1;
-			
-			do {
-				System.out.println("(1) Yes");
-				System.out.println("(2) Back");
-				opt = Helper.readInt(1,2);
-				switch (opt) {
-				case 1:
-					OrderController.updateStatus(OrderStatus.READYFORPICKUP, orderId, branch);
-					break;
-				case 2:
-					return;
-				}
-			}while (opt < 1 && opt > 2);
-		}
-	}
-	/**
 	 * The function that prompts the customers to removeRemarks on their {@link Order}
 	 * @param orderId orderId of the order
 	 * @param branch branch name of the branch that the customer is currently in
@@ -472,7 +438,12 @@ public class OrderView extends MainView{
 			System.out.println("Successfully entered remarks");
 		}
 	}
-	
+	/**
+	 * The function to prompt customer to select dine in option
+	 * @param orderId orderId of the order
+	 * @param branch branch name of the branch that the customer is currently in
+	 * @return {@code true} if selection of option is valid and {@code false} otherwise.
+	 */
 	private boolean promptDineInOption(String orderId, String branch) {
 		int opt = -1;
 		do {

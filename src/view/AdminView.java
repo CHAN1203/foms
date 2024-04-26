@@ -24,15 +24,13 @@ public class AdminView extends MainView{
 	ManageBranchView manageBranchView = new ManageBranchView();
 	ManagePaymentView managePaymentView = new ManagePaymentView();
 	DisplayStaffView displayStaffView = new DisplayStaffView();
-	
-	
 	/**
      * View Actions of the AdminView.
      */
     @Override
 	public void printActions() {
 		Helper.clearScreen();
-        printBreadCrumbs("Food Ordering App View");
+        printBreadCrumbs("Fast Food App View > Login View > Admin View");
         System.out.println("What would you like to do ?");
         System.out.println("(1) Add/Remove/Update Staff Account");
         System.out.println("(2) Display Staff List");
@@ -44,7 +42,6 @@ public class AdminView extends MainView{
         System.out.println("(8) Change password");
         System.out.println("(9) Exit");
 	}
-	
     /**
      * View Application of the AdminView. <p>
      * see {@link AdminController} for more {@link Employee} management details.
@@ -62,20 +59,21 @@ public class AdminView extends MainView{
                     break;
                 case 2:
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
                     displayStaffView.viewApp();
                     break;
                 case 3:
                     Helper.clearScreen();
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Assign Manager View");
                     promptAssignManager();
                     break;
                 case 4:
                 	Helper.clearScreen();
-                	printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                	printBreadCrumbs("Fast Food App View > Login View > Admin View > Promote Staff View");
                 	promptPromoteStaff();
                     break;
                 case 5:
                 	Helper.clearScreen();
+                	printBreadCrumbs("Fast Food App View > Login View > Admin View > Transfer Staff View");
                 	promptTransferStaff();
                     break;
                 case 6:
@@ -87,6 +85,7 @@ public class AdminView extends MainView{
                 	manageBranchView.viewApp();
                 	break;  
                 case 8:
+                	printBreadCrumbs("Fast Food App View > Login View > Admin View > Password Change View");
                 	promptChangePassword();
                 	break;
                 default:
@@ -98,8 +97,6 @@ public class AdminView extends MainView{
             }
         } while (opt != 9);
 	}
-	
-    
     /**
      * function to prompt to promote staff
      * @return {@code true} if successfully promote a staff. Otherwise, {@code false}.
@@ -129,8 +126,6 @@ public class AdminView extends MainView{
         }
         return false;
     }
-	
-
 	/**
 	 * function to loop through branch hash map to print branch menu
 	 */
@@ -141,8 +136,6 @@ public class AdminView extends MainView{
 			i++;
         }
     }
-	
-	
 	/**
 	 * function to prompt to transfer staff
 	 * @return {@code true} if successfully transfer a staff. Otherwise, {@code false}.
@@ -173,7 +166,6 @@ public class AdminView extends MainView{
             return false;
         }
 	}
-	
 	/**
 	 * function to prompt to assign a manager
 	 * @return {@code true} if successfully assign a manager. Otherwise, {@code false}.
@@ -209,8 +201,6 @@ public class AdminView extends MainView{
         	return false;
         }
 	}
-	
-	
 	/**
 	 * function to print gender menu
 	 */
@@ -219,7 +209,6 @@ public class AdminView extends MainView{
         System.out.println("(1) Male");
         System.out.println("(2) Female");
     }
-	
 	/**
 	 * function to prompt to ask for gender 
 	 * @return a gender enum
@@ -241,7 +230,9 @@ public class AdminView extends MainView{
         }
         return null;
     };
-    
+    /**
+     * The function to prompt staff to change password
+     */
     private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
 		String loginId = Helper.readString();
