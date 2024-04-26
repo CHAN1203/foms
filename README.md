@@ -50,7 +50,7 @@ Create javadocs - make sure you are at foms directory
 ````
 javadoc -d ./docs/ ./src/controller/*java ./src/enums/*java ./src/helper/*java ./src/main/*java ./src/model/*java ./src/repository/*java ./src/view/*java -encoding ISO-8859-1
 ````
-Launch the index.html under ./javadoc/index.html
+Launch the index.html under ./docs/index.html
 
 # Contributors
 - @Jeakai
