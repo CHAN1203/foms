@@ -13,7 +13,7 @@ import java.util.Map;
  * 
  * It can initialize, add/edit/remove staff, display, assign, promote, transfer, add/remove payment method and open/close branch 
  * @author Chan Kee Qing
- * @version 1.0
+ * @version 6.0
  * @since 2024-04-01
  */
 public class AdminController {
