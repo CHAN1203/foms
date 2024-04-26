@@ -41,7 +41,7 @@ public class ManageBranchView extends MainView{
                     break;
                 case 2: 
                     Helper.clearScreen();
-                    printBreadCrumbs("Hotel App View > Menu View > Remove menu items");
+                    printBreadCrumbs("Fast Food App View > Login View > Admin View > Manage Branch View > Close Branch View");
                     promptCloseBranch();
                     break;
                 case 3:
@@ -55,8 +55,6 @@ public class ManageBranchView extends MainView{
             }
         } while (opt != 3);
 	}
-	
-	
 	/**
 	 * function to prompt to open a branch
 	 * @return {@code true} if open branch is successful. Otherwise, {@code false}.
@@ -68,11 +66,9 @@ public class ManageBranchView extends MainView{
          String location = Helper.readString();
          System.out.println("Enter the staff quota: ");
          int staffQuota = Helper.readInt();
-         //new branch has only 1 manager 
-    	if(AdminController.openBranch(newBranch, location, staffQuota, 0)) return true;
-    	return false;
+    	 if(AdminController.openBranch(newBranch, location, staffQuota, 0)) return true;
+    	 return false;
     }
-    
     /**
 	 * function to prompt to close a branch
 	 * @return {@code true} if close branch is successful. Otherwise, {@code false}.
@@ -87,7 +83,6 @@ public class ManageBranchView extends MainView{
     	if(AdminController.closeBranch(branchToClose)) return true;
     	return false;
    }
-    
     /**
      * function to print branch menu
      */

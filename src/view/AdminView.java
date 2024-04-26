@@ -231,7 +231,7 @@ public class AdminView extends MainView{
         return null;
     };
     /**
-     * The function to prompt staff to change password
+     * The function to prompt an Admin to change password through {@link UserController}
      */
     private void promptChangePassword() {
 		System.out.println("Verify your loginID: ");
