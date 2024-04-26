@@ -87,7 +87,7 @@ public class StaffView extends MainView{
 	 * @param branch branch name of the branch that the customer is currently in
 	 * @return
 	 */
-	private static int promptSelectOrderId(String branch) {
+	protected static int promptSelectOrderId(String branch) {
 		int opt = -1;
 		int size = Repository.BRANCH.get(branch).getOrders().size();
 		if(size == 0) {
