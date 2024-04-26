@@ -57,12 +57,11 @@ public class Repository {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Object object = objectInputStream.readObject();
             
-            if (!(object instanceof HashMap)) {
+            if (!(object instanceof HashMap) && !(object instanceof HashSet)) {
                 System.out.println(fileType.fileName);
                 objectInputStream.close();
                 return false;
             }
-            
             // Read into database
             if (fileType == FileType.EMPLOYEE) {
                 EMPLOYEE = (HashMap<String, Employee>) object;
@@ -70,6 +69,8 @@ public class Repository {
             	BRANCH = (HashMap<String, Branch>) object;
             } else if(fileType == FileType.ADMIN) {
                 ADMIN = (HashMap<String, Admin>) object;
+            } else if(fileType == FileType.PAYMENT_METHODS) {
+            	PAYMENT_METHODS = (HashSet<String>) object;
             }
             objectInputStream.close();
             fileInputStream.close();
@@ -106,6 +107,8 @@ public class Repository {
             	objectOutputStream.writeObject(BRANCH);
             } else if (fileType == FileType.ADMIN){
                 objectOutputStream.writeObject(ADMIN);
+            } else if (fileType == FileType.PAYMENT_METHODS) {
+            	objectOutputStream.writeObject(PAYMENT_METHODS);
             }
             objectOutputStream.close();
             fileOutputStream.close();
