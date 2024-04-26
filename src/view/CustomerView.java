@@ -1,36 +1,43 @@
 package view;
 
 import helper.Helper;
-import model.*;
 import repository.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import controller.*;
-
+import enums.OrderStatus;
+/**
+ * CustomerView provides the view to take user input for order related process
+ * which calls {@link OrderView}
+ * @author Hong Sheng, Jacky
+ * @version 1.0
+ * @since 2024-04-08
+ */
 public class CustomerView extends MainView{
-	
+	/**
+	 * Constructing of required View Classes
+	 */
 	BranchView branchView = new BranchView();
-	PaymentView paymentView = new PaymentView();
+	OrderView orderView;
+
+	/**
+	 * Default constructor of the CustomerView
+	 */
+
 	public CustomerView() {
 		super();
 	}
-
+	/**
+	 * View Actions of the CustomerView
+	 */
 	@Override
 	protected void printActions() {
-		printBreadCrumbs("Fast Food App View > Customer View");
 		System.out.println("What would you like to do ?");
-        System.out.println("(1) Place an order");
-        System.out.println("(2) Remove an order");
-        System.out.println("(3) Enter remarks");
-        System.out.println("(4) Print orders");
-        System.out.println("(5) View Shopping Cart");
-        System.out.println("(6) Checkout");
-        System.out.println("(7) Check order status");
-        System.out.println("(8) Back");
+		System.out.println("(1) New order");
+		System.out.println("(2) Check order status");
+		System.out.println("(3) Back");
 	}
-
+	/**
+	 * View Application of CustomerView which calls {@link BranchView}
+	 */
 	@Override
 	public void viewApp() {
 		int size = Repository.BRANCH.size(); 
@@ -40,6 +47,7 @@ public class CustomerView extends MainView{
         	System.out.println("(" + (size+1) + ") Back" );
         	chosenBranch = Helper.readInt();
 	        if(chosenBranch <= size && chosenBranch > 0) {
+	        	
 	        	break;
 	        }
 	        else if (chosenBranch == size+1){
@@ -50,283 +58,70 @@ public class CustomerView extends MainView{
 	        }
 	        
         }while(chosenBranch > size || chosenBranch <= 0);
-		String branch = promptBranch(chosenBranch);
-		String orderId = OrderController.createOrder(branch);
+		String branch = BranchController.promptBranch(chosenBranch);
+		String orderId;
 		int opt = -1;
 		do {
+			printBreadCrumbs("Fast Food App View > Customer View > " + branch);
 			printActions();
-			opt = Helper.readInt(1,8);
+			opt = Helper.readInt(1,3);
 			switch (opt) {
 			case 1:
-				if(!createOrder(orderId, branch)) {
-					System.out.println("Create order unsuccessful");
-				}
-				else {
-					System.out.println("Successfully created order");
-				}
-				Helper.pressAnyKeyToContinue();
+				Helper.clearScreen();
+				orderId = OrderController.createOrder(branch);
+				orderView = new OrderView(branch, orderId);
+				orderView.viewApp();
 				break;
 			case 2:
-				//Helper.clearScreen();
-                printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
-				if(!removeOrder(orderId, branch)) {
-					System.out.println("Remove order unsuccessful");
-				}
-				else {
-					System.out.println("Successfully removed order");
-				}
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 3:
-				//Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
-				System.out.println("Enter remarks for your order");
-				String remarks = Helper.readString();
-				if(!OrderController.setRemarks(remarks, orderId, branch)) {
-					System.out.println("Remarks entered unsuccessful");
-				}
-				else {
-					System.out.println("Successfully entered remarks");
-				}
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 4:
-				//Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Customer View > Print all orders");
-				OrderController.printOrderDetails(orderId, branch);
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 5:
-				//Helper.clearScreen();
-				printBreadCrumbs("Fast Food App View > Order View > Shopping Cart View");
-				shoppingCart(orderId, branch);
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 6:
-				printBreadCrumbs("Fast Food App View > Order View > Check Out View");
-				checkout(orderId, branch);
-				Helper.pressAnyKeyToContinue();
-				break;
-			case 7:
-				printBreadCrumbs("Fast Food App View > Customer View > Check order status");
+				Helper.clearScreen();
+				printBreadCrumbs("Fast Food App View > Customer View > " + branch + "  Check order status");
+				System.out.println("Enter order ID:");
+				orderId = Helper.readString();
 				checkOrderStatus(orderId, branch);
 				Helper.pressAnyKeyToContinue();
 				break;
-			case 8:
+			case 3:
 				break;
 			}
-		} while (opt != 8);
+		} while (opt != 3);
 		
 		
 	}
-	
-	 private boolean createOrder(String orderId, String branch) {
-	        String itemName;
-	        int itemAmount;
-	        int opt = -1; 
-	        
-	        //Helper.clearScreen();
-	        printBreadCrumbs("Fast Food App View > Order View > Create order for OrderId " + orderId);
-	        String category = promptSelectCategory(branch);
-	        HashMap<String, MenuItem> filteredMenu = MenuController.filterMenuItemsByCategory(Repository.BRANCH.get(branch).getMenuItems(), category);
-	        
-	        int size = filteredMenu.size(); 
-	        do {// error handling to ensure user keys in valid option for certain food in a specific category
-		        MenuController.printMenuByFoodCategory(branch, category);
-		        System.out.println("Select the food to order:");
-		        opt = Helper.readInt();
-		        if(opt <= size && opt > 0) {
-		        	break;
-		        }
-		        else {
-		        	System.out.println("Invalid option. Please try again.");
-		        }
-		        
-	        }while(opt > size || opt <= 0);
-	        
-	        System.out.println("Enter number of quantity:");
-	        itemAmount = Helper.readInt();
-	        itemName = promptFoodOption(filteredMenu, opt);
-	        addOrderItem(itemName, orderId, itemAmount, branch);
-	        
-	        return true;
-	 }
-	 
-	 private boolean removeOrder(String orderId, String branch) {
-		 	String itemName;
-	        int itemAmount;
-	        int opt = -1; 
-	        	        
-	        OrderController.printOrderDetails(orderId, branch);
-	        
-	        int size = Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders().size();
-	        do {// error handling to ensure user selects a valid option of food to remove from their order
-	        	System.out.println("Select which food to remove: ");
-		        opt = Helper.readInt();
-		        if(opt < size && opt > 0) {
-		        	break;
-		        }
-		        else {
-		        	System.out.println(" option. Please try again.");
-		        }
-		        
-	        }while(opt > size || opt <= 0);
-	        
-	        System.out.println("Enter number of quantity:");
-	        itemAmount = Helper.readInt();
-	        
-	        itemName = promptRemoveFood(Repository.BRANCH.get(branch).getOrders().get(orderId).getCurrentOrders(), opt);
-	        removeOrderItem(itemName, orderId, itemAmount, branch);
-	        
-	        return true;
-	 }
-
-	 private void shoppingCart(String orderId, String branch) {
-		 int opt = -1;
-		 do {
-			 printShoppingCart(orderId, branch);
-			 opt = Helper.readInt(1,5);
-			 switch (opt) {
-			 
-			 	case 1:
-			 		if(!createOrder(orderId, branch)) {
-						System.out.println("Create order unsuccessful");
-					}
-					else {
-						System.out.println("Successfully created order");
-					}
-					break;
-			 	case 2:
-			 		//Helper.clearScreen();
-	                printBreadCrumbs("Fast Food App View > Order View > Remove an order for OrderId" + orderId);
-					if(!removeOrder(orderId, branch)) {
-						System.out.println("Remove order unsuccessful");
-					}
-					else {
-						System.out.println("Successfully removed order");
-					}
-					break;
-			 	case 3:
-			 		//Helper.clearScreen();
-					printBreadCrumbs("Fast Food App View > Order View > Enter remarks for OrderId" + orderId);
-					System.out.println("Enter remarks for your order");
-					String remarks = Helper.readString();
-					if(!OrderController.setRemarks(remarks, orderId, branch)) {
-						System.out.println("Remarks entered unsuccessful");
-					}
-					else {
-						System.out.println("Successfully entered remarks");
-					}
-					break;
-			 	case 4:
-			 		//Helper.clearScreen();
-			 		printBreadCrumbs("Fast Food App View > Order View > Checkout view for OrderId" + orderId);
-			 		checkout(orderId, branch);
-			 		break;
-			 	case 5:
-			 		return;
-			 }
-		 } while(opt != 4);
-	 }
-	 
-	 private void printShoppingCart(String orderId, String branch) {
-		 System.out.println("Shopping Cart: ");
-		 OrderController.printOrderDetails(orderId, branch);
-		 System.out.println();
-		 System.out.println("What would you like to do?");
-		 System.out.println("(1) Add an order");
-		 System.out.println("(2) Remove an order");
-		 System.out.println("(3) Enter remarks");
-		 System.out.println("(4) Checkout");
-		 System.out.println("(5) Back");
-	 }
-	 
-	 
-	 private String promptSelectCategory(String branch) {
-		 int categoryChoice;
-		 int size = Repository.BRANCH.get(branch).getFoodCategoryList().size();
-	        do {// error handling to ensure users selects a valid category from our total number of category
-	        	System.out.println("Please select a food category to view: ");
-	        	MenuController.printFoodCategory(branch);
-		        categoryChoice = Helper.readInt();
-		        if(categoryChoice < size && categoryChoice > 0) {
-		        	break;
-		        }
-		        else {
-		        	System.out.println("Invalid option. Please try again.");
-		        }
-		        
-	        }while(categoryChoice > size || categoryChoice <= 0);
-		 return Repository.BRANCH.get(branch).getFoodCategoryList().get(categoryChoice -1);
-	 }
-	 
+	/**
+	 * The function that checks order status of a particular OrderID through {@link OrderController}
+	 * and prints out further actions
+	 * @param orderId The orderId used to access the particular order
+	 * @param branch The branch name of the customer
+	 */
 	private void checkOrderStatus(String orderId, String branch) {
 		if(!OrderController.validateOrderId(orderId, branch)) {
 			System.out.println("Order ID not found");
+			return;
 		}
-		else {
-			System.out.println(OrderController.checkOrderStatus(orderId, branch));
+		OrderStatus status = OrderController.checkOrderStatus(orderId, branch);
+		System.out.println(OrderController.checkOrderStatus(orderId, branch));
+		if (status.equals(OrderStatus.READYFORPICKUP)) {
+			System.out.println("Do you want to pick up?");
+			int opt = -1;
+			
+			do {
+				System.out.println("(1) Yes");
+				System.out.println("(2) Back");
+				opt = Helper.readInt(1,2);
+				switch (opt) {
+				case 1:
+					OrderController.updateStatus(OrderStatus.COMPLETED, orderId, branch);
+					StaffController.cancelTimer(orderId, branch);
+					System.out.println();
+					System.out.println("Pickup Successful!");
+					break;
+				case 2:
+					break;
+				}
+			} while (opt < 1 && opt > 2);
 		}
-	}
-	
-	private void addOrderItem(String name, String orderId, int amount, String branch){
-        if (OrderController.addOrderItem(name, orderId, amount, branch)){
-            System.out.printf("\"%s\" added to order SUCCESSFULLY\n", name);
-        }
-        else{
-            System.out.printf("Addition to order FAILED (\"%s\" NOT FOUND in menu)\n", name);
-        };
-    }
-	
-	private void removeOrderItem(String name, String orderId, int amount, String branch) {
-		if(OrderController.removeOrderItem(name, orderId, amount, branch)) {
-			System.out.printf("\"%s\" removed from order SUCCESSFULLY\n", name);
-		}
-		else {
-			System.out.printf("Removal from order FAILED (\"%s\" NOT FOUND in order\\ removal quantity > current quantity)\n", name);
-		}
-	}
-	
-	public String promptBranch(int opt) {
-		Iterator<Map.Entry<String, Branch>> iteratedBranch = Repository.BRANCH.entrySet().iterator();
-		int i = 1;
-		for(i = 1; i<opt; i++) {
-			iteratedBranch.next();
-		}
-		Map.Entry<String, Branch> SelectedBranch = iteratedBranch.next();
-		Branch chosenBranch = SelectedBranch.getValue();
-		String branch = chosenBranch.getName();
-		return branch;
-	}
-	
-	private String promptFoodOption(HashMap<String, MenuItem> menuItems, int opt) {
-		Iterator<Entry<String, MenuItem>> iteratedFood= menuItems.entrySet().iterator();
-		int i = 1;
-		for(i=1; i<opt; i++) {
-			iteratedFood.next();
-		}
-		Entry<String, MenuItem> SelectedFood = iteratedFood.next();
-		MenuItem chosenFood = SelectedFood.getValue();
-		String itemName = chosenFood.getName();
-		return itemName;
-	}
-	
-	private String promptRemoveFood(HashMap<MenuItem, Integer> currentOrders, int opt) {
-		Iterator<Entry<MenuItem, Integer>> iteratedRemove = currentOrders.entrySet().iterator();
-		int i = 1;
-		for(i=1; i<opt; i++) {
-			iteratedRemove.next();
-		}
-		Entry<MenuItem, Integer> toBeRemovedFood = iteratedRemove.next();
-		MenuItem chosenFoodToBeRemoved = toBeRemovedFood.getKey();
-		String itemName = chosenFoodToBeRemoved.getName();
-		return itemName;
-	}
-	
-	private void checkout(String orderId, String branch) {
-		System.out.println("Shopping cart: ");
-		OrderController.printOrderDetails(orderId, branch);
-		paymentView.viewApp();
 	}
 	
 }
+	
+	

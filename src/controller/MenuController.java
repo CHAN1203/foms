@@ -3,21 +3,19 @@ package controller;
 import repository.Repository;
 import repository.FileType;
 import model.MenuItem;
-import model.Branch;
 import java.util.HashMap;
 import enums.FoodAvailability;
 import helper.Helper;
 
 // for javadocs
-import view.MenuView;
 /**
  * MenuManager is a controller class that acts as a "middleman"
  * between the view class - {@link MenuView} and the model classes - {@link MenuItem}. <p>
  *
  * It can customize the menu. <p>
- * @author Hill Seah
+ * @author Kee Qing
  * @version 1.0
- * @since 2022-03-31
+ * @since 2024-04-4
  *
  */
 public class MenuController {
@@ -39,7 +37,7 @@ public class MenuController {
         String formattedName = name.toUpperCase();
         String menuIdToUpdate = getMenuIdFromName(branch, formattedName);
         
-        if (!Repository.BRANCH.get(branch).getFoodCategoryList().contains("foodCategory")) {
+        if (!Repository.BRANCH.get(branch).getFoodCategoryList().contains(foodCategory)) {
         	Repository.BRANCH.get(branch).getFoodCategoryList().add(foodCategory);
         }
         
@@ -64,7 +62,7 @@ public class MenuController {
      * @param price Price of the updated menu item
      * @return {@code true} if menu item is updated successfully. Otherwise, {@code false} if menu item fails to be updated (menu item not found in database)
      */
-    public static boolean updateMenuItem(String branch,String name, String description, double price){
+    public static boolean updateMenuItem(String branch,String name, String description, double price, String foodCategory, FoodAvailability foodAvailability){
         String formattedName = name.toUpperCase();
         String menuIdToUpdate = getMenuIdFromName(branch, formattedName);
         if (menuIdToUpdate.equals("")) {
@@ -74,6 +72,8 @@ public class MenuController {
         menuItemToUpdate.setName(formattedName);
         menuItemToUpdate.setDescription(description);
         menuItemToUpdate.setPrice(price);
+        menuItemToUpdate.setFoodCategory(foodCategory);
+        menuItemToUpdate.setFoodAvailability(foodAvailability);
         Repository.persistData(FileType.BRANCH);
         return true;
     }
@@ -127,6 +127,7 @@ public class MenuController {
         
         return filteredMenuItems;
     }
+    
     
     /**
      * Initializer for dummy menu items in the hotel. 
@@ -182,11 +183,12 @@ public class MenuController {
             }
         }
     }
+   
     
     /**
      * Print all menu items on the menu, along with the details of each menu item.
      */
-    public static void printMenu(String branch) {
+    public static void printAllMenuItems(String branch) {
     	int num = 1;
         for (MenuItem menuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
         	System.out.println("Item (" + (num++) + ")");
@@ -198,7 +200,6 @@ public class MenuController {
 	        System.out.println();
         }
     }
-    
     /**
      * Print all the food category in the menu of a specific branch.
      */

@@ -1,19 +1,25 @@
 package controller;
 import helper.Helper;
 import repository.Repository;
-import repository.FileType;
-import repository.Repository;
-import repository.FileType;
 import enums. *;
 import model. *;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
+/**
+ * @author Yue Hang
+ * @version 1.0
+ * @since 2024-04-01
+ */
 public class StaffController {
 
+	/**
+	 * Display all orders that are of the status PROCESSING in this branch
+	 * @param branchName Branch Name
+	 * @return {@code true} if there exist orders within the branch, {@code false} Otherwise
+	 */
 	public static boolean displayProcessingOrders(String branchName) {// display all orders that are in the state PROCESSING
 		
 		HashMap <String, Order> ordersInBranch = getOrdersInBranch(branchName);
@@ -24,34 +30,24 @@ public class StaffController {
 			return false;
 		}
 		
-		for (Order order: ordersInBranch.values()) { // iterate through each order object in the branch
+		for (Map.Entry<String,Order> entry : ordersInBranch.entrySet()) {
+			Order currentOrder = entry.getValue();
+			if (currentOrder.getStatus() == OrderStatus.PROCESSING) {
 			
-			if (order.getStatus() == OrderStatus.PROCESSING) {
-			
-				System.out.println("Order ID: " + order.getOrderId());
-		    	System.out.println("Date time: " + order.getDateTime());
-		    	System.out.println("Total bill: " + order.getTotalBill());
-		    	System.out.println("Remarks: " + order.getRemarks());
-		    	System.out.println("Status: " + order.getStatus());				
-		    	System.out.println("------------------------------------------------------");
-				System.out.println("Item Name                             Quantity");
-				System.out.println("------------------------------------------------------");
-				
-				HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders(); // get the items in the order
-
-				for (MenuItem menuItem: itemsInOrder.keySet()) {
-					String itemName = menuItem.getName(); // get the name (String) of item
-					Integer quantity = itemsInOrder.get(menuItem); // use hashmap to get quantity (value) from key (menuItem object)
-					System.out.println(itemName + "                          " + quantity);
-				}
+				OrderController.printOrderDetails(currentOrder.getOrderId(), branchName);
 			}
 		}
 		return true;
 	}
 
-	public static void viewParticularOrderDetails(String branchName, int orderID) { //retrieve the order of a specific OrderID print
+	/**
+	 * Takes in order ID and displays the order details to user
+	 * @param branchName Name of Branch
+	 * @param opt Option input from user
+	 */
+	public static void viewParticularOrderDetails(String branchName, int opt) { //retrieve the order of a specific OrderID print
 		
-		Order order = getOrderByID(branchName, orderID);
+		Order order = OrderController.promptOrders(branchName, opt);
 		
 		// if there are no orders with the given Order ID
 		
@@ -63,42 +59,18 @@ public class StaffController {
 		// order found, print order details
 		
 		else {
-			particularOrderView(order); // method written below
+			OrderController.printOrderDetails(order.getOrderId(), branchName);
 		}
 	}
 	
-    public static void particularOrderView(Order order) {
-    	Helper.clearScreen();
-    	System.out.println("Order ID: " + order.getOrderId());
-    	System.out.println("Date time: " + order.getDateTime());
-    	System.out.println("Total bill: " + order.getTotalBill());
-    	System.out.println("Remarks: " + order.getRemarks());
-    	System.out.println("Status: " + order.getStatus());
-    	System.out.println();
-    	System.out.println("Items Ordered			Quantity");
-    	System.out.println("--------------------------------");
-    	
-    	// initialize the variable keySet for readibility
-    	HashMap<MenuItem, Integer> itemsInOrder = order.getCurrentOrders();
-    	Set<MenuItem> keySet = itemsInOrder.keySet();
-    	Set<String> itemNames = null;
-    	
-    	for (MenuItem menuItem: keySet) { // add the item names to the set of names
-    		itemNames.add(menuItem.getName());
-    	}
-    	
-    	// Iterate through the HashMap and print each key value pair, read as follows "for each items in the set of keys in the HashMap"
-    	for (String items: itemNames) {
-    		
-    		Integer quantity = order.getCurrentOrders().get(items);
-    		
-    		System.out.println(items + "		" + quantity);
-    	}
-    }
-	
-	public static void processOrder(String branchName, int orderID) {// change from Preparing to Ready to Pickup
+	/**
+	 * Checks if order exists, if exist, update the order status
+	 * @param branchName Name of Branch
+	 * @param choice Choice input from user
+	 */
+	public static void updateOrderStatus(String branchName, int choice) {// change from Preparing to Ready to Pickup
 				
-    	Order order = getOrderByID(branchName, orderID);
+    	Order order = OrderController.promptOrders(branchName, choice);
     	
     	// if order does not exist
     	
@@ -110,10 +82,46 @@ public class StaffController {
     	// order exists
     	
     	else {
-    		order.setStatus(OrderStatus.READYFORPICKUP);
-    		Helper.clearScreen();
-    		System.out.println("Order is ready to pickup!");
+    		if(order.getStatus()==OrderStatus.PROCESSING){
+    			order.setStatus(OrderStatus.READYFORPICKUP);
+    			Helper.clearScreen();
+        		System.out.println("Order is ready to pickup!");
+        		scheduleDeletion(order.getOrderId(), branchName, 1*60*1000, ()->{
+        			OrderController.deleteOrder(order.getOrderId(), branchName);
+        		});	
+    		} else if(order.getStatus() == OrderStatus.READYFORPICKUP || order.getStatus() == OrderStatus.COMPLETED) {
+    			System.out.println("Order cannot be further processed!");
+    			return;
+    		}
     	}	
+	}
+	
+	/**
+	 * Schedule time for the order to be deleted after being picked up
+	 * @param orderId Order ID
+	 * @param branchName Name of Branch
+	 * @param delayInMillis Time delay in milliseconds
+	 * @param task Task given
+	 */
+	public static void scheduleDeletion(String orderId, String branchName, long delayInMillis, Runnable task) {
+		Timer timer = Repository.BRANCH.get(branchName).getOrders().get(orderId).getTimer();
+		
+		timer.schedule(new TimerTask(){
+			public void run() {
+				task.run();
+			}
+		}, delayInMillis);
+	}
+	
+	/**
+	 * Cancel the timer on the order
+	 * @param orderId Order ID
+	 * @param branchName Name of Branch
+	 */
+	public static void cancelTimer(String orderId, String branchName) {
+		Timer timer = Repository.BRANCH.get(branchName).getOrders().get(orderId).getTimer();
+		
+		timer.cancel();
 	}
 	
 	/**
@@ -131,7 +139,13 @@ public class StaffController {
         }
     }
     
-    public static Order getOrderByID(String branchName, int orderID){
+    /**
+     * Takes in orderID, returns the order object if it exists
+     * @param branchName Name of Branch
+     * @param orderID Order ID
+     * @return the Order object if the orderID exists, else, return NULL
+     */
+    public static Order getOrderByID(String branchName, String orderID){
         	
     	HashMap<String, Order> ordersInBranch = getOrdersInBranch(branchName);
     	
@@ -146,6 +160,11 @@ public class StaffController {
     	
     }
     
+    /**
+     * Returns all the orders in the branch in the form of a hashmap
+     * @param branchName Name of Branch
+     * @return returns the hashmap containing all the orders in the branch
+     */
     public static HashMap<String, Order> getOrdersInBranch(String branchName){ // return orders in the specified branch
     	Branch branch = Repository.BRANCH.get(branchName);
     	HashMap<String, Order> ordersInBranch = branch.getOrders(); // create a hashmap with all the orders in the current branch <OrderID (string), Order (object)>

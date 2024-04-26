@@ -2,7 +2,7 @@ package repository;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
+import enums.*;
 import model. *;
 import controller. *;
 import java.io.IOException;
@@ -17,6 +17,7 @@ public class Repository {
     private static final String folder = "data";
     
     public static HashMap<String, Employee> EMPLOYEE = new HashMap<>();
+    public static HashMap<String, Admin> ADMIN = new HashMap<>();
     public static HashMap<String, Branch> BRANCH = new HashMap<>();
     
     //haven't written any serialization part
@@ -45,6 +46,7 @@ public class Repository {
     public static void saveAllFiles() {
     	persistData(FileType.EMPLOYEE);
     	persistData(FileType.BRANCH);
+    	persistData(FileType.ADMIN);
     }
 
 	private static boolean readSerializedObject(FileType fileType) {
@@ -55,19 +57,21 @@ public class Repository {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Object object = objectInputStream.readObject();
             
-            if (!(object instanceof HashMap)) {
+            if (!(object instanceof HashMap) && !(object instanceof HashSet)) {
                 System.out.println(fileType.fileName);
                 objectInputStream.close();
                 return false;
             }
-            
             // Read into database
             if (fileType == FileType.EMPLOYEE) {
                 EMPLOYEE = (HashMap<String, Employee>) object;
             } else if(fileType == FileType.BRANCH) {
             	BRANCH = (HashMap<String, Branch>) object;
+            } else if(fileType == FileType.ADMIN) {
+                ADMIN = (HashMap<String, Admin>) object;
+            } else if(fileType == FileType.PAYMENT_METHODS) {
+            	PAYMENT_METHODS = (HashSet<String>) object;
             }
-
             objectInputStream.close();
             fileInputStream.close();
             
@@ -101,10 +105,15 @@ public class Repository {
                 objectOutputStream.writeObject(EMPLOYEE);
             } else if (fileType == FileType.BRANCH){
             	objectOutputStream.writeObject(BRANCH);
-            } 
+            } else if (fileType == FileType.ADMIN){
+                objectOutputStream.writeObject(ADMIN);
+            } else if (fileType == FileType.PAYMENT_METHODS) {
+            	objectOutputStream.writeObject(PAYMENT_METHODS);
+            }
             objectOutputStream.close();
             fileOutputStream.close();
             return true;
+            
         } catch (Exception err) {
             System.out.println("Error: " + err.getMessage());
             return false;
@@ -118,7 +127,12 @@ public class Repository {
     public static boolean clearDatabase() {
         // Initialize empty data
         EMPLOYEE = new HashMap<String, Employee>();
+        BRANCH = new HashMap<String, Branch>();
+        ADMIN = new HashMap<String, Admin>();
+        PAYMENT_METHODS.clear();
         writeSerializedObject(FileType.EMPLOYEE);
+        writeSerializedObject(FileType.BRANCH);
+        writeSerializedObject(FileType.ADMIN);
         return true;
     }
     
@@ -148,6 +162,26 @@ public class Repository {
     	}
     	AdminController.initializeDummyEmployee();
     	return true;
+    }
+    
+
+    public static boolean initializeDummyPaymentMethod() {
+    	if(PAYMENT_METHODS.size()!=0) {
+    		return false;
+    	}
+    	AdminController.initializePaymentMethod();
+    	return true;
+    }
+    
+    public static boolean initializeDummyAdmin() {
+    	if(ADMIN.size() !=0 ) {
+    		return false;
+    	}
+		Admin admin = new Admin("Boss", "password", EmployeePosition.ADMIN, EmployeeGender.FEMALE, 62, "boss");
+		Repository.ADMIN.put(admin.getLoginId(), admin);
+		Repository.persistData(FileType.ADMIN);
+		
+		return true;
     }
     
     

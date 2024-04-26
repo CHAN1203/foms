@@ -6,6 +6,7 @@ import model. *;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +17,9 @@ import enums.OrderStatus;
  * OrderManager is a controller class that acts as a "middleman"
  * between the view classes -  {@link OrderView} and the model classes - {@link Order}. <p>
  *
- * @author Hill Seah, Max
+ * @author Yue Hang
  * @version 1.0
- * @since 2022-04-06
+ * @since 2024-04-06
  *
  */
 public class OrderController {
@@ -94,11 +95,13 @@ public class OrderController {
      */
     public static void printOrderDetails(String orderId, String branch) {
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
-        System.out.println(String.format("%-58s", "").replace(" ", "-"));
+        List<String> remarksList = currentOrder.getRemarks();
+        System.out.println();
+        System.out.println(String.format("%-63s", "").replace(" ", "-"));
         System.out.printf("Order Id: %s Date/Time: %s\n", currentOrder.getOrderId(), currentOrder.getDateTime());
         System.out.println();
-        System.out.println(String.format("%-4s %-26s %10s %18s", "Index", "Item", "Qty", "Price"));
-        System.out.println(String.format("%-66s", "").replace(" ", "─"));
+        System.out.println(String.format("%-4s %-26s %10s %12s", "Index", "Item", "Qty", "Price"));
+        System.out.println(String.format("%-63s", "").replace(" ", "─"));
 
         int index = 1;
         for (Map.Entry<MenuItem, Integer> entry : currentOrder.getCurrentOrders().entrySet()) {
@@ -109,9 +112,17 @@ public class OrderController {
         }
 
         System.out.println();
-        System.out.println(String.format("%-11s: %s", "Remarks", currentOrder.getRemarks()));
+        System.out.println(String.format("%-11s:", "Remarks"));
+        int i = 1;
+        for(String customerRemarks : remarksList) {
+        	System.out.println(String.format("(" + i++ + ") " + customerRemarks));
+        }
+        System.out.println();
+        System.out.printf("%-16s: %-15s", "Dine in Option", currentOrder.getOption());
+        System.out.printf("%-16s: %s\n", "Order Status", currentOrder.getStatus());
+        System.out.println();
         System.out.println(String.format("%-11s: $%.2f", "Total bill", currentOrder.getTotalBill()));
-        System.out.println(String.format("%-58s", "").replace(" ", "-"));
+        System.out.println(String.format("%-63s", "").replace(" ", "-"));
     }
     
     /**
@@ -119,16 +130,21 @@ public class OrderController {
      * @param remarks Remarks for the order
      * @param orderId Order Id of the order
      */
-    public static boolean setRemarks(String remarks, String orderId, String branch){
+    public static boolean addRemarks(String remarks, String orderId, String branch){
     	if (orderId.equals("")) {
             return false;
         }
+    	for (String remark : Repository.BRANCH.get(branch).getOrders().get(orderId).getRemarks()) {
+    		if (remark.toLowerCase().equals(remarks.toLowerCase())) {
+    			return false;
+    		}
+    	}
         Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
-        if (currentOrder.getRemarks().equals("No Remarks")) {
+        if (currentOrder.getRemarks().get(0).equals("No Remarks")) {
         	currentOrder.setRemarks(remarks);
         }
         else {
-        	currentOrder.setRemarks(currentOrder.getRemarks().concat(" | ").concat(remarks));
+        	currentOrder.getRemarks().add(remarks);
         }
         
         return true;
@@ -176,9 +192,59 @@ public class OrderController {
         }
     }
     
+    /**
+     * Check status of current order
+     * @param orderId Order ID 
+     * @param branch Name of Branch
+     * @return
+     */
     public static OrderStatus checkOrderStatus(String orderId, String branch) {
     	Order currentOrder = Repository.BRANCH.get(branch).getOrders().get(orderId);
         return currentOrder.getStatus();
+    }
+    
+    /**
+     * Serialize order and store into database
+     */
+    public static void confirmOrder() {
+    	Repository.persistData(FileType.BRANCH);
+    }
+    
+    /**
+     * Delete the order
+     * @param orderId Order ID
+     * @param branch Name of Branch
+     */
+    public static void deleteOrder(String orderId, String branch) {
+    	Order order = Repository.BRANCH.get(branch).getOrders().get(orderId);
+    	
+    	if(order == null) {
+    		System.out.println("Order not found!");
+    	}
+    	else {
+    		Repository.BRANCH.get(branch).getOrders().remove(orderId);
+    		Repository.persistData(FileType.BRANCH);
+    		System.out.println("Timer is up! Order deleted!");
+    	}
+    	
+    }
+    
+    /**
+     * Iterate through each of the options shown to the user to reach his/her option, this is used
+     * like traversing an array
+     * @param branch Name of Branch
+     * @param opt Option input by user
+     * @return Order chosen by user
+     */
+    public static Order promptOrders(String branch, int opt) {
+    	Iterator<Map.Entry<String, Order>> iteratedOrder = Repository.BRANCH.get(branch).getOrders().entrySet().iterator();
+		int i = 1;
+		for(i = 1; i<opt; i++) {
+			iteratedOrder.next();
+		}
+		Map.Entry<String, Order> SelectedOrder = iteratedOrder.next();
+		Order chosenOrder = SelectedOrder.getValue();
+		return chosenOrder;
     }
     
 //  public static boolean updateOrders(String orderId, Orders order) {

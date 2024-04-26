@@ -1,17 +1,29 @@
 package controller;
-import helper.Helper;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import model.Employee;
 import model.MenuItem;
 import repository.Repository;
-import repository.FileType;
-import enums. *;
 
 
+/**
+ * @author Sher Min
+ * @version 1.0
+ * @since 2024-4-4
+ */
 public class ManagerController extends StaffController{
 	
-	
-	public static String getMenuIdFromName(String name) {
+	/**
+	 * Get the menu item's ID from name of item
+	 * @param branch Name of Branch
+	 * @param name Name of menu item
+	 * @return The menu ID of item
+	 */
+	public static String getMenuIdFromName(String branch, String name) {
 		//loop through menu list, get the id of the item and return "" if the item not in list
-		for(MenuItem currentMenuItem : Repository.MENU_ITEMS.values()) {
+		for(MenuItem currentMenuItem : Repository.BRANCH.get(branch).getMenuItems().values()) {
 			if (currentMenuItem.getName().equals(name)) {
                 return currentMenuItem.getMenuItemId();
             }
@@ -19,55 +31,27 @@ public class ManagerController extends StaffController{
 		return "";
 	}
 	
-	public static boolean addMenuItem(String name, String description, double price, FoodCategory foodCategory) {
-		String formattedName = name.toUpperCase();
-		String menuIdToUpdate = getMenuIdFromName(name);
-		if(!menuIdToUpdate.equals("")) {
-			// means theres a duplicate 
-            return false;
-		}
-		int mid = Helper.generateUniqueId(Repository.MENU_ITEMS);
-        String menuItemId = String.format("M%04d", mid);
-        MenuItem newMenuItem = new MenuItem(menuItemId, formattedName, description, price, foodCategory);//how to put enum argument 
-        Repository.MENU_ITEMS.put(menuItemId, newMenuItem);
-        Repository.persistData(FileType.MENU_ITEMS);
-        return true;
+	/**
+	 * Display all the staffs in the branch
+	 * @param branch Name of Branch
+	 * @return {@code true} if there exist staff in the branch, {@code false} otherwise
+	 */
+	public static boolean displayStaffList(String branch) {
+    	ArrayList<Employee> staffNameList = new ArrayList<Employee>();
+    	//can't just iterate through map, need to do modification to loop through, need to import packages for map.entry
+        for (Map.Entry<String, Employee> entry : Repository.BRANCH.get(branch).getEmployee().entrySet()) {
+        	Employee employee = entry.getValue();
+            staffNameList.add(employee);
+        }
+        if(staffNameList.size() != 0) {
+        	int i = 1;
+        	for(Employee employee : staffNameList) {
+//            	System.out.println("(" + (i++) + ") " + employee.getName() + "    Employee Position: " + employee.getPosition());
+            	System.out.printf("%-4d %-26s %-10s \n", i++, employee.getName(), employee.getPosition());
+            }
+        	return true;
+        }
+        return false;
 	}
 	
-	public static boolean updateMenuItem(String name, String description, double price, FoodCategory foodCategory){
-        String formattedName = name.toUpperCase();
-        String menuIdToUpdate = getMenuIdFromName(formattedName);
-        if (menuIdToUpdate.equals("")) {
-            return false;
-        }
-        MenuItem menuItemToUpdate = Repository.MENU_ITEMS.get(menuIdToUpdate);
-        menuItemToUpdate.setName(formattedName);
-        menuItemToUpdate.setDescription(description);
-        menuItemToUpdate.setPrice(price);
-        menuItemToUpdate.setMenuCategory(foodCategory); //how to accept enum argument
-        //!!
-        Repository.persistData(FileType.MENU_ITEMS);
-        return true;
-    }
-	
-	/**
-     * Removes menu item from the menu
-     * 
-     * @param name Name of the menu item to be removed
-     * @return {@code true} if menu item is removed successfully. Otherwise, {@code false} if menu item fails to be removed (menu item not found in database)
-     */
-	public static boolean removeMenuItem(String name) {
-        String formattedName = name.toUpperCase();
-        String menuIdToDelete = getMenuIdFromName(formattedName);
-        if (menuIdToDelete.equals("")) {
-            // not found
-            return false;
-        }
-        Repository.MENU_ITEMS.remove(menuIdToDelete);
-        Repository.persistData(FileType.MENU_ITEMS);
-        return true;
-    }
-	/**
-     * Initializer for dummy menu items in the hotel. 
-     */
 }

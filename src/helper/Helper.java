@@ -287,9 +287,9 @@ public class Helper {
     /**
      * Method to clear the screen of the terminal for user experience and neat interface.
      */
-    public static void clearScreen() {
+	public static void clearScreen() {
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();  
         } catch (Exception err) {
 
         }

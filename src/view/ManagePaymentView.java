@@ -3,7 +3,19 @@ import repository.Repository;
 import controller.AdminController;
 import helper.Helper;
 
+
+/**
+ * ManagePaymentView provides the view to take user input which calls {@link AdminController} to manage {@link PaymentMethods}.
+ * @author Chan Kee Qing
+ * @version 1.0
+ * @since 2022-04-03
+ */
 public class ManagePaymentView extends MainView{
+	
+	/**
+     * View Actions of the ManagePaymentView.
+     */
+    @Override
 	public void printActions() {
 		Helper.clearScreen();
 		//!!need to change the headline
@@ -14,6 +26,10 @@ public class ManagePaymentView extends MainView{
         System.out.println("(3) Quit");
 	}
 	
+    /**
+     * View Application of the ManagePaymentView. <p>
+     */
+    @Override
 	public void viewApp() {
 		int opt = -1;
 		do {
@@ -27,11 +43,15 @@ public class ManagePaymentView extends MainView{
 					promptRemovePaymentMethod();
 					break;
 				case 3:
-					System.exit(0);
+					break;
 			}
-		}while(opt != 4);
+		}while(opt != 3);
 	}
 	
+    /**
+	 * function to prompt to add new payment method
+	 * @return {@code true} if add new payment method is successful. Otherwise, {@code false}.
+	 */
 	private boolean promptAddPaymentMethod() {
 		System.out.print("Enter a new payment method: ");
 		String newPaymentMethod = Helper.readString();
@@ -39,8 +59,12 @@ public class ManagePaymentView extends MainView{
 		return false;
     }
 	
+	/**
+	 * function to prompt to remove payment method
+	 * @return {@code true} if add new payment method is successful. Otherwise, {@code false}.
+	 */
 	private boolean promptRemovePaymentMethod() {
-		System.out.print("Enter an existing payment method to remove: ");
+		System.out.println("Enter an existing payment method to remove: ");
 	   	System.out.println("Existing payment methods:");
         for (String method : Repository.PAYMENT_METHODS) {
             System.out.println(method);

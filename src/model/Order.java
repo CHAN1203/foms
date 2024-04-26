@@ -1,11 +1,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import helper.Helper;
-import repository.Repository;
 import enums.*;
+import java.util.Timer;
+
 
 
 public class Order implements Serializable, Comparable<Order>{
@@ -18,10 +19,13 @@ public class Order implements Serializable, Comparable<Order>{
 	
 	private double totalBill;
 	
-
+	private transient Timer timer = new Timer();
+	
 	private HashMap<MenuItem, Integer> currentOrders;
 	
-	private String remarks;
+	private DineInOption option;
+
+	private List<String> remarks = new ArrayList<String>();
 	
 	private String branchName;
 	
@@ -32,7 +36,8 @@ public class Order implements Serializable, Comparable<Order>{
 		this.dateTime = dateTime;
 		this.branchName = branchName;
 		this.totalBill = 0;
-		this.remarks = "No Remarks";
+		this.status = OrderStatus.PROCESSING;
+		remarks.add("No Remarks");
 
 		this.currentOrders = new HashMap<MenuItem, Integer>();
 	}
@@ -100,7 +105,7 @@ public class Order implements Serializable, Comparable<Order>{
 		return status;
 	}
 
-	public String getRemarks() {
+	public List<String> getRemarks() {
 		return remarks;
 	}
 
@@ -108,10 +113,23 @@ public class Order implements Serializable, Comparable<Order>{
 		return branchName;
 	}
 	
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public Timer getTimer() {
+		return timer;
+	}
+	
+	public DineInOption getOption() {
+		return option;
 	}
 
+	public void setOption(DineInOption option) {
+		this.option = option;
+	}
+
+	public void setRemarks(String customerRemarks) {
+		remarks.clear();
+		remarks.add(customerRemarks);
+	}
+	
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}

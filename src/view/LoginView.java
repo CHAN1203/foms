@@ -4,81 +4,99 @@ import enums.EmployeePosition;
 import controller.UserController;
 import helper.Helper;
 import repository.Repository;
-import view.MenuView;
-import view.CustomerView;
-import model.Branch;
-import model.Employee;
 
+/**
+ * LoginView provides the view for user to choose Staff Position 
+ * which calls to {@link AdminView}, {@link ManagerView} and {@link StaffView}
+ * 
+ * @author Jacky, Kee Qing
+ * @version 1.0
+ * @since 2024-04-01
+ */
 public class LoginView extends MainView {
-	
+	/**
+	 * Constructing required View Classes
+	 */
 	AdminView adminView = new AdminView();
-	ManagerView managerView = new ManagerView();
-	StaffView staffView = new StaffView();
+	ManagerView managerView;
+	StaffView staffView;
 
+	/**
+	 * View Actions for LoginView
+	 */
 	@Override
 	protected void printActions() {
 		printBreadCrumbs("Fast Food App View > Login View");
-		System.out.println("\nChoose employee type:");
+		System.out.println("Choose employee type:");
 		System.out.println("1. Admin");
 		System.out.println("2. Manager");
 		System.out.println("3. Staff");
+		System.out.println("4. Back");
 	}
-
+	/**
+	 * View Application for LoginView that uses {@link UserController} to authenticate login 
+	 */
 	@Override
 	public void viewApp() {
-		printActions();
-		
-		int empPos;
+		int empPos = -1;
 		EmployeePosition employeePosition = null;
 		
-		empPos = Helper.readInt();
+		do {
+			printActions();
+			empPos = Helper.readInt(1,4);
+			switch (empPos) {
+			case 1:
+				employeePosition = EmployeePosition.ADMIN;
+				break;
+			case 2:
+				employeePosition = EmployeePosition.MANAGER;
+				break;
+			case 3:
+				employeePosition = EmployeePosition.STAFF;
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("Invalid option. Please try again.");
+				break;
+			}
+		} while(empPos <= 0 || empPos> 4);
 		
-		switch (empPos) {
-		case 1:
-			employeePosition = EmployeePosition.ADMIN;
-			break;
-		case 2:
-			employeePosition = EmployeePosition.MANAGER;
-			break;
-		
-		case 3:
-			employeePosition = EmployeePosition.STAFF;
-			break;
+		if(empPos == 4) {
+			return;
 		}
-		String username;
+
+		
+		String loginId;
 		String password;
 		
-		System.out.println("\nUsername:");
-		username = Helper.readString();
+		System.out.println("\nLogin ID:");
+		loginId = Helper.readString();
 		System.out.println("\nPassword:");
 		password = Helper.readString();
 		
 		
-		boolean loginSuccess = UserController.authenticate(username, password);
+		boolean loginSuccess = UserController.authenticate(loginId, password, employeePosition);
 		if (loginSuccess) {
-			System.out.println("Login successful, welcome " + username);
-			
-			Employee employee = Repository.EMPLOYEE.get(username);
-			
-			String branch = employee.getBranch(); // get the current branch object
+			System.out.println("Login successful, welcome " +loginId);
 			
 			if(employeePosition == EmployeePosition.ADMIN) {
 				adminView.viewApp();
 			}
 			else if(employeePosition == EmployeePosition.MANAGER) {
+				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
+				managerView = new ManagerView(branch);
 				managerView.viewApp();
 			}
 			else {
-				staffView.viewApp(branch);
+				String branch = Repository.EMPLOYEE.get(loginId).getBranch();
+				staffView = new StaffView(branch);
+				staffView.viewApp();
 			}
-			// goto next view, use employeePosition to decide 
-			// if (employeePosition == EmployeePosition.ADMIN) {
-			// 		AdminView.viewApp()
-			// }
 		} 
 		
 		else {
-			System.out.println("Invalid username or password");
+			System.out.println("Invalid username/password or employee position");
 		}
 	}
 }
