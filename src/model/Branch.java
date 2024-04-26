@@ -22,7 +22,7 @@ public class Branch implements Serializable{
 	private int numberOfStaff;
 	
 	private int numberOfManager;
-	//somewhere need to put branch into <branch, employee> hash map
+
 	private List<String> foodCategoryList = new ArrayList<String>();
 	//branch-employee hash map
 	private HashMap<String, Employee> EMPLOYEE = new HashMap<>();
